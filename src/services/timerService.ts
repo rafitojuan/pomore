@@ -109,7 +109,6 @@ class TimerService {
       this.state.timeLeft--;
       const currentState = { ...this.state };
       this.callbacks.onTick?.(currentState);
-      
     } else {
       this.completeSession();
     }
@@ -215,7 +214,7 @@ class TimerService {
   }
 
   private notifyStateChange(): void {
-    this.callbacks.onStateChange?.(this.state);
+    this.callbacks.onStateChange?.({ ...this.state });
   }
 
   getState(): TimerState {

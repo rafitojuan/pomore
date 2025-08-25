@@ -1,15 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Play, Pause, RotateCcw, Coffee, Clock } from 'lucide-react';
-import { Card, CardContent } from '../components/ui/Card';
-import { Button } from '../components/ui/Button';
-import { CircularProgress } from '../components/ui/CircularProgress';
-import { timerService } from '../services/timerService';
-import { TimerState, SessionType } from '../types';
-import { formatTime, calculateProgress, getSessionColor, showNotification, playNotificationSound } from '../utils';
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Play, Pause, RotateCcw, Coffee, Clock } from "lucide-react";
+import { Card, CardContent } from "../components/ui/Card";
+import { Button } from "../components/ui/Button";
+import { CircularProgress } from "../components/ui/CircularProgress";
+import { timerService } from "../services/timerService";
+import { TimerState, SessionType } from "../types";
+import {
+  formatTime,
+  calculateProgress,
+  getSessionColor,
+  showNotification,
+  playNotificationSound,
+} from "../utils";
 
 export const Timer: React.FC = () => {
-  const [timerState, setTimerState] = useState<TimerState>(timerService.getState());
+  const [timerState, setTimerState] = useState<TimerState>(
+    timerService.getState()
+  );
   const [selectedTask, setSelectedTask] = useState<string | null>(null);
 
   useEffect(() => {
@@ -18,18 +26,18 @@ export const Timer: React.FC = () => {
       onStateChange: (state) => setTimerState(state),
       onComplete: (sessionType) => {
         const sessionNames = {
-          work: 'Work Session',
-          'short-break': 'Short Break',
-          'long-break': 'Long Break'
+          work: "Work Session",
+          "short-break": "Short Break",
+          "long-break": "Long Break",
         };
-        
+
         showNotification(`${sessionNames[sessionType]} Completed!`, {
-          body: 'Time to switch to the next session.',
-          icon: '/favicon.ico'
+          body: "Time to switch to the next session.",
+          icon: "/favicon.ico",
         });
-        
+
         playNotificationSound();
-      }
+      },
     });
 
     return () => {
@@ -57,15 +65,15 @@ export const Timer: React.FC = () => {
   const sessionColor = getSessionColor(timerState.currentSession);
 
   const sessionLabels = {
-    work: 'Work Session',
-    'short-break': 'Short Break',
-    'long-break': 'Long Break'
+    work: "Work Session",
+    "short-break": "Short Break",
+    "long-break": "Long Break",
   };
 
   const sessionIcons = {
     work: Clock,
-    'short-break': Coffee,
-    'long-break': Coffee
+    "short-break": Coffee,
+    "long-break": Coffee,
   };
 
   const CurrentIcon = sessionIcons[timerState.currentSession];
@@ -96,7 +104,10 @@ export const Timer: React.FC = () => {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <div className="flex items-center space-x-3 mb-4">
-                <CurrentIcon className="w-6 h-6 text-white" style={{ color: sessionColor }} />
+                <CurrentIcon
+                  className="w-6 h-6 text-white"
+                  style={{ color: sessionColor }}
+                />
                 <h2 className="text-2xl font-semibold text-white">
                   {sessionLabels[timerState.currentSession]}
                 </h2>
@@ -120,7 +131,11 @@ export const Timer: React.FC = () => {
                     {formatTime(timerState.timeLeft)}
                   </motion.div>
                   <div className="text-white/60 text-sm uppercase tracking-wider">
-                    {timerState.isRunning ? 'Running' : timerState.isPaused ? 'Paused' : 'Ready'}
+                    {timerState.isRunning
+                      ? "Running"
+                      : timerState.isPaused
+                      ? "Paused"
+                      : "Ready"}
                   </div>
                 </div>
               </CircularProgress>
@@ -133,7 +148,7 @@ export const Timer: React.FC = () => {
                     className="px-8 py-4 text-lg"
                   >
                     <Play className="w-5 h-5 mr-2" />
-                    {timerState.isPaused ? 'Resume' : 'Start'}
+                    {timerState.isPaused ? "Resume" : "Start"}
                   </Button>
                 ) : (
                   <Button
@@ -146,7 +161,7 @@ export const Timer: React.FC = () => {
                     Pause
                   </Button>
                 )}
-                
+
                 <Button
                   onClick={handleReset}
                   variant="ghost"
@@ -168,25 +183,29 @@ export const Timer: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.4 }}
           >
             <Card>
-              <h3 className="text-lg font-semibold text-white mb-4">Session Type</h3>
+              <h3 className="text-lg font-semibold text-white mb-4">
+                Session Type
+              </h3>
               <div className="space-y-2">
-                {(['work', 'short-break', 'long-break'] as SessionType[]).map((session) => {
-                  const Icon = sessionIcons[session];
-                  const isActive = timerState.currentSession === session;
-                  
-                  return (
-                    <Button
-                      key={session}
-                      onClick={() => handleSessionSwitch(session)}
-                      variant={isActive ? 'primary' : 'ghost'}
-                      className="w-full justify-start"
-                      disabled={timerState.isRunning}
-                    >
-                      <Icon className="w-4 h-4 mr-3" />
-                      {sessionLabels[session]}
-                    </Button>
-                  );
-                })}
+                {(["work", "short-break", "long-break"] as SessionType[]).map(
+                  (session) => {
+                    const Icon = sessionIcons[session];
+                    const isActive = timerState.currentSession === session;
+
+                    return (
+                      <Button
+                        key={session}
+                        onClick={() => handleSessionSwitch(session)}
+                        variant={isActive ? "primary" : "ghost"}
+                        className="w-full justify-start"
+                        disabled={timerState.isRunning}
+                      >
+                        <Icon className="w-4 h-4 mr-3" />
+                        {sessionLabels[session]}
+                      </Button>
+                    );
+                  }
+                )}
               </div>
             </Card>
           </motion.div>
@@ -197,21 +216,27 @@ export const Timer: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.6 }}
           >
             <Card>
-              <h3 className="text-lg font-semibold text-white mb-4">Statistics</h3>
+              <h3 className="text-lg font-semibold text-white mb-4">
+                Statistics
+              </h3>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
                   <span className="text-white/70">Sessions Completed</span>
-                  <span className="text-white font-semibold">{timerState.sessionsCompleted}</span>
+                  <span className="text-white font-semibold">
+                    {timerState.sessionsCompleted}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-white/70">Current Session</span>
                   <span className="text-white font-semibold capitalize">
-                    {timerState.currentSession.replace('-', ' ')}
+                    {timerState.currentSession.replace("-", " ")}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-white/70">Progress</span>
-                  <span className="text-white font-semibold">{Math.round(progress)}%</span>
+                  <span className="text-white font-semibold">
+                    {Math.round(progress)}%
+                  </span>
                 </div>
               </div>
             </Card>
@@ -223,7 +248,9 @@ export const Timer: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.8 }}
           >
             <Card>
-              <h3 className="text-lg font-semibold text-white mb-4">Quick Tips</h3>
+              <h3 className="text-lg font-semibold text-white mb-4">
+                Quick Tips
+              </h3>
               <div className="space-y-2 text-sm text-white/70">
                 <p>• Focus on one task during work sessions</p>
                 <p>• Take breaks to maintain productivity</p>
