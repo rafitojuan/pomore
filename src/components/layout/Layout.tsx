@@ -23,7 +23,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         
         <footer className="border-t border-white/10 backdrop-blur-md bg-white/5 py-6">
           <div className="container mx-auto px-4 text-center text-white/60">
-            <p>&copy; 2024 Pomore - Pomodoro Timer with Music. Made with ❤️</p>
+            <p>&copy; 2025 Pomore - Pomodoro Timer with Music. Made by rafitojuan</p>
           </div>
         </footer>
       </div>

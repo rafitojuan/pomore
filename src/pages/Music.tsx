@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX, Plus, Upload, Music as MusicIcon, List, Shuffle, Repeat, Heart, MoreHorizontal } from 'lucide-react';
+import { Play, Pause, SkipBack, SkipForward, Volume2, VolumeX, Plus, Upload, Music as MusicIcon, List, Shuffle, Repeat, Heart, MoreHorizontal, Trash2, X, AlertCircle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { musicService } from '../services/musicService';
 import { Track, Playlist, MusicState, SourceType } from '../types';
 import { formatDuration, generateId } from '../utils';
+import { useToast } from '../hooks/useToast';
 
 export const Music: React.FC = () => {
   const [musicState, setMusicState] = useState<MusicState>(musicService.getState());
   const [playlists, setPlaylists] = useState<Playlist[]>([]);
+  const [tracks, setTracks] = useState<Track[]>([]);
   const [selectedPlaylist, setSelectedPlaylist] = useState<string | null>(null);
   const [showAddPlaylist, setShowAddPlaylist] = useState(false);
   const [showAddTrack, setShowAddTrack] = useState(false);
@@ -19,6 +21,7 @@ export const Music: React.FC = () => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { error } = useToast();
 
   useEffect(() => {
     loadPlaylists();
@@ -27,12 +30,22 @@ export const Music: React.FC = () => {
         setMusicState(state);
         setCurrentTime(state.currentTime);
         setDuration(state.duration);
+      },
+      onPlaylistsChange: (playlists) => {
+        setPlaylists(playlists);
+      },
+      onTracksChange: (tracks) => {
+        setTracks(tracks);
+      },
+      onError: (message: string) => {
+        error('Playback Error', message);
       }
     });
-  }, []);
+  }, [error]);
 
   const loadPlaylists = () => {
     setPlaylists(musicService.getPlaylists());
+    setTracks([]);
   };
 
   const handleCreatePlaylist = () => {
@@ -47,7 +60,14 @@ export const Music: React.FC = () => {
   const handleAddTrack = () => {
     if (!newTrack.title.trim() || !selectedPlaylist) return;
     
-    const sourceType: SourceType = newTrack.url.includes('youtube') || newTrack.url.includes('youtu.be') ? 'youtube' : 'local';
+    const isYouTubeUrl = newTrack.url.includes('youtube') || newTrack.url.includes('youtu.be');
+    
+    if (isYouTubeUrl) {
+      error('YouTube Not Supported', 'YouTube URLs cannot be played directly. Please upload local audio files instead.');
+      return;
+    }
+    
+    const sourceType: SourceType = newTrack.url ? 'local' : 'local';
     
     musicService.addTrack(selectedPlaylist, {
       title: newTrack.title,
@@ -100,6 +120,14 @@ export const Music: React.FC = () => {
 
   const handleSeek = (time: number) => {
     musicService.seek(time);
+  };
+
+  const handleDeletePlaylist = (playlistId: string) => {
+    if (selectedPlaylist === playlistId) {
+      setSelectedPlaylist(null);
+    }
+    musicService.deletePlaylist(playlistId);
+    loadPlaylists();
   };
 
   const currentPlaylist = playlists.find(p => p.id === selectedPlaylist);
@@ -159,20 +187,29 @@ export const Music: React.FC = () => {
             <CardContent>
               <div className="space-y-2">
                 {playlists.map(playlist => (
-                  <Button
-                    key={playlist.id}
-                    variant={selectedPlaylist === playlist.id ? 'primary' : 'ghost'}
-                    className="w-full justify-start"
-                    onClick={() => setSelectedPlaylist(playlist.id)}
-                  >
-                    <MusicIcon className="w-4 h-4 mr-3" />
-                    <div className="text-left flex-1">
-                      <div className="font-medium">{playlist.name}</div>
-                      <div className="text-xs text-white/60">
-                        {playlist.tracks.length} tracks
+                  <div key={playlist.id} className="flex items-center space-x-2">
+                    <Button
+                      variant={selectedPlaylist === playlist.id ? 'primary' : 'ghost'}
+                      className="flex-1 justify-start"
+                      onClick={() => setSelectedPlaylist(playlist.id)}
+                    >
+                      <MusicIcon className="w-4 h-4 mr-3" />
+                      <div className="text-left flex-1">
+                        <div className="font-medium">{playlist.name}</div>
+                        <div className="text-xs text-white/60">
+                          {musicService.getPlaylistTracks(playlist.id).length} tracks
+                        </div>
                       </div>
-                    </div>
-                  </Button>
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="p-2 text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                      onClick={() => handleDeletePlaylist(playlist.id)}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </Button>
+                  </div>
                 ))}
                 
                 {playlists.length === 0 && (
@@ -276,7 +313,7 @@ export const Music: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  {currentPlaylist.tracks.map((track, index) => (
+                  {musicService.getPlaylistTracks(currentPlaylist.id).map((track, index) => (
                     <motion.div
                       key={track.id}
                       initial={{ opacity: 0, y: 10 }}
@@ -314,7 +351,7 @@ export const Music: React.FC = () => {
                     </motion.div>
                   ))}
                   
-                  {currentPlaylist.tracks.length === 0 && (
+                  {musicService.getPlaylistTracks(currentPlaylist.id).length === 0 && (
                     <div className="text-center text-white/40 py-12">
                       <MusicIcon className="w-12 h-12 mx-auto mb-4" />
                       <p className="text-lg mb-2">No tracks in this playlist</p>

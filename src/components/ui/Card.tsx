@@ -16,7 +16,7 @@ export const Card: React.FC<CardProps> = ({
   padding = 'md',
   variant = 'default'
 }) => {
-  const baseClasses = 'relative overflow-hidden rounded-2xl backdrop-blur-md border transition-all duration-300';
+  const baseClasses = 'relative overflow-hidden rounded-2xl border transition-all duration-300';
   
   const variantClasses = {
     default: 'bg-white/10 border-white/20 shadow-lg shadow-black/10',

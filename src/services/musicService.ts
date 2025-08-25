@@ -10,6 +10,7 @@ class MusicService {
     onStateChange?: (state: MusicState) => void;
     onPlaylistsChange?: (playlists: Playlist[]) => void;
     onTracksChange?: (tracks: Track[]) => void;
+    onError?: (message: string) => void;
   } = {};
 
   constructor() {
@@ -160,23 +161,14 @@ class MusicService {
       this.audioElement.src = track.sourceUrl;
       this.audioElement.play().catch(error => {
         console.error('Error playing track:', error);
+        this.notifyError(`Failed to play track: ${track.title}`);
       });
-    } else if (track.sourceType === 'youtube' && track.sourceUrl) {
-      this.playYouTubeTrack(track.sourceUrl);
+    } else if (track.sourceType === 'youtube') {
+      this.notifyError('YouTube playback is not supported. Please use local audio files instead.');
+      return;
     }
 
     this.notifyStateChange();
-  }
-
-  private playYouTubeTrack(url: string): void {
-    const videoId = this.extractYouTubeVideoId(url);
-    if (videoId && this.audioElement) {
-      const audioUrl = `https://www.youtube.com/watch?v=${videoId}`;
-      this.audioElement.src = audioUrl;
-      this.audioElement.play().catch(error => {
-        console.error('Error playing YouTube track:', error);
-      });
-    }
   }
 
   private extractYouTubeVideoId(url: string): string | null {
@@ -269,8 +261,13 @@ class MusicService {
     onStateChange?: (state: MusicState) => void;
     onPlaylistsChange?: (playlists: Playlist[]) => void;
     onTracksChange?: (tracks: Track[]) => void;
+    onError?: (message: string) => void;
   }): void {
     this.callbacks = callbacks;
+  }
+
+  private notifyError(message: string): void {
+    this.callbacks.onError?.(message);
   }
 
   handleFileUpload(file: File, playlistId: string): Promise<Track> {

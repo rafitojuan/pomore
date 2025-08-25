@@ -1,5 +1,5 @@
-import { TimerState, SessionType, TimerSettings } from '../types';
-import { saveToLocalStorage, loadFromLocalStorage } from '../utils';
+import { TimerState, SessionType, TimerSettings } from "../types";
+import { saveToLocalStorage, loadFromLocalStorage } from "../utils";
 
 class TimerService {
   private state: TimerState;
@@ -12,25 +12,34 @@ class TimerService {
   } = {};
 
   constructor() {
-    this.settings = loadFromLocalStorage('timer-settings', {
+    this.settings = loadFromLocalStorage("timer-settings", {
       workDuration: 25 * 60,
       shortBreakDuration: 5 * 60,
       longBreakDuration: 15 * 60,
       autoStartBreaks: false,
-      autoStartPomodoros: false
+      autoStartPomodoros: false,
     });
+
+    this.validateSettings();
 
     this.state = {
       isRunning: false,
       isPaused: false,
-      currentSession: 'work',
+      currentSession: "work",
       timeLeft: this.settings.workDuration,
       totalTime: this.settings.workDuration,
-      sessionsCompleted: 0
+      sessionsCompleted: 0,
     };
+
+    this.validateState();
   }
 
   start(): void {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
+    }
+
     if (this.state.isPaused) {
       this.state.isPaused = false;
       this.state.isRunning = true;
@@ -47,9 +56,11 @@ class TimerService {
   }
 
   pause(): void {
+    if (!this.state.isRunning) return;
+
     this.state.isRunning = false;
     this.state.isPaused = true;
-    
+
     if (this.intervalId) {
       clearInterval(this.intervalId);
       this.intervalId = null;
@@ -63,34 +74,42 @@ class TimerService {
     this.state.isPaused = false;
     this.state.timeLeft = this.getDurationForSession(this.state.currentSession);
     this.state.totalTime = this.state.timeLeft;
-    
+
     if (this.intervalId) {
       clearInterval(this.intervalId);
       this.intervalId = null;
     }
 
+    this.validateState();
     this.notifyStateChange();
   }
 
   switchSession(sessionType: SessionType): void {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
+    }
+
     this.state.currentSession = sessionType;
     this.state.timeLeft = this.getDurationForSession(sessionType);
     this.state.totalTime = this.state.timeLeft;
     this.state.isRunning = false;
     this.state.isPaused = false;
-    
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-      this.intervalId = null;
-    }
 
+    this.validateState();
     this.notifyStateChange();
   }
 
   private tick(): void {
+    if (!this.state.isRunning) {
+      return;
+    }
+
     if (this.state.timeLeft > 0) {
       this.state.timeLeft--;
-      this.callbacks.onTick?.(this.state);
+      const currentState = { ...this.state };
+      this.callbacks.onTick?.(currentState);
+      
     } else {
       this.completeSession();
     }
@@ -98,14 +117,14 @@ class TimerService {
 
   private completeSession(): void {
     const completedSession = this.state.currentSession;
-    
-    if (completedSession === 'work') {
+
+    if (completedSession === "work") {
       this.state.sessionsCompleted++;
     }
 
     this.state.isRunning = false;
     this.state.isPaused = false;
-    
+
     if (this.intervalId) {
       clearInterval(this.intervalId);
       this.intervalId = null;
@@ -123,26 +142,72 @@ class TimerService {
   }
 
   private getNextSession(): SessionType {
-    if (this.state.currentSession === 'work') {
-      return this.state.sessionsCompleted % 4 === 0 ? 'long-break' : 'short-break';
+    if (this.state.currentSession === "work") {
+      return this.state.sessionsCompleted % 4 === 0
+        ? "long-break"
+        : "short-break";
     }
-    return 'work';
+    return "work";
   }
 
   private shouldAutoStart(sessionType: SessionType): boolean {
-    if (sessionType === 'work') {
+    if (sessionType === "work") {
       return this.settings.autoStartPomodoros;
     }
     return this.settings.autoStartBreaks;
   }
 
+  private validateSettings(): void {
+    const defaults = {
+      workDuration: 25 * 60,
+      shortBreakDuration: 5 * 60,
+      longBreakDuration: 15 * 60,
+    };
+
+    if (
+      this.settings.workDuration <= 0 ||
+      this.settings.workDuration > 60 * 60
+    ) {
+      this.settings.workDuration = defaults.workDuration;
+    }
+    if (
+      this.settings.shortBreakDuration <= 0 ||
+      this.settings.shortBreakDuration > 30 * 60
+    ) {
+      this.settings.shortBreakDuration = defaults.shortBreakDuration;
+    }
+    if (
+      this.settings.longBreakDuration <= 0 ||
+      this.settings.longBreakDuration > 60 * 60
+    ) {
+      this.settings.longBreakDuration = defaults.longBreakDuration;
+    }
+
+    saveToLocalStorage("timer-settings", this.settings);
+  }
+
+  private validateState(): void {
+    const expectedDuration = this.getDurationForSession(
+      this.state.currentSession
+    );
+
+    if (this.state.timeLeft <= 0 || this.state.timeLeft > expectedDuration) {
+      this.state.timeLeft = expectedDuration;
+      this.state.totalTime = expectedDuration;
+    }
+
+    if (this.state.totalTime !== expectedDuration) {
+      this.state.totalTime = expectedDuration;
+    }
+  }
+
   private getDurationForSession(sessionType: SessionType): number {
     switch (sessionType) {
-      case 'work':
+      case "work":
         return this.settings.workDuration;
-      case 'short-break':
+      case "short-break":
         return this.settings.shortBreakDuration;
-      case 'long-break':
+      case "long-break":
         return this.settings.longBreakDuration;
       default:
         return this.settings.workDuration;
@@ -163,10 +228,12 @@ class TimerService {
 
   updateSettings(newSettings: Partial<TimerSettings>): void {
     this.settings = { ...this.settings, ...newSettings };
-    saveToLocalStorage('timer-settings', this.settings);
-    
+    saveToLocalStorage("timer-settings", this.settings);
+
     if (!this.state.isRunning && !this.state.isPaused) {
-      this.state.timeLeft = this.getDurationForSession(this.state.currentSession);
+      this.state.timeLeft = this.getDurationForSession(
+        this.state.currentSession
+      );
       this.state.totalTime = this.state.timeLeft;
       this.notifyStateChange();
     }
