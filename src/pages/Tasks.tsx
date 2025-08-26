@@ -114,12 +114,34 @@ export const Tasks: React.FC = () => {
     const destinationStatus = destination.droppableId as TaskStatus;
 
     if (sourceStatus !== destinationStatus) {
-      const updatedTask = {
-        ...task,
-        status: destinationStatus,
-        updatedAt: new Date(),
-      };
-      taskService.updateTask(task.id, updatedTask);
+      const destinationTasks = tasks.filter((t) => t.status === destinationStatus).sort((a, b) => (a.order || 0) - (b.order || 0));
+      const reorderedDestinationTasks = Array.from(destinationTasks);
+      reorderedDestinationTasks.splice(destination.index, 0, task);
+
+      const updatedTasks = tasks.map((t) => {
+        if (t.id === task.id) {
+          return {
+            ...t,
+            status: destinationStatus,
+            order: destination.index,
+            updatedAt: new Date(),
+          };
+        }
+        if (t.status === destinationStatus) {
+          const newIndex = reorderedDestinationTasks.findIndex((rt) => rt.id === t.id);
+          return { ...t, order: newIndex, updatedAt: new Date() };
+        }
+        return t;
+      });
+
+      setTasks(updatedTasks);
+      localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+      
+      updatedTasks.forEach(taskToUpdate => {
+        if (taskToUpdate.status === destinationStatus || taskToUpdate.id === task.id) {
+          taskService.updateTask(taskToUpdate.id, taskToUpdate);
+        }
+      });
     } else {
       const sourceTasks = tasks.filter((t) => t.status === sourceStatus).sort((a, b) => (a.order || 0) - (b.order || 0));
       const reorderedTasks = Array.from(sourceTasks);
