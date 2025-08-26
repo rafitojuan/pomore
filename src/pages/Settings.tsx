@@ -51,14 +51,31 @@ export const Settings: React.FC = () => {
       autoPlay: false
     };
     const savedPreferences = loadFromLocalStorage('userPreferences', defaultPrefs);
+    const timerSettings = timerService.getSettings();
+    
     if (savedPreferences) {
-      setPreferences(savedPreferences);
+      const prefsWithTimerSync = {
+        ...savedPreferences,
+        timer: {
+          ...savedPreferences.timer,
+          workDuration: Math.round(timerSettings.workDuration / 60),
+          shortBreakDuration: Math.round(timerSettings.shortBreakDuration / 60),
+          longBreakDuration: Math.round(timerSettings.longBreakDuration / 60)
+        }
+      };
+      setPreferences(prefsWithTimerSync);
     }
   };
 
   const handleSave = () => {
     saveToLocalStorage('userPreferences', preferences);
-    timerService.updateSettings(preferences.timer);
+    const timerSettingsInSeconds = {
+      ...preferences.timer,
+      workDuration: preferences.timer.workDuration * 60,
+      shortBreakDuration: preferences.timer.shortBreakDuration * 60,
+      longBreakDuration: preferences.timer.longBreakDuration * 60
+    };
+    timerService.updateSettings(timerSettingsInSeconds);
     setHasChanges(false);
   };
 

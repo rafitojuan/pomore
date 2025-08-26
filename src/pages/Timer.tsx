@@ -41,7 +41,7 @@ export const Timer: React.FC = () => {
     });
 
     return () => {
-      timerService.destroy();
+      // timerService.destroy();
     };
   }, []);
 
