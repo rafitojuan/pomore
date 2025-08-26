@@ -15,6 +15,7 @@ export interface Task {
   pomodorosCompleted: number;
   estimatedPomodoros: number;
   completedAt?: Date;
+  order?: number;
 }
 
 export interface Session {

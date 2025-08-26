@@ -12,3 +12,24 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.react-beautiful-dnd-dragging {
+  z-index: 9999 !important;
+  transform-origin: center !important;
+}
+
+.react-beautiful-dnd-drag-handle:active {
+  z-index: 9999 !important;
+}
+
+[data-rbd-drag-handle-dragging-id] {
+  cursor: grabbing !important;
+}
+
+[data-rbd-droppable-id] {
+  position: relative;
+}
+
+.react-beautiful-dnd-drag-handle {
+  cursor: grab;
+}
