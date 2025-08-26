@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Play, Pause, RotateCcw, Coffee, Clock } from "lucide-react";
+import { Play, Pause, RotateCcw, Coffee, Clock, Bell, X } from "lucide-react";
 import { Card, CardContent } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
 import { CircularProgress } from "../components/ui/CircularProgress";
@@ -12,6 +12,7 @@ import {
   getSessionColor,
   showNotification,
   playNotificationSound,
+  requestNotificationPermission,
 } from "../utils";
 
 export const Timer: React.FC = () => {
@@ -19,6 +20,9 @@ export const Timer: React.FC = () => {
     timerService.getState()
   );
   const [selectedTask, setSelectedTask] = useState<string | null>(null);
+  const [showNotificationBanner, setShowNotificationBanner] = useState(
+    typeof window !== 'undefined' && Notification.permission === 'default'
+  );
 
   useEffect(() => {
     timerService.setCallbacks({
@@ -61,6 +65,15 @@ export const Timer: React.FC = () => {
     timerService.switchSession(sessionType);
   };
 
+  const handleRequestNotificationPermission = async () => {
+    const granted = await requestNotificationPermission();
+    setShowNotificationBanner(false);
+  };
+
+  const handleCloseBanner = () => {
+    setShowNotificationBanner(false);
+  };
+
   const progress = calculateProgress(timerState.timeLeft, timerState.totalTime);
   const sessionColor = getSessionColor(timerState.currentSession);
 
@@ -80,6 +93,45 @@ export const Timer: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
+      {showNotificationBanner && (
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.3 }}
+          className="bg-amber-500/20 border border-amber-500/30 rounded-lg p-4"
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <Bell className="w-5 h-5 text-amber-400 flex-shrink-0" />
+              <div>
+                <p className="text-amber-200 font-medium">
+                  Aktifkan Notifikasi untuk Pengalaman Terbaik
+                </p>
+                <p className="text-amber-100/80 text-sm">
+                  Dapatkan pemberitahuan ketika sesi Pomodoro selesai
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Button
+                onClick={handleRequestNotificationPermission}
+                size="sm"
+                className="bg-amber-500 hover:bg-amber-600 text-white text-sm px-3 py-1"
+              >
+                Izinkan
+              </Button>
+              <button
+                onClick={handleCloseBanner}
+                className="text-amber-300 hover:text-amber-100 p-1"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      )}
+      
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

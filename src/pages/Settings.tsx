@@ -127,7 +127,14 @@ export const Settings: React.FC = () => {
   const handleRequestNotificationPermission = async () => {
     const granted = await requestNotificationPermission();
     if (granted) {
-
+      setPreferences(prev => ({
+        ...prev,
+        notifications: {
+          ...prev.notifications,
+          enabled: true
+        }
+      }));
+      setHasChanges(true);
     }
   };
 
@@ -287,14 +294,72 @@ export const Settings: React.FC = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
+              {Notification.permission === 'default' && (
+                <div className="bg-amber-500/20 border border-amber-500/30 rounded-lg p-4 mb-4">
+                  <div className="flex items-start space-x-3">
+                    <Bell className="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" />
+                    <div className="flex-1">
+                      <h4 className="text-amber-200 font-medium mb-2">Izinkan Notifikasi Browser</h4>
+                      <p className="text-amber-100/80 text-sm mb-3">
+                        Untuk menggunakan fitur notifikasi Pomodoro, Anda perlu mengizinkan notifikasi di browser. 
+                        Klik tombol di bawah ini dan pilih "Allow" atau "Izinkan" ketika browser meminta izin.
+                      </p>
+                      <Button
+                        onClick={handleRequestNotificationPermission}
+                        className="bg-amber-500 hover:bg-amber-600 text-white text-sm px-4 py-2"
+                      >
+                        Minta Izin Notifikasi
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              )}
+              
+              {Notification.permission === 'granted' && (
+                 <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-4 mb-4">
+                   <div className="flex items-start space-x-3">
+                     <Bell className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                     <div className="flex-1">
+                       <h4 className="text-green-200 font-medium mb-2">Notifikasi Diizinkan</h4>
+                       <p className="text-green-100/80 text-sm">
+                         Notifikasi browser telah diaktifkan! Anda akan menerima pemberitahuan ketika sesi Pomodoro selesai.
+                       </p>
+                     </div>
+                   </div>
+                 </div>
+               )}
+               
+               {Notification.permission === 'denied' && (
+                 <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 mb-4">
+                   <div className="flex items-start space-x-3">
+                     <Bell className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" />
+                     <div className="flex-1">
+                       <h4 className="text-red-200 font-medium mb-2">Notifikasi Diblokir</h4>
+                       <p className="text-red-100/80 text-sm">
+                         Notifikasi telah diblokir untuk situs ini. Untuk mengaktifkan notifikasi:
+                         <br />• Klik ikon gembok/info di address bar browser
+                         <br />• Ubah pengaturan notifikasi menjadi "Allow" atau "Izinkan"
+                         <br />• Refresh halaman ini
+                       </p>
+                     </div>
+                   </div>
+                 </div>
+               )}
+              
               <label className="flex items-center space-x-3 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={preferences.notifications.enabled}
                   onChange={(e) => handleNotificationSettingChange('enabled', e.target.checked)}
-                  className="w-4 h-4 text-violet-500 bg-white/10 border-white/20 rounded focus:ring-violet-500 focus:ring-2"
+                  disabled={Notification.permission !== 'granted'}
+                  className="w-4 h-4 text-violet-500 bg-white/10 border-white/20 rounded focus:ring-violet-500 focus:ring-2 disabled:opacity-50"
                 />
-                <span className="text-white/80">Enable notifications</span>
+                <span className={`text-white/80 ${Notification.permission !== 'granted' ? 'opacity-50' : ''}`}>
+                  Enable notifications
+                  {Notification.permission !== 'granted' && (
+                    <span className="text-xs text-white/60 block">Izin notifikasi browser diperlukan</span>
+                  )}
+                </span>
               </label>
               
               <label className="flex items-center space-x-3 cursor-pointer">
