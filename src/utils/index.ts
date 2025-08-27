@@ -66,7 +66,7 @@ export const exportToTxt = (data: any[], filename: string): void => {
 
 export const playNotificationSound = (soundUrl?: string): void => {
   try {
-    const audio = new Audio(soundUrl || "/amongus.mp3");
+    const audio = new Audio(soundUrl || "/alarm.mp3");
     audio.play().catch((error) => {
       console.error("Error playing notification sound:", error);
     });
