@@ -55,6 +55,7 @@ interface MusicContextType {
   previousTrack: () => void;
   seekTo: (time: number) => void;
   setVolume: (volume: number) => void;
+  stopMusic: () => void;
   clearSearch: () => void;
   loadTrendingVideos: () => Promise<void>;
   loadCategories: () => Promise<void>;
@@ -292,6 +293,22 @@ export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setMusicState(prev => ({ ...prev, volume }));
   };
 
+  const stopMusic = () => {
+    youtubePlayerService.stop();
+    if (updateIntervalRef.current) {
+      clearInterval(updateIntervalRef.current);
+      updateIntervalRef.current = null;
+    }
+    setMusicState(prev => ({
+      ...prev,
+      currentTrack: null,
+      currentVideo: null,
+      isPlaying: false,
+      currentTime: 0,
+      duration: 0
+    }));
+  };
+
   const handlePlayPause = () => {
     if (musicState.isPlaying) {
       pauseMusic();
@@ -358,6 +375,7 @@ export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     previousTrack,
     seekTo,
     setVolume,
+    stopMusic,
     clearSearch,
     loadTrendingVideos,
     loadCategories
