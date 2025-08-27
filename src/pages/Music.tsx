@@ -36,6 +36,8 @@ const Music: React.FC = () => {
     playVideo,
   } = useMusicContext();
 
+
+
   const [playlists, setPlaylists] = useState<any[]>([]);
   const [showAddPlaylist, setShowAddPlaylist] = useState(false);
   const [editingPlaylist, setEditingPlaylist] = useState<any | null>(null);
@@ -134,11 +136,12 @@ const Music: React.FC = () => {
 
   return (
     <div className="h-screen">
+
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-slate-900/40 to-slate-900"></div>
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
 
-      <div className="relative z-10 h-full w-full px-4 py-4 overflow-auto">
+      <div className="relative z-10 h-full w-full px-4 py-4 overflow-auto custom-scrollbar">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -198,7 +201,7 @@ const Music: React.FC = () => {
                   <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/60" />
                 </motion.div>
                 {showSuggestions && suggestions.length > 0 && (
-                  <div className="absolute top-full left-0 right-0 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl mt-2 z-10 max-h-48 overflow-y-auto shadow-2xl">
+                  <div className="absolute top-full left-0 right-0 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl mt-2 z-10 max-h-48 overflow-y-auto custom-scrollbar shadow-2xl">
                     {suggestions.map((suggestion, index) => (
                       <div
                         key={index}
@@ -214,7 +217,7 @@ const Music: React.FC = () => {
                 {!searchQuery &&
                   searchHistory.length > 0 &&
                   showSuggestions && (
-                    <div className="absolute top-full left-0 right-0 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl mt-2 z-10 max-h-48 overflow-y-auto shadow-2xl">
+                    <div className="absolute top-full left-0 right-0 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl mt-2 z-10 max-h-48 overflow-y-auto custom-scrollbar shadow-2xl">
                       <div className="px-4 py-2 text-xs text-white/60 border-b border-white/20">
                         Recent searches
                       </div>

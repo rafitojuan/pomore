@@ -39,7 +39,7 @@ export const PlaylistMini: React.FC<PlaylistMiniProps> = ({
         <p className="text-white/60 text-xs mt-1">{tracks.length} tracks</p>
       </div>
 
-      <div className="max-h-64 overflow-y-auto">
+      <div className="max-h-64 overflow-y-auto custom-scrollbar">
         {tracks.map((track, index) => {
           const isCurrentTrack = musicState.currentTrack?.id === track.id;
           const isYouTubeTrack = track.sourceType === 'youtube';
