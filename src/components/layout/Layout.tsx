@@ -8,7 +8,15 @@ interface LayoutProps {
 }
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
-  const { musicState, pauseMusic, resumeMusic, nextTrack, previousTrack, seekTo, setVolume } = useMusicContext();
+  const {
+    musicState,
+    pauseMusic,
+    resumeMusic,
+    nextTrack,
+    previousTrack,
+    seekTo,
+    setVolume,
+  } = useMusicContext();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-900 via-purple-900 to-indigo-900 relative overflow-hidden">
@@ -21,7 +29,11 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       <div className="relative z-10 flex flex-col min-h-screen">
         <Navigation />
 
-        <main className={`flex-1 container mx-auto px-4 py-8 ${musicState.currentTrack ? 'pb-32' : ''}`}>
+        <main
+          className={`flex-1 container mx-auto px-4 py-8 ${
+            musicState.currentTrack ? "pb-32" : ""
+          }`}
+        >
           {children}
         </main>
 
@@ -39,6 +51,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
             </p>
           </div>
         </footer>
+
+        <div id="youtube-player" style={{ display: "none" }}></div>
       </div>
     </div>
   );

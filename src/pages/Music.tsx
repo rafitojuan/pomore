@@ -731,7 +731,7 @@ const Music: React.FC = () => {
         )}
       </AnimatePresence>
 
-      <div id="youtube-player" style={{ display: "none" }}></div>
+      {/* <div id="youtube-player" style={{ display: "none" }}></div> */}
     </div>
   );
 };
