@@ -1,7 +1,7 @@
 export type TaskStatus = 'todo' | 'in-progress' | 'completed';
 export type TaskPriority = 'low' | 'medium' | 'high';
 export type SessionType = 'work' | 'short-break' | 'long-break';
-export type SourceType = 'local' | 'youtube' | 'spotify';
+export type SourceType = 'local' | 'youtube' | 'soundcloud';
 
 export interface Task {
   id: string;
@@ -86,4 +86,39 @@ export interface MusicState {
   volume: number;
   currentTime: number;
   duration: number;
+}
+
+export interface YouTubeVideo {
+  id: string;
+  title: string;
+  channelTitle: string;
+  channelId: string;
+  description: string;
+  thumbnails: {
+    default: { url: string; width: number; height: number };
+    medium: { url: string; width: number; height: number };
+    high: { url: string; width: number; height: number };
+  };
+  publishedAt: string;
+  duration: string;
+  viewCount?: string;
+  likeCount?: string;
+}
+
+export interface YouTubeSearchResult {
+  videos: YouTubeVideo[];
+  nextPageToken?: string;
+  totalResults: number;
+}
+
+export interface YouTubeCategory {
+  id: string;
+  title: string;
+  assignable: boolean;
+}
+
+export interface SearchHistory {
+  id: string;
+  query: string;
+  timestamp: Date;
 }

@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 
 interface ButtonProps {
   children: React.ReactNode;
-  onClick?: () => void;
-  variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
+  onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
+  variant?: 'primary' | 'secondary' | 'ghost' | 'danger' | 'outline' | 'default';
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
   className?: string;
@@ -26,7 +26,9 @@ export const Button: React.FC<ButtonProps> = ({
     primary: 'bg-violet-600/20 border-violet-500/30 text-white hover:bg-violet-600/30 hover:border-violet-400/50 shadow-lg shadow-violet-500/20',
     secondary: 'bg-white/10 border-white/20 text-white hover:bg-white/20 hover:border-white/30 shadow-lg shadow-black/10',
     ghost: 'bg-transparent border-transparent text-white/80 hover:bg-white/10 hover:text-white',
-    danger: 'bg-red-600/20 border-red-500/30 text-white hover:bg-red-600/30 hover:border-red-400/50 shadow-lg shadow-red-500/20'
+    danger: 'bg-red-600/20 border-red-500/30 text-white hover:bg-red-600/30 hover:border-red-400/50 shadow-lg shadow-red-500/20',
+    outline: 'bg-transparent border-gray-300 text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800',
+    default: 'bg-blue-600/20 border-blue-500/30 text-white hover:bg-blue-600/30 hover:border-blue-400/50 shadow-lg shadow-blue-500/20'
   };
   
   const sizeClasses = {

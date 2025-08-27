@@ -163,9 +163,15 @@ class MusicService {
         console.error('Error playing track:', error);
         this.notifyError(`Failed to play track: ${track.title}`);
       });
-    } else if (track.sourceType === 'youtube') {
-      this.notifyError('YouTube playback is not supported. Please use local audio files instead.');
-      return;
+    } else if (track.sourceType === 'youtube' && track.sourceUrl) {
+      const videoId = this.extractYouTubeVideoId(track.sourceUrl);
+      if (videoId) {
+        this.playYouTubeTrack(videoId, track);
+      } else {
+        this.notifyError('Invalid YouTube URL');
+      }
+    } else if (track.sourceType === 'soundcloud' && track.sourceUrl) {
+      this.playSoundCloudTrack(track.sourceUrl, track);
     }
 
     this.notifyStateChange();
@@ -177,25 +183,116 @@ class MusicService {
     return match ? match[1] : null;
   }
 
+
+
+  private playYouTubeTrack(videoId: string, track: Track): void {
+    const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&enablejsapi=1`;
+    this.createEmbedPlayer(embedUrl, track);
+  }
+
+  private playSoundCloudTrack(url: string, track: Track): void {
+    const encodedUrl = encodeURIComponent(url);
+    const embedUrl = `https://w.soundcloud.com/player/?url=${encodedUrl}&auto_play=true&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true`;
+    this.createEmbedPlayer(embedUrl, track);
+  }
+
+  private createEmbedPlayer(embedUrl: string, track: Track): void {
+    const existingPlayer = document.getElementById('music-embed-player');
+    if (existingPlayer) {
+      existingPlayer.remove();
+    }
+
+    const container = document.createElement('div');
+    container.id = 'music-embed-container';
+    container.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 400px;
+      height: 200px;
+      z-index: 1000;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      background: #1a1a1a;
+    `;
+
+    const closeButton = document.createElement('button');
+    closeButton.innerHTML = '×';
+    closeButton.style.cssText = `
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 24px;
+      height: 24px;
+      border: none;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 1001;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    `;
+    closeButton.onclick = () => {
+      this.stop();
+    };
+
+    const iframe = document.createElement('iframe');
+    iframe.id = 'music-embed-player';
+    iframe.src = embedUrl;
+    iframe.style.cssText = `
+      width: 100%;
+      height: 100%;
+      border: none;
+    `;
+    iframe.allow = 'autoplay';
+    iframe.setAttribute('frameborder', '0');
+
+    container.appendChild(closeButton);
+    container.appendChild(iframe);
+    document.body.appendChild(container);
+
+    this.state.isPlaying = true;
+    this.notifyStateChange();
+  }
+
   play(): void {
-    if (this.audioElement && this.state.currentTrack) {
+    if (this.state.currentTrack?.sourceType === 'local' && this.audioElement) {
       this.audioElement.play().catch(error => {
         console.error('Error playing audio:', error);
       });
+    } else if (this.state.currentTrack?.sourceType === 'youtube' || this.state.currentTrack?.sourceType === 'soundcloud') {
+      const iframe = document.getElementById('music-embed-player') as HTMLIFrameElement;
+      if (iframe) {
+        this.state.isPlaying = true;
+        this.notifyStateChange();
+      }
     }
   }
 
   pause(): void {
-    if (this.audioElement) {
+    if (this.state.currentTrack?.sourceType === 'local' && this.audioElement) {
       this.audioElement.pause();
+    } else if (this.state.currentTrack?.sourceType === 'youtube' || this.state.currentTrack?.sourceType === 'soundcloud') {
+      this.state.isPlaying = false;
+      this.notifyStateChange();
     }
   }
 
   stop(): void {
-    if (this.audioElement) {
+    if (this.state.currentTrack?.sourceType === 'local' && this.audioElement) {
       this.audioElement.pause();
       this.audioElement.currentTime = 0;
     }
+    
+    const embedContainer = document.getElementById('music-embed-container');
+    if (embedContainer) {
+      embedContainer.remove();
+    }
+    
     this.state.isPlaying = false;
     this.state.currentTime = 0;
     this.notifyStateChange();
@@ -298,6 +395,11 @@ class MusicService {
       this.audioElement.src = '';
       this.audioElement = null;
     }
+    
+    const embedContainer = document.getElementById('music-embed-container');
+     if (embedContainer) {
+       embedContainer.remove();
+     }
   }
 }
 

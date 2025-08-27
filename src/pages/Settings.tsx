@@ -1,11 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Save, Bell, Clock, Volume2, Palette, Download, Upload, RotateCcw, User } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
-import { Button } from '../components/ui/Button';
-import { timerService } from '../services/timerService';
-import { UserPreferences, TimerSettings, NotificationSettings } from '../types';
-import { loadFromLocalStorage, saveToLocalStorage, requestNotificationPermission } from '../utils';
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import {
+  Save,
+  Bell,
+  Clock,
+  Volume2,
+  Palette,
+  Download,
+  Upload,
+  RotateCcw,
+  User,
+} from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../components/ui/Card";
+import { Button } from "../components/ui/Button";
+import { timerService } from "../services/timerService";
+import { UserPreferences, TimerSettings, NotificationSettings } from "../types";
+import {
+  loadFromLocalStorage,
+  saveToLocalStorage,
+  requestNotificationPermission,
+} from "../utils";
 
 export const Settings: React.FC = () => {
   const [preferences, setPreferences] = useState<UserPreferences>({
@@ -15,18 +34,18 @@ export const Settings: React.FC = () => {
       longBreakDuration: 15,
 
       autoStartBreaks: true,
-      autoStartPomodoros: false
+      autoStartPomodoros: false,
     },
     notifications: {
       enabled: true,
       sound: true,
 
-      volume: 0.7
+      volume: 0.7,
     },
-    theme: 'dark',
-    autoPlay: false
+    theme: "dark",
+    autoPlay: false,
   });
-  
+
   const [hasChanges, setHasChanges] = useState(false);
 
   useEffect(() => {
@@ -40,19 +59,22 @@ export const Settings: React.FC = () => {
         shortBreakDuration: 5,
         longBreakDuration: 15,
         autoStartBreaks: true,
-        autoStartPomodoros: false
+        autoStartPomodoros: false,
       },
       notifications: {
         enabled: true,
         sound: true,
-        volume: 0.7
+        volume: 0.7,
       },
-      theme: 'dark' as const,
-      autoPlay: false
+      theme: "dark" as const,
+      autoPlay: false,
     };
-    const savedPreferences = loadFromLocalStorage('userPreferences', defaultPrefs);
+    const savedPreferences = loadFromLocalStorage(
+      "userPreferences",
+      defaultPrefs
+    );
     const timerSettings = timerService.getSettings();
-    
+
     if (savedPreferences) {
       const prefsWithTimerSync = {
         ...savedPreferences,
@@ -60,20 +82,20 @@ export const Settings: React.FC = () => {
           ...savedPreferences.timer,
           workDuration: Math.round(timerSettings.workDuration / 60),
           shortBreakDuration: Math.round(timerSettings.shortBreakDuration / 60),
-          longBreakDuration: Math.round(timerSettings.longBreakDuration / 60)
-        }
+          longBreakDuration: Math.round(timerSettings.longBreakDuration / 60),
+        },
       };
       setPreferences(prefsWithTimerSync);
     }
   };
 
   const handleSave = () => {
-    saveToLocalStorage('userPreferences', preferences);
+    saveToLocalStorage("userPreferences", preferences);
     const timerSettingsInSeconds = {
       ...preferences.timer,
       workDuration: preferences.timer.workDuration * 60,
       shortBreakDuration: preferences.timer.shortBreakDuration * 60,
-      longBreakDuration: preferences.timer.longBreakDuration * 60
+      longBreakDuration: preferences.timer.longBreakDuration * 60,
     };
     timerService.updateSettings(timerSettingsInSeconds);
     setHasChanges(false);
@@ -87,39 +109,45 @@ export const Settings: React.FC = () => {
         longBreakDuration: 15,
 
         autoStartBreaks: true,
-        autoStartPomodoros: false
+        autoStartPomodoros: false,
       },
       notifications: {
         enabled: true,
         sound: true,
-        volume: 0.7
+        volume: 0.7,
       },
-      theme: 'dark',
-      autoPlay: false
+      theme: "dark",
+      autoPlay: false,
     };
-    
+
     setPreferences(defaultPreferences);
     setHasChanges(true);
   };
 
-  const handleTimerSettingChange = (key: keyof TimerSettings, value: number | boolean) => {
-    setPreferences(prev => ({
+  const handleTimerSettingChange = (
+    key: keyof TimerSettings,
+    value: number | boolean
+  ) => {
+    setPreferences((prev) => ({
       ...prev,
       timer: {
         ...prev.timer,
-        [key]: value
-      }
+        [key]: value,
+      },
     }));
     setHasChanges(true);
   };
 
-  const handleNotificationSettingChange = (key: keyof NotificationSettings, value: boolean | number) => {
-    setPreferences(prev => ({
+  const handleNotificationSettingChange = (
+    key: keyof NotificationSettings,
+    value: boolean | number
+  ) => {
+    setPreferences((prev) => ({
       ...prev,
       notifications: {
         ...prev.notifications,
-        [key]: value
-      }
+        [key]: value,
+      },
     }));
     setHasChanges(true);
   };
@@ -127,12 +155,12 @@ export const Settings: React.FC = () => {
   const handleRequestNotificationPermission = async () => {
     const granted = await requestNotificationPermission();
     if (granted) {
-      setPreferences(prev => ({
+      setPreferences((prev) => ({
         ...prev,
         notifications: {
           ...prev.notifications,
-          enabled: true
-        }
+          enabled: true,
+        },
       }));
       setHasChanges(true);
     }
@@ -140,11 +168,11 @@ export const Settings: React.FC = () => {
 
   const handleExportSettings = () => {
     const dataStr = JSON.stringify(preferences, null, 2);
-    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const dataBlob = new Blob([dataStr], { type: "application/json" });
     const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = url;
-    link.download = 'pomodoro-settings.json';
+    link.download = "pomodoro-settings.json";
     link.click();
     URL.revokeObjectURL(url);
   };
@@ -160,7 +188,7 @@ export const Settings: React.FC = () => {
         setPreferences(importedSettings);
         setHasChanges(true);
       } catch (error) {
-        alert('Invalid settings file');
+        alert("Invalid settings file");
       }
     };
     reader.readAsText(file);
@@ -178,11 +206,9 @@ export const Settings: React.FC = () => {
           <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
             Settings
           </h1>
-          <p className="text-white/70">
-            Customize your Pomodoro experience
-          </p>
+          <p className="text-white/70">Customize your Pomodoro experience</p>
         </div>
-        
+
         <div className="flex items-center space-x-3 mt-4 md:mt-0">
           {hasChanges && (
             <Button onClick={handleSave}>
@@ -226,11 +252,16 @@ export const Settings: React.FC = () => {
                     min="1"
                     max="60"
                     value={preferences.timer.workDuration}
-                    onChange={(e) => handleTimerSettingChange('workDuration', parseInt(e.target.value))}
+                    onChange={(e) =>
+                      handleTimerSettingChange(
+                        "workDuration",
+                        parseInt(e.target.value)
+                      )
+                    }
                     className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-white/80 mb-2">
                     Short Break (minutes)
@@ -240,11 +271,16 @@ export const Settings: React.FC = () => {
                     min="1"
                     max="30"
                     value={preferences.timer.shortBreakDuration}
-                    onChange={(e) => handleTimerSettingChange('shortBreakDuration', parseInt(e.target.value))}
+                    onChange={(e) =>
+                      handleTimerSettingChange(
+                        "shortBreakDuration",
+                        parseInt(e.target.value)
+                      )
+                    }
                     className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-white/80 mb-2">
                     Long Break (minutes)
@@ -254,30 +290,43 @@ export const Settings: React.FC = () => {
                     min="1"
                     max="60"
                     value={preferences.timer.longBreakDuration}
-                    onChange={(e) => handleTimerSettingChange('longBreakDuration', parseInt(e.target.value))}
+                    onChange={(e) =>
+                      handleTimerSettingChange(
+                        "longBreakDuration",
+                        parseInt(e.target.value)
+                      )
+                    }
                     className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                   />
                 </div>
-                
-
               </div>
-              
+
               <div className="space-y-4">
                 <label className="flex items-center space-x-3 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={preferences.timer.autoStartBreaks}
-                    onChange={(e) => handleTimerSettingChange('autoStartBreaks', e.target.checked)}
+                    onChange={(e) =>
+                      handleTimerSettingChange(
+                        "autoStartBreaks",
+                        e.target.checked
+                      )
+                    }
                     className="w-4 h-4 text-violet-500 bg-white/10 border-white/20 rounded focus:ring-violet-500 focus:ring-2"
                   />
                   <span className="text-white/80">Auto-start breaks</span>
                 </label>
-                
+
                 <label className="flex items-center space-x-3 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={preferences.timer.autoStartPomodoros}
-                    onChange={(e) => handleTimerSettingChange('autoStartPomodoros', e.target.checked)}
+                    onChange={(e) =>
+                      handleTimerSettingChange(
+                        "autoStartPomodoros",
+                        e.target.checked
+                      )
+                    }
                     className="w-4 h-4 text-violet-500 bg-white/10 border-white/20 rounded focus:ring-violet-500 focus:ring-2"
                   />
                   <span className="text-white/80">Auto-start pomodoros</span>
@@ -294,15 +343,19 @@ export const Settings: React.FC = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {Notification.permission === 'default' && (
+              {Notification.permission === "default" && (
                 <div className="bg-amber-500/20 border border-amber-500/30 rounded-lg p-4 mb-4">
                   <div className="flex items-start space-x-3">
                     <Bell className="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" />
                     <div className="flex-1">
-                      <h4 className="text-amber-200 font-medium mb-2">Izinkan Notifikasi Browser</h4>
+                      <h4 className="text-amber-200 font-medium mb-2">
+                        Izinkan Notifikasi Browser
+                      </h4>
                       <p className="text-amber-100/80 text-sm mb-3">
-                        Untuk menggunakan fitur notifikasi Pomodoro, Anda perlu mengizinkan notifikasi di browser. 
-                        Klik tombol di bawah ini dan pilih "Allow" atau "Izinkan" ketika browser meminta izin.
+                        Untuk menggunakan fitur notifikasi Pomodoro, Anda perlu
+                        mengizinkan notifikasi di browser. Klik tombol di bawah
+                        ini dan pilih "Allow" atau "Izinkan" ketika browser
+                        meminta izin.
                       </p>
                       <Button
                         onClick={handleRequestNotificationPermission}
@@ -314,67 +367,82 @@ export const Settings: React.FC = () => {
                   </div>
                 </div>
               )}
-              
-              {Notification.permission === 'granted' && (
-                 <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-4 mb-4">
-                   <div className="flex items-start space-x-3">
-                     <Bell className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
-                     <div className="flex-1">
-                       <h4 className="text-green-200 font-medium mb-2">Notifikasi Diizinkan</h4>
-                       <p className="text-green-100/80 text-sm">
-                         Notifikasi browser telah diaktifkan! Anda akan menerima pemberitahuan ketika sesi Pomodoro selesai.
-                       </p>
-                     </div>
-                   </div>
-                 </div>
-               )}
-               
-               {Notification.permission === 'denied' && (
-                 <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 mb-4">
-                   <div className="flex items-start space-x-3">
-                     <Bell className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" />
-                     <div className="flex-1">
-                       <h4 className="text-red-200 font-medium mb-2">Notifikasi Diblokir</h4>
-                       <p className="text-red-100/80 text-sm">
-                         Notifikasi telah diblokir untuk situs ini. Untuk mengaktifkan notifikasi:
-                         <br />• Klik ikon gembok/info di address bar browser
-                         <br />• Ubah pengaturan notifikasi menjadi "Allow" atau "Izinkan"
-                         <br />• Refresh halaman ini
-                       </p>
-                     </div>
-                   </div>
-                 </div>
-               )}
-              
+
+              {Notification.permission === "granted" && (
+                <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-4 mb-4">
+                  <div className="flex items-start space-x-3">
+                    <Bell className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                    <div className="flex-1">
+                      <h4 className="text-green-200 font-medium mb-2">
+                        Notifikasi Diizinkan
+                      </h4>
+                      <p className="text-green-100/80 text-sm">
+                        Notifikasi browser telah diaktifkan! Anda akan menerima
+                        pemberitahuan ketika sesi Pomodoro selesai.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {Notification.permission === "denied" && (
+                <div className="bg-red-500/20 border border-red-500/30 rounded-lg p-4 mb-4">
+                  <div className="flex items-start space-x-3">
+                    <Bell className="w-5 h-5 text-red-400 mt-0.5 flex-shrink-0" />
+                    <div className="flex-1">
+                      <h4 className="text-red-200 font-medium mb-2">
+                        Notifikasi Diblokir
+                      </h4>
+                      <p className="text-red-100/80 text-sm">
+                        Notifikasi telah diblokir untuk situs ini. Untuk
+                        mengaktifkan notifikasi:
+                        <br />• Klik ikon gembok/info di address bar browser
+                        <br />• Ubah pengaturan notifikasi menjadi "Allow" atau
+                        "Izinkan"
+                        <br />• Refresh halaman ini
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <label className="flex items-center space-x-3 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={preferences.notifications.enabled}
-                  onChange={(e) => handleNotificationSettingChange('enabled', e.target.checked)}
-                  disabled={Notification.permission !== 'granted'}
+                  onChange={(e) =>
+                    handleNotificationSettingChange("enabled", e.target.checked)
+                  }
+                  disabled={Notification.permission !== "granted"}
                   className="w-4 h-4 text-violet-500 bg-white/10 border-white/20 rounded focus:ring-violet-500 focus:ring-2 disabled:opacity-50"
                 />
-                <span className={`text-white/80 ${Notification.permission !== 'granted' ? 'opacity-50' : ''}`}>
+                <span
+                  className={`text-white/80 ${
+                    Notification.permission !== "granted" ? "opacity-50" : ""
+                  }`}
+                >
                   Enable notifications
-                  {Notification.permission !== 'granted' && (
-                    <span className="text-xs text-white/60 block">Izin notifikasi browser diperlukan</span>
+                  {Notification.permission !== "granted" && (
+                    <span className="text-xs text-white/60 block">
+                      Izin notifikasi browser diperlukan
+                    </span>
                   )}
                 </span>
               </label>
-              
+
               <label className="flex items-center space-x-3 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={preferences.notifications.sound}
-                  onChange={(e) => handleNotificationSettingChange('sound', e.target.checked)}
+                  onChange={(e) =>
+                    handleNotificationSettingChange("sound", e.target.checked)
+                  }
                   disabled={!preferences.notifications.enabled}
                   className="w-4 h-4 text-violet-500 bg-white/10 border-white/20 rounded focus:ring-violet-500 focus:ring-2 disabled:opacity-50"
                 />
                 <span className="text-white/80">Sound notifications</span>
               </label>
-              
 
-              
               <div>
                 <label className="block text-sm font-medium text-white/80 mb-2">
                   Notification Volume
@@ -387,8 +455,16 @@ export const Settings: React.FC = () => {
                     max="1"
                     step="0.1"
                     value={preferences.notifications.volume}
-                    onChange={(e) => handleNotificationSettingChange('volume', parseFloat(e.target.value))}
-                    disabled={!preferences.notifications.enabled || !preferences.notifications.sound}
+                    onChange={(e) =>
+                      handleNotificationSettingChange(
+                        "volume",
+                        parseFloat(e.target.value)
+                      )
+                    }
+                    disabled={
+                      !preferences.notifications.enabled ||
+                      !preferences.notifications.sound
+                    }
                     className="flex-1 h-2 bg-white/20 rounded-lg appearance-none cursor-pointer disabled:opacity-50"
                   />
                   <span className="text-sm text-white/60 w-8">
@@ -406,7 +482,7 @@ export const Settings: React.FC = () => {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="space-y-6"
         >
-          <Card>
+          {/* <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
                 <Palette className="w-5 h-5 mr-2" />
@@ -424,16 +500,16 @@ export const Settings: React.FC = () => {
                     setPreferences(prev => ({ ...prev, theme: e.target.value as 'light' | 'dark' }));
                     setHasChanges(true);
                   }}
-                  className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                  className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                 >
-                  <option value="dark">Dark</option>
-                  <option value="light">Light</option>
+                  <option value="dark" className="bg-gray-800 text-white">Dark</option>
+                  <option value="light" className="bg-white text-gray-900">Light</option>
                 </select>
               </div>
               
 
             </CardContent>
-          </Card>
+          </Card> */}
 
           <Card>
             <CardHeader>
@@ -452,12 +528,14 @@ export const Settings: React.FC = () => {
                   <Download className="w-4 h-4 mr-3" />
                   Export Settings
                 </Button>
-                
+
                 <label className="block">
                   <Button
                     variant="ghost"
                     className="w-full justify-start cursor-pointer"
-                    onClick={() => document.getElementById('import-settings')?.click()}
+                    onClick={() =>
+                      document.getElementById("import-settings")?.click()
+                    }
                   >
                     <Upload className="w-4 h-4 mr-3" />
                     Import Settings
@@ -470,7 +548,7 @@ export const Settings: React.FC = () => {
                     className="hidden"
                   />
                 </label>
-                
+
                 <Button
                   variant="ghost"
                   className="w-full justify-start text-red-400 hover:text-red-300"
@@ -489,9 +567,11 @@ export const Settings: React.FC = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-2 text-sm text-white/70">
-                <p><strong className="text-white">Pomodoro Timer</strong></p>
+                <p>
+                  <strong className="text-white">Pomore</strong>
+                </p>
                 <p>Version 1.0.0</p>
-                <p>A productivity app built with React and TypeScript</p>
+                <p>A productivity app built with React and TypeScript by rafitojuan💓</p>
                 <p className="pt-2">
                   <strong className="text-white">Features:</strong>
                 </p>
