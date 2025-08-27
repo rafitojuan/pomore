@@ -57,7 +57,7 @@ export const Button: React.FC<ButtonProps> = ({
       whileTap={disabled ? {} : { scale: 0.98 }}
       transition={{ duration: 0.1 }}
     >
-      <div className="relative z-10">
+      <div className="relative z-10 flex items-center justify-center">
         {children}
       </div>
       {!disabled && (

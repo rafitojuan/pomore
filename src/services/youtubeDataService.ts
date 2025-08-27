@@ -5,7 +5,7 @@ class YouTubeDataService {
   private baseUrl: string = 'https://www.googleapis.com/youtube/v3';
 
   constructor() {
-    this.apiKey = import.meta.env.VITE_YOUTUBE_API_KEY || '';
+    this.apiKey = import.meta.env.VITE_YOUTUBE_API || '';
   }
 
   private async makeRequest(endpoint: string, params: Record<string, string>): Promise<any> {
@@ -51,7 +51,7 @@ class YouTubeDataService {
         high: item.snippet.thumbnails.high
       },
       publishedAt: item.snippet.publishedAt,
-      duration: item.contentDetails?.duration ? this.formatDuration(item.contentDetails.duration) : '0:00',
+      duration: item.contentDetails?.duration || '',
       viewCount: item.statistics?.viewCount,
       likeCount: item.statistics?.likeCount
     };

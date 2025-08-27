@@ -1,11 +1,15 @@
 import React from "react";
 import { Navigation } from "./Navigation";
+import { MiniPlayer } from "../MiniPlayer";
+import { useMusicContext } from "../../contexts/MusicContext";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
+  const { musicState, pauseMusic, resumeMusic, nextTrack, previousTrack, seekTo, setVolume } = useMusicContext();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-900 via-purple-900 to-indigo-900 relative overflow-hidden">
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-50" />
@@ -17,7 +21,15 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       <div className="relative z-10 flex flex-col min-h-screen">
         <Navigation />
 
-        <main className="flex-1 container mx-auto px-4 py-8">{children}</main>
+        <main className={`flex-1 container mx-auto px-4 py-8 ${musicState.currentTrack ? 'pb-32' : ''}`}>
+          {children}
+        </main>
+
+        {(musicState.currentTrack || musicState.currentVideo) && (
+          <div className="fixed bottom-0 left-0 right-0 z-50 p-4">
+            <MiniPlayer />
+          </div>
+        )}
 
         <footer className="border-t border-white/10 backdrop-blur-md bg-white/5 py-6">
           <div className="container mx-auto px-4 text-center text-white/60">
