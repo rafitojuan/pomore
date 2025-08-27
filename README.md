@@ -1,95 +1,104 @@
-# Pomore
+# 🍅 Pomore - Pomodoro Timer App
 
-Aplikasi Pomodoro Timer yang dibangun dengan React + TypeScript + Vite untuk membantu meningkatkan produktivitas dengan teknik Pomodoro.
+Aplikasi Pomodoro Timer yang elegan dan powerful untuk meningkatkan produktivitas Anda! Dibangun dengan React + TypeScript + Vite dengan antarmuka yang modern dan fitur-fitur canggih.
 
-## Fitur Utama
+## ✨ Fitur Utama
 
-- ⏰ Timer Pomodoro dengan sesi kerja dan istirahat
-- 🔔 Notifikasi browser ketika sesi selesai
-- 🎵 Pemutar musik terintegrasi
-- 📋 Manajemen tugas
-- ⚙️ Pengaturan yang dapat disesuaikan
+### ⏰ Timer Pomodoro Cerdas
 
-## Cara Mengaktifkan Notifikasi Browser
+- Timer dengan sesi kerja dan istirahat yang dapat disesuaikan
+- Notifikasi browser otomatis ketika sesi selesai
+- Kontrol mudah dengan tombol play, pause, dan reset
 
-Untuk mendapatkan pengalaman terbaik, aktifkan notifikasi browser:
+### 🎵 Pemutar Musik Terintegrasi
 
-### Chrome/Edge:
+- Streaming musik dari YouTube untuk menemani sesi kerja
+- Kontrol volume dan playlist yang mudah digunakan
+- Mini player yang tidak mengganggu fokus
 
-1. Klik ikon gembok/info di sebelah kiri URL
+### 📋 Manajemen Tugas
+
+- Buat, edit, dan hapus tugas dengan mudah
+- Tandai tugas sebagai selesai
+- Ekspor data tugas ke berbagai format
+
+### ⚙️ Pengaturan Fleksibel
+
+- Atur durasi sesi kerja dan istirahat sesuai kebutuhan
+- Pilihan tema dan personalisasi tampilan
+- Pengaturan notifikasi yang dapat dikustomisasi
+
+## 📱 Tampilan Aplikasi
+
+### Dashboard Utama
+
+![Dashboard](public/pomore.png)
+_Tampilan utama dengan timer Pomodoro yang elegan_
+
+### Timer Interface
+
+![Timer](<public/pomore%20(2).png>)
+_Interface timer dengan kontrol yang intuitif_
+
+### Manajemen Tugas
+
+![Tasks](<public/pomore%20(3).png>)
+_Kelola tugas-tugas Anda dengan mudah_
+
+### Pemutar Musik
+
+![Music Player](<public/pomore%20(4).png>)
+_Pemutar musik terintegrasi untuk menemani sesi kerja_
+
+### Pengaturan
+
+![Settings](<public/pomore%20(5).png>)
+_Kustomisasi aplikasi sesuai preferensi Anda_
+
+### Notifikasi
+
+![Notifications](<public/pomore%20(6).png>)
+_Sistem notifikasi yang membantu Anda tetap fokus_
+
+## 🚀 Teknologi yang Digunakan
+
+- **React 18** + **TypeScript** - Framework modern untuk UI yang responsif
+- **Vite** - Build tool yang super cepat
+- **Tailwind CSS** - Styling yang elegant dan konsisten
+- **Framer Motion** - Animasi yang smooth dan menarik
+- **Web Notifications API** - Notifikasi browser yang terintegrasi
+
+## 🔔 Cara Mengaktifkan Notifikasi Browser
+
+Untuk pengalaman terbaik, aktifkan notifikasi browser:
+
+**Chrome/Edge:**
+
+1. Klik ikon gembok di sebelah kiri URL
 2. Pilih "Notifications" → "Allow"
-3. Atau buka Settings → Privacy and Security → Site Settings → Notifications
 
-### Firefox:
+**Firefox:**
 
-1. Klik ikon perisai/gembok di sebelah kiri URL
-2. Klik "Permissions" → ubah Notifications ke "Allow"
-3. Atau buka Preferences → Privacy & Security → Permissions → Notifications
+1. Klik ikon perisai di sebelah kiri URL
+2. Ubah Notifications ke "Allow"
 
-### Safari:
+**Safari:**
 
-1. Buka Safari → Preferences → Websites → Notifications
-2. Cari domain aplikasi dan ubah ke "Allow"
+1. Safari → Preferences → Websites → Notifications
+2. Ubah ke "Allow" untuk domain aplikasi
 
-### Mobile (Chrome/Safari):
+## 🎯 Mengapa Pomore?
 
-1. Buka pengaturan browser
-2. Cari "Site Settings" atau "Website Settings"
-3. Pilih "Notifications" dan izinkan untuk domain aplikasi
+- **Sederhana namun Powerful** - Interface yang clean dengan fitur lengkap
+- **Produktivitas Maksimal** - Teknik Pomodoro yang terbukti efektif
+- **Hiburan Terintegrasi** - Musik untuk menemani sesi kerja
+- **Manajemen Tugas** - Kelola to-do list dalam satu aplikasi
+- **Customizable** - Sesuaikan dengan gaya kerja Anda
 
-## Teknologi yang Digunakan
+## 👨‍💻 Credit
 
-- React 18 + TypeScript
-- Vite untuk build tool
-- Tailwind CSS untuk styling
-- Framer Motion untuk animasi
-- Web Notifications API untuk notifikasi browser
+Dibuat dengan ❤️ oleh **rafitojuan**
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
-
-export default tseslint.config({
-  extends: [
-    // other configs...
-    // Enable lint rules for React
-    reactX.configs["recommended-typescript"],
-    // Enable lint rules for React DOM
-    reactDom.configs.recommended,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
-```
+_Tingkatkan produktivitas Anda dengan Pomore - aplikasi Pomodoro Timer yang sempurna untuk fokus dan efisiensi!_
