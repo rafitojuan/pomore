@@ -56,8 +56,11 @@ export const Tasks: React.FC = () => {
   const handleAddTask = () => {
     if (!newTask.title?.trim()) return;
 
-    const todoTasks = tasks.filter(t => t.status === "todo");
-    const maxOrder = todoTasks.length > 0 ? Math.max(...todoTasks.map(t => t.order || 0)) : -1;
+    const todoTasks = tasks.filter((t) => t.status === "todo");
+    const maxOrder =
+      todoTasks.length > 0
+        ? Math.max(...todoTasks.map((t) => t.order || 0))
+        : -1;
 
     const task: Task = {
       id: generateId(),
@@ -114,7 +117,9 @@ export const Tasks: React.FC = () => {
     const destinationStatus = destination.droppableId as TaskStatus;
 
     if (sourceStatus !== destinationStatus) {
-      const destinationTasks = tasks.filter((t) => t.status === destinationStatus).sort((a, b) => (a.order || 0) - (b.order || 0));
+      const destinationTasks = tasks
+        .filter((t) => t.status === destinationStatus)
+        .sort((a, b) => (a.order || 0) - (b.order || 0));
       const reorderedDestinationTasks = Array.from(destinationTasks);
       reorderedDestinationTasks.splice(destination.index, 0, task);
 
@@ -128,7 +133,9 @@ export const Tasks: React.FC = () => {
           };
         }
         if (t.status === destinationStatus) {
-          const newIndex = reorderedDestinationTasks.findIndex((rt) => rt.id === t.id);
+          const newIndex = reorderedDestinationTasks.findIndex(
+            (rt) => rt.id === t.id
+          );
           return { ...t, order: newIndex, updatedAt: new Date() };
         }
         return t;
@@ -136,14 +143,19 @@ export const Tasks: React.FC = () => {
 
       setTasks(updatedTasks);
       localStorage.setItem("tasks", JSON.stringify(updatedTasks));
-      
-      updatedTasks.forEach(taskToUpdate => {
-        if (taskToUpdate.status === destinationStatus || taskToUpdate.id === task.id) {
+
+      updatedTasks.forEach((taskToUpdate) => {
+        if (
+          taskToUpdate.status === destinationStatus ||
+          taskToUpdate.id === task.id
+        ) {
           taskService.updateTask(taskToUpdate.id, taskToUpdate);
         }
       });
     } else {
-      const sourceTasks = tasks.filter((t) => t.status === sourceStatus).sort((a, b) => (a.order || 0) - (b.order || 0));
+      const sourceTasks = tasks
+        .filter((t) => t.status === sourceStatus)
+        .sort((a, b) => (a.order || 0) - (b.order || 0));
       const reorderedTasks = Array.from(sourceTasks);
       const [removed] = reorderedTasks.splice(source.index, 1);
       reorderedTasks.splice(destination.index, 0, removed);
@@ -158,8 +170,8 @@ export const Tasks: React.FC = () => {
 
       setTasks(updatedTasks);
       localStorage.setItem("tasks", JSON.stringify(updatedTasks));
-      
-      updatedTasks.forEach(task => {
+
+      updatedTasks.forEach((task) => {
         if (task.status === sourceStatus) {
           taskService.updateTask(task.id, task);
         }
@@ -196,11 +208,15 @@ export const Tasks: React.FC = () => {
   });
 
   const tasksByStatus = {
-    todo: filteredTasks.filter((task) => task.status === "todo").sort((a, b) => (a.order || 0) - (b.order || 0)),
-    "in-progress": filteredTasks.filter(
-      (task) => task.status === "in-progress"
-    ).sort((a, b) => (a.order || 0) - (b.order || 0)),
-    completed: filteredTasks.filter((task) => task.status === "completed").sort((a, b) => (a.order || 0) - (b.order || 0)),
+    todo: filteredTasks
+      .filter((task) => task.status === "todo")
+      .sort((a, b) => (a.order || 0) - (b.order || 0)),
+    "in-progress": filteredTasks
+      .filter((task) => task.status === "in-progress")
+      .sort((a, b) => (a.order || 0) - (b.order || 0)),
+    completed: filteredTasks
+      .filter((task) => task.status === "completed")
+      .sort((a, b) => (a.order || 0) - (b.order || 0)),
   };
 
   const statusLabels = {
@@ -215,7 +231,10 @@ export const Tasks: React.FC = () => {
     high: "bg-red-500",
   };
 
-  const TaskCard: React.FC<{ task: Task; index: number }> = ({ task, index }) => {
+  const TaskCard: React.FC<{ task: Task; index: number }> = ({
+    task,
+    index,
+  }) => {
     const progress =
       task.estimatedPomodoros > 0
         ? (task.pomodorosCompleted / task.estimatedPomodoros) * 100
@@ -240,7 +259,9 @@ export const Tasks: React.FC = () => {
               <CardContent className="p-4">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex-1">
-                    <h4 className="font-semibold text-white mb-1">{task.title}</h4>
+                    <h4 className="font-semibold text-white mb-1">
+                      {task.title}
+                    </h4>
                     {task.description && (
                       <p className="text-sm text-white/70 mb-2">
                         {task.description}
@@ -282,7 +303,8 @@ export const Tasks: React.FC = () => {
                   <div className="flex items-center space-x-2">
                     <Clock className="w-3 h-3" />
                     <span>
-                      {task.pomodorosCompleted}/{task.estimatedPomodoros} pomodoros
+                      {task.pomodorosCompleted}/{task.estimatedPomodoros}{" "}
+                      pomodoros
                     </span>
                   </div>
                   <span className="capitalize">{task.priority} priority</span>
@@ -406,12 +428,13 @@ export const Tasks: React.FC = () => {
                           ))}
                           {provided.placeholder}
 
-                          {tasksByStatus[status].length === 0 && !snapshot.isDraggingOver && (
-                            <div className="text-center text-white/40 py-8">
-                              <AlertCircle className="w-8 h-8 mx-auto mb-2" />
-                              <p>Drop tasks here</p>
-                            </div>
-                          )}
+                          {tasksByStatus[status].length === 0 &&
+                            !snapshot.isDraggingOver && (
+                              <div className="text-center text-white/40 py-8">
+                                <AlertCircle className="w-8 h-8 mx-auto mb-2" />
+                                <p>Drop tasks here</p>
+                              </div>
+                            )}
                         </div>
                       )}
                     </Droppable>
