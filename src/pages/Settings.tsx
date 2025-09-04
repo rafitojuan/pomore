@@ -277,7 +277,7 @@ export const Settings: React.FC = () => {
                         parseInt(e.target.value)
                       )
                     }
-                    className="w-full px-3 py-2 theme-bg-secondary border theme-border rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-transparent"
+                    className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                   />
                 </div>
 
@@ -365,7 +365,7 @@ export const Settings: React.FC = () => {
                         e.target.checked
                       )
                     }
-                    className="w-4 h-4 text-violet-500 bg-white/10 border-white/20 rounded focus:ring-violet-500 focus:ring-2"
+                    className="w-4 h-4 text-theme-accent theme-bg-secondary theme-border rounded focus:ring-theme-accent focus:ring-2"
                   />
                   <span className="theme-text-secondary">Auto-start pomodoros</span>
                 </label>
