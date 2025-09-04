@@ -34,7 +34,7 @@ export const Settings: React.FC = () => {
       workDuration: 25,
       shortBreakDuration: 5,
       longBreakDuration: 15,
-
+      sessionsUntilLongBreak: 4,
       autoStartBreaks: true,
       autoStartPomodoros: false,
     },
@@ -67,6 +67,7 @@ export const Settings: React.FC = () => {
         workDuration: 25,
         shortBreakDuration: 5,
         longBreakDuration: 15,
+        sessionsUntilLongBreak: 4,
         autoStartBreaks: true,
         autoStartPomodoros: false,
       },
@@ -134,7 +135,7 @@ export const Settings: React.FC = () => {
         workDuration: 25,
         shortBreakDuration: 5,
         longBreakDuration: 15,
-
+        sessionsUntilLongBreak: 4,
         autoStartBreaks: true,
         autoStartPomodoros: false,
       },

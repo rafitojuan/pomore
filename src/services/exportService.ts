@@ -23,6 +23,7 @@ class ExportService {
         workDuration: 25,
         shortBreakDuration: 5,
         longBreakDuration: 15,
+        sessionsUntilLongBreak: 4,
         autoStartBreaks: false,
         autoStartPomodoros: false
       },
