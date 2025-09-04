@@ -17,6 +17,19 @@ export function useTheme() {
     localStorage.setItem('theme', theme);
     
     document.documentElement.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+    
+    const handleThemeChange = (event: CustomEvent) => {
+      const newTheme = event.detail.theme;
+      if (newTheme !== theme) {
+        setTheme(newTheme);
+      }
+    };
+    
+    window.addEventListener('themeChanged', handleThemeChange as EventListener);
+    
+    return () => {
+      window.removeEventListener('themeChanged', handleThemeChange as EventListener);
+    };
   }, [theme]);
 
   const setThemeMode = (newTheme: Theme) => {

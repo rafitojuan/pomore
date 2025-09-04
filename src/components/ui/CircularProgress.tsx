@@ -15,8 +15,8 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
   progress,
   size = 200,
   strokeWidth = 8,
-  color = '#7C3AED',
-  backgroundColor = 'rgba(255, 255, 255, 0.1)',
+  color = 'var(--accent)',
+  backgroundColor = 'var(--glass-border)',
   children,
   className = ''
 }) => {
@@ -26,7 +26,7 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
   const strokeDashoffset = circumference - (progress / 100) * circumference;
 
   return (
-    <div className={`relative inline-flex items-center justify-center ${className}`}>
+    <div className={`relative inline-flex items-center justify-center theme-transition ${className}`}>
       <svg
         width={size}
         height={size}
@@ -39,7 +39,7 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
           stroke={backgroundColor}
           strokeWidth={strokeWidth}
           fill="transparent"
-          className="opacity-30"
+          className="opacity-40"
         />
         
         <motion.circle
@@ -54,9 +54,9 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
           initial={{ strokeDashoffset: circumference }}
           animate={{ strokeDashoffset }}
           transition={{ duration: 0.5, ease: 'easeInOut' }}
-          className="drop-shadow-lg"
+          className="drop-shadow-lg theme-transition"
           style={{
-            filter: `drop-shadow(0 0 8px ${color}40)`
+            filter: `drop-shadow(0 0 8px var(--accent)40)`
           }}
         />
         
@@ -72,8 +72,8 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
         
         <defs>
           <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor={color} stopOpacity="0.3" />
-            <stop offset="100%" stopColor={color} stopOpacity="0.1" />
+            <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.3" />
+            <stop offset="100%" stopColor="var(--accent)" stopOpacity="0.1" />
           </linearGradient>
         </defs>
       </svg>

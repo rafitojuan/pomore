@@ -117,6 +117,15 @@ export const Settings: React.FC = () => {
     };
     timerService.updateSettings(timerSettingsInSeconds);
     setHasChanges(false);
+    
+    document.documentElement.setAttribute('data-theme', theme);
+    
+    setTimeout(() => {
+      const themeChangeEvent = new CustomEvent('themeChanged', {
+        detail: { theme }
+      });
+      window.dispatchEvent(themeChangeEvent);
+    }, 50);
   };
 
   const handleReset = () => {
