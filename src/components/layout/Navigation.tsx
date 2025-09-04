@@ -20,7 +20,7 @@ export const Navigation: React.FC = () => {
   };
 
   return (
-    <nav className="relative z-20 border-b border-white/10 backdrop-blur-md bg-white/5">
+    <nav className="relative z-20 glassmorphism border-b">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center space-x-2 group">
@@ -29,9 +29,9 @@ export const Navigation: React.FC = () => {
               whileHover={{ scale: 1.1, rotate: 5 }}
               transition={{ duration: 0.2 }}
             >
-              <Timer className="w-5 h-5 text-white" />
+              <Timer className="w-5 h-5 theme-text-primary" />
             </motion.div>
-            <span className="text-xl font-bold text-white group-hover:text-violet-300 transition-colors">
+            <span className="text-xl font-bold theme-text-primary group-hover:theme-accent transition-colors">
               Pomore
             </span>
           </Link>
@@ -47,8 +47,8 @@ export const Navigation: React.FC = () => {
                     className={`
                       relative px-4 py-2 rounded-lg transition-all duration-200 flex items-center space-x-2
                       ${isActive 
-                        ? 'bg-violet-600/30 text-white border border-violet-500/50' 
-                        : 'text-white/70 hover:text-white hover:bg-white/10'
+                        ? 'theme-bg-tertiary theme-text-primary border theme-border-accent' 
+                        : 'theme-text-secondary hover:theme-text-primary hover:theme-bg-tertiary'
                       }
                     `}
                     whileHover={{ scale: 1.05 }}
@@ -58,7 +58,7 @@ export const Navigation: React.FC = () => {
                     <span className="font-medium">{item.label}</span>
                     {isActive && (
                       <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-violet-600/20 to-purple-600/20 rounded-lg"
+                        className="absolute inset-0 theme-accent/20 rounded-lg"
                         layoutId="activeTab"
                         transition={{ duration: 0.3 }}
                       />
@@ -87,7 +87,7 @@ export const Navigation: React.FC = () => {
 
         {isMobileMenuOpen && (
           <motion.div
-            className="md:hidden py-4 border-t border-white/10"
+            className="md:hidden py-4 border-t theme-border"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
@@ -108,8 +108,8 @@ export const Navigation: React.FC = () => {
                       className={`
                         flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200
                         ${isActive 
-                          ? 'bg-violet-600/30 text-white border border-violet-500/50' 
-                          : 'text-white/70 hover:text-white hover:bg-white/10'
+                          ? 'theme-bg-tertiary theme-text-primary border theme-border-accent' 
+                          : 'theme-text-secondary hover:theme-text-primary hover:theme-bg-tertiary'
                         }
                       `}
                       whileHover={{ scale: 1.02 }}

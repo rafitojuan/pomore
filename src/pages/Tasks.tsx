@@ -259,11 +259,11 @@ export const Tasks: React.FC = () => {
               <CardContent className="p-4">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex-1">
-                    <h4 className="font-semibold text-white mb-1">
+                    <h4 className="font-semibold theme-text-primary mb-1">
                       {task.title}
                     </h4>
                     {task.description && (
-                      <p className="text-sm text-white/70 mb-2">
+                      <p className="text-sm theme-text-secondary mb-2">
                         {task.description}
                       </p>
                     )}
@@ -281,7 +281,7 @@ export const Tasks: React.FC = () => {
                         e.stopPropagation();
                         setEditingTask(task);
                       }}
-                      className="p-1 h-auto hover:bg-white/10 z-[10000] relative"
+                      className="p-1 h-auto hover:theme-bg-secondary z-[10000] relative"
                     >
                       <Edit3 className="w-3 h-3" />
                     </Button>
@@ -299,7 +299,7 @@ export const Tasks: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between text-xs text-white/60">
+                <div className="flex items-center justify-between text-xs theme-text-muted">
                   <div className="flex items-center space-x-2">
                     <Clock className="w-3 h-3" />
                     <span>
@@ -326,10 +326,10 @@ export const Tasks: React.FC = () => {
         className="flex flex-col md:flex-row md:items-center justify-between"
       >
         <div>
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+          <h1 className="text-3xl md:text-4xl font-bold theme-text-primary mb-2">
             Task Management
           </h1>
-          <p className="text-white/70">
+          <p className="theme-text-secondary">
             Organize and track your tasks with the Kanban board
           </p>
         </div>
@@ -353,13 +353,13 @@ export const Tasks: React.FC = () => {
         className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"
       >
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-white/40 w-4 h-4" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 theme-text-muted w-4 h-4" />
           <input
             type="text"
             placeholder="Search tasks..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+            className="w-full pl-10 pr-4 py-2 theme-bg-secondary border theme-border rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-transparent"
           />
         </div>
 
@@ -368,7 +368,7 @@ export const Tasks: React.FC = () => {
           onChange={(e) =>
             setFilterStatus(e.target.value as TaskStatus | "all")
           }
-          className="px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+          className="px-4 py-2 theme-bg-secondary border theme-border rounded-lg theme-text-primary focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-transparent"
         >
           <option value="all">All Status</option>
           <option value="todo">To Do</option>
@@ -381,7 +381,7 @@ export const Tasks: React.FC = () => {
           onChange={(e) =>
             setFilterPriority(e.target.value as TaskPriority | "all")
           }
-          className="px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+          className="px-4 py-2 theme-bg-secondary border theme-border rounded-lg theme-text-primary focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-transparent"
         >
           <option value="all">All Priority</option>
           <option value="low">Low Priority</option>
@@ -404,7 +404,7 @@ export const Tasks: React.FC = () => {
                   <CardHeader>
                     <CardTitle className="flex items-center justify-between">
                       <span>{statusLabels[status]}</span>
-                      <span className="text-sm font-normal text-white/60">
+                      <span className="text-sm font-normal theme-text-muted">
                         {tasksByStatus[status].length}
                       </span>
                     </CardTitle>
@@ -417,7 +417,7 @@ export const Tasks: React.FC = () => {
                           {...provided.droppableProps}
                           className={`min-h-[400px] p-4 rounded-lg transition-all duration-200 ease-out ${
                             snapshot.isDraggingOver
-                              ? "border-2 border-violet-500/60 bg-violet-500/5"
+                              ? "border-2 border-theme-accent/60 theme-accent/5"
                               : "border-2 border-transparent"
                           }`}
                         >
@@ -430,7 +430,7 @@ export const Tasks: React.FC = () => {
 
                           {tasksByStatus[status].length === 0 &&
                             !snapshot.isDraggingOver && (
-                              <div className="text-center text-white/40 py-8">
+                              <div className="text-center theme-text-muted py-8">
                                 <AlertCircle className="w-8 h-8 mx-auto mb-2" />
                                 <p>Drop tasks here</p>
                               </div>
@@ -452,7 +452,7 @@ export const Tasks: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9998] p-4"
+            className="fixed inset-0 bg-black/50 glassmorphism flex items-center justify-center z-[9998] p-4"
             onClick={() => setShowAddForm(false)}
           >
             <motion.div
@@ -474,7 +474,7 @@ export const Tasks: React.FC = () => {
                     onChange={(e) =>
                       setNewTask({ ...newTask, title: e.target.value })
                     }
-                    className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                    className="w-full px-4 py-2 theme-bg-secondary border theme-border rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-transparent"
                   />
 
                   <textarea
@@ -484,7 +484,7 @@ export const Tasks: React.FC = () => {
                       setNewTask({ ...newTask, description: e.target.value })
                     }
                     rows={3}
-                    className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent resize-none"
+                    className="w-full px-4 py-2 theme-bg-secondary border theme-border rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-transparent resize-none"
                   />
 
                   <div className="grid grid-cols-2 gap-4">
@@ -496,7 +496,7 @@ export const Tasks: React.FC = () => {
                           priority: e.target.value as TaskPriority,
                         })
                       }
-                      className="px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                      className="px-4 py-2 theme-bg-secondary border theme-border rounded-lg theme-text-primary focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-transparent"
                     >
                       <option value="low">Low Priority</option>
                       <option value="medium">Medium Priority</option>
@@ -515,7 +515,7 @@ export const Tasks: React.FC = () => {
                           estimatedPomodoros: parseInt(e.target.value) || 1,
                         })
                       }
-                      className="px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                      className="px-4 py-2 theme-bg-secondary border theme-border rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-transparent"
                     />
                   </div>
 
@@ -544,7 +544,7 @@ export const Tasks: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9998] p-4"
+            className="fixed inset-0 bg-black/50 glassmorphism flex items-center justify-center z-[9998] p-4"
             onClick={() => setEditingTask(null)}
           >
             <motion.div
@@ -566,7 +566,7 @@ export const Tasks: React.FC = () => {
                     onChange={(e) =>
                       setEditingTask({ ...editingTask, title: e.target.value })
                     }
-                    className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                    className="w-full px-4 py-2 theme-bg-secondary border theme-border rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-transparent"
                   />
 
                   <textarea
@@ -579,7 +579,7 @@ export const Tasks: React.FC = () => {
                       })
                     }
                     rows={3}
-                    className="w-full px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent resize-none"
+                    className="w-full px-4 py-2 theme-bg-secondary border theme-border rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-transparent resize-none"
                   />
 
                   <div className="grid grid-cols-2 gap-4">
@@ -591,7 +591,7 @@ export const Tasks: React.FC = () => {
                           priority: e.target.value as TaskPriority,
                         })
                       }
-                      className="px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                      className="px-4 py-2 theme-bg-secondary border theme-border rounded-lg theme-text-primary focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-transparent"
                     >
                       <option value="low">Low Priority</option>
                       <option value="medium">Medium Priority</option>
@@ -610,7 +610,7 @@ export const Tasks: React.FC = () => {
                           estimatedPomodoros: parseInt(e.target.value) || 1,
                         })
                       }
-                      className="px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                      className="px-4 py-2 theme-bg-secondary border theme-border rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-transparent"
                     />
                   </div>
 

@@ -20,15 +20,15 @@ export const Button: React.FC<ButtonProps> = ({
   className = '',
   type = 'button'
 }) => {
-  const baseClasses = 'relative overflow-hidden rounded-xl font-medium transition-all duration-200 backdrop-blur-md border';
+  const baseClasses = 'relative overflow-hidden rounded-xl font-medium transition-all duration-200 glassmorphism';
   
   const variantClasses = {
-    primary: 'bg-violet-600/20 border-violet-500/30 text-white hover:bg-violet-600/30 hover:border-violet-400/50 shadow-lg shadow-violet-500/20',
-    secondary: 'bg-white/10 border-white/20 text-white hover:bg-white/20 hover:border-white/30 shadow-lg shadow-black/10',
-    ghost: 'bg-transparent border-transparent text-white/80 hover:bg-white/10 hover:text-white',
-    danger: 'bg-red-600/20 border-red-500/30 text-white hover:bg-red-600/30 hover:border-red-400/50 shadow-lg shadow-red-500/20',
-    outline: 'bg-transparent border-gray-300 text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-800',
-    default: 'bg-blue-600/20 border-blue-500/30 text-white hover:bg-blue-600/30 hover:border-blue-400/50 shadow-lg shadow-blue-500/20'
+    primary: 'theme-accent/20 theme-border-accent theme-text-primary hover:theme-accent/30 hover:theme-border-accent shadow-lg',
+    secondary: 'bg-glass border-glass theme-text-primary hover:bg-glass/80 hover:border-glass shadow-glass',
+    ghost: 'bg-transparent border-transparent theme-text-secondary hover:theme-bg-tertiary hover:theme-text-primary',
+    danger: 'bg-red-600/20 border-red-500/30 theme-text-primary hover:bg-red-600/30 hover:border-red-400/50 shadow-lg shadow-red-500/20',
+    outline: 'bg-transparent theme-border theme-text-primary hover:theme-bg-tertiary',
+    default: 'theme-accent/20 theme-border-accent theme-text-primary hover:theme-accent/30 hover:theme-border-accent shadow-lg'
   };
   
   const sizeClasses = {
@@ -62,7 +62,7 @@ export const Button: React.FC<ButtonProps> = ({
       </div>
       {!disabled && (
         <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-theme-text-primary/10 to-transparent"
           initial={{ x: '-100%' }}
           whileHover={{ x: '100%' }}
           transition={{ duration: 0.6 }}

@@ -51,7 +51,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
       whileHover={{ scale: 1.03, y: -5 }}
       whileTap={{ scale: 0.98 }}
       transition={{ duration: 0.3 }}
-      className="bg-white/5 backdrop-blur-xl rounded-3xl overflow-hidden border border-white/10 hover:border-white/30 shadow-2xl hover:shadow-purple-500/10 transition-all duration-300 group"
+      className="glassmorphism rounded-3xl overflow-hidden hover:border-theme-accent hover:shadow-theme-accent/10 transition-all duration-300 group"
     >
       <div className="relative overflow-hidden">
         <motion.img
@@ -64,7 +64,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
         <motion.div 
           initial={{ opacity: 0 }}
           whileHover={{ opacity: 1 }}
-          className="absolute inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center transition-all duration-300"
+          className="absolute inset-0 bg-black/40 glassmorphism-light flex items-center justify-center transition-all duration-300"
         >
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
@@ -75,7 +75,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
             <Button
               onClick={() => onPlay(video)}
               size="sm"
-              className="bg-white/20 hover:bg-white/30 backdrop-blur-xl border border-white/30 rounded-2xl px-6 py-3 text-white font-medium shadow-2xl transition-all duration-300 flex items-center justify-center"
+              className="glassmorphism hover:bg-glass/80 border-theme-accent rounded-2xl px-6 py-3 theme-text-primary font-medium transition-all duration-300 flex items-center justify-center"
             >
               <Play className="h-5 w-5 mr-2" />
               Play Now
@@ -83,19 +83,19 @@ export const VideoCard: React.FC<VideoCardProps> = ({
           </motion.div>
         </motion.div>
         {video.duration && video.duration.trim() !== '' && (
-          <div className="absolute bottom-3 right-3 bg-black/70 backdrop-blur-sm text-white text-xs px-3 py-1.5 rounded-xl border border-white/20">
+          <div className="absolute bottom-3 right-3 glassmorphism-light theme-text-primary text-xs px-3 py-1.5 rounded-xl">
             {formatDuration(parseDuration(video.duration))}
           </div>
         )}
       </div>
       <div className="p-6">
-        <h3 className="text-white font-semibold text-base line-clamp-2 mb-3 group-hover:text-purple-300 transition-colors duration-300">
+        <h3 className="theme-text-primary font-semibold text-base line-clamp-2 mb-3 group-hover:text-purple-300 transition-colors duration-300">
           {video.title}
         </h3>
-        <p className="text-gray-400 text-sm mb-4 group-hover:text-gray-300 transition-colors duration-300">
+        <p className="theme-text-secondary text-sm mb-4 group-hover:theme-text-primary transition-colors duration-300">
           {video.channelTitle}
         </p>
-        <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+        <div className="flex items-center justify-between text-sm theme-text-muted mb-4">
           <div className="flex items-center gap-4">
             {video.viewCount && (
               <div className="flex items-center gap-2">
@@ -120,7 +120,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
             <Button
               onClick={() => onPlay(video)}
               size="sm"
-              className="w-full bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500 hover:to-blue-500 backdrop-blur-xl border border-white/20 hover:border-white/30 text-white font-medium rounded-2xl py-3 shadow-xl transition-all duration-300 flex items-center justify-center"
+              className="w-full bg-gradient-to-r theme-accent/80 hover:theme-accent glassmorphism hover:border-theme-accent theme-text-primary font-medium rounded-2xl py-3 transition-all duration-300 flex items-center justify-center"
             >
               <Play className="h-4 w-4 mr-2" />
               Play
@@ -135,9 +135,9 @@ export const VideoCard: React.FC<VideoCardProps> = ({
                 onClick={() => setShowPlaylistMenu(!showPlaylistMenu)}
                 size="sm"
                 variant="outline"
-                className="bg-white/5 hover:bg-white/10 border-white/20 hover:border-white/30 rounded-2xl p-3 transition-all duration-300"
+                className="theme-bg-tertiary hover:theme-bg-secondary theme-border hover:theme-border-accent rounded-2xl p-3 transition-all duration-300"
               >
-                <Plus className="h-4 w-4 text-white" />
+                <Plus className="h-4 w-4 theme-text-primary" />
               </Button>
             </motion.div>
             {showPlaylistMenu && (
@@ -146,14 +146,14 @@ export const VideoCard: React.FC<VideoCardProps> = ({
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -10, scale: 0.95 }}
                 transition={{ duration: 0.2 }}
-                className="absolute bottom-full right-0 mb-3 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl z-20 min-w-52 overflow-hidden"
+                className="absolute bottom-full right-0 mb-3 glassmorphism rounded-2xl z-20 min-w-52 overflow-hidden"
               >
                 <div className="p-4">
-                  <div className="text-sm font-medium text-white mb-3 pb-2 border-b border-white/10">
+                  <div className="text-sm font-medium theme-text-primary mb-3 pb-2 border-b theme-border">
                     Add to playlist
                   </div>
                   {playlists.length === 0 ? (
-                    <div className="text-sm text-gray-400 py-2 text-center">
+                    <div className="text-sm theme-text-secondary py-2 text-center">
                       No playlists available
                     </div>
                   ) : (
@@ -162,10 +162,10 @@ export const VideoCard: React.FC<VideoCardProps> = ({
                         <motion.button
                           key={playlist.id}
                           onClick={() => handleAddToPlaylist(playlist.id)}
-                          className="w-full text-left px-3 py-2 text-sm text-white hover:bg-white/10 rounded-xl transition-all duration-200 flex items-center gap-2"
+                          className="w-full text-left px-3 py-2 text-sm theme-text-primary hover:bg-white/10 rounded-xl transition-all duration-200 flex items-center gap-2"
                           whileHover={{ x: 4 }}
                         >
-                          <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"></div>
+                          <div className="w-2 h-2 bg-gradient-to-r theme-accent rounded-full"></div>
                           {playlist.name}
                         </motion.button>
                       ))}

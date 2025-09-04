@@ -66,7 +66,7 @@ export interface NotificationSettings {
 export interface UserPreferences {
   timer: TimerSettings;
   notifications: NotificationSettings;
-  theme: 'light' | 'dark';
+  theme: 'default' | 'light' | 'dark';
   autoPlay: boolean;
 }
 

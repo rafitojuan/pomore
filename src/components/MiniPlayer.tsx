@@ -43,7 +43,7 @@ export const MiniPlayer: React.FC<MiniPlayerProps> = ({ className }) => {
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className={`relative bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-9 shadow-2xl ${
+      className={`relative glassmorphism rounded-3xl p-9 ${
         className || ""
       }`}
     >
@@ -51,7 +51,7 @@ export const MiniPlayer: React.FC<MiniPlayerProps> = ({ className }) => {
         onClick={stopMusic}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-all duration-300 backdrop-blur-xl border border-white/20 hover:border-white/30"
+        className="absolute top-4 right-4 p-2 glassmorphism hover:bg-glass/80 theme-text-primary rounded-full transition-all duration-300 hover:border-theme-accent"
       >
         <X className="h-4 w-4" />
       </motion.button>
@@ -69,10 +69,10 @@ export const MiniPlayer: React.FC<MiniPlayerProps> = ({ className }) => {
         </motion.div>
 
         <div className="flex-1 min-w-0">
-          <h4 className="font-semibold text-white truncate text-base mb-1">
+          <h4 className="font-semibold theme-text-primary truncate text-base mb-1">
             {currentVideo.title}
           </h4>
-          <p className="text-sm text-gray-400 truncate">
+          <p className="text-sm theme-text-secondary truncate">
             {currentVideo.channelTitle}
           </p>
         </div>
@@ -81,7 +81,7 @@ export const MiniPlayer: React.FC<MiniPlayerProps> = ({ className }) => {
           onClick={isPlaying ? pauseMusic : resumeMusic}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
-          className="p-3 bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500 hover:to-blue-500 text-white rounded-2xl transition-all duration-300 shadow-xl backdrop-blur-xl border border-white/20"
+          className="p-3 bg-gradient-to-r theme-accent/80 hover:theme-accent theme-text-primary rounded-2xl transition-all duration-300 glassmorphism"
         >
           {isPlaying ? (
             <Pause className="h-5 w-5" />
@@ -91,7 +91,7 @@ export const MiniPlayer: React.FC<MiniPlayerProps> = ({ className }) => {
         </motion.button>
 
         <div className="flex items-center gap-3">
-          <Volume2 className="h-5 w-5 text-gray-400" />
+          <Volume2 className="h-5 w-5 theme-text-secondary" />
           <div className="relative w-24">
             <input
               type="range"
@@ -126,7 +126,7 @@ export const MiniPlayer: React.FC<MiniPlayerProps> = ({ className }) => {
             }}
           />
         </div>
-        <div className="flex justify-between text-xs text-gray-400 mt-2">
+        <div className="flex justify-between text-xs theme-text-secondary mt-2">
           <span>
             {Math.floor(currentTime / 60)}:
             {String(Math.floor(currentTime % 60)).padStart(2, "0")}

@@ -66,22 +66,22 @@ export const Toast: React.FC<ToastProps> = ({
       animate={{ opacity: 1, x: 0, scale: 1 }}
       exit={{ opacity: 0, x: 300, scale: 0.8 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
-      className={`relative overflow-hidden rounded-xl border backdrop-blur-md bg-gradient-to-r ${toastColors[type]} shadow-lg max-w-sm w-full`}
+      className={`relative overflow-hidden rounded-xl glassmorphism bg-gradient-to-r ${toastColors[type]} max-w-sm w-full`}
     >
       <div className="p-4">
         <div className="flex items-start space-x-3">
           <Icon className={`w-5 h-5 mt-0.5 flex-shrink-0 ${iconColors[type]}`} />
           
           <div className="flex-1 min-w-0">
-            <h4 className="text-sm font-semibold text-white">{title}</h4>
+            <h4 className="text-sm font-semibold theme-text-primary">{title}</h4>
             {message && (
-              <p className="text-sm text-white/70 mt-1">{message}</p>
+              <p className="text-sm theme-text-secondary mt-1">{message}</p>
             )}
           </div>
           
           <button
             onClick={() => onClose(id)}
-            className="flex-shrink-0 text-white/60 hover:text-white transition-colors"
+            className="flex-shrink-0 theme-text-muted hover:theme-text-primary transition-colors"
           >
             <X className="w-4 h-4" />
           </button>

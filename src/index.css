@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 :root {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   line-height: 1.5;
   font-weight: 400;
 
@@ -11,6 +12,71 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* * {
+  transition: background-color 0.1s ease, color 0.1s ease,
+    border-color 0.1s ease, box-shadow 0.1s ease;
+} */
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.theme-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.default {
+  --bg-primary: linear-gradient(135deg, #581c87 0%, #7c3aed 50%, #4338ca 100%);
+  --bg-secondary: rgba(139, 92, 246, 0.1);
+  --bg-tertiary: rgba(139, 92, 246, 0.05);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.8);
+  --text-muted: rgba(255, 255, 255, 0.6);
+  --border: rgba(255, 255, 255, 0.2);
+  --accent: #8b5cf6;
+  --accent-hover: #7c3aed;
+  --glass-bg: rgba(139, 92, 246, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --glass-blur: blur(12px);
+  --glass-shadow: 0 8px 32px rgba(139, 92, 246, 0.2);
+}
+
+.light {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f7f9fa;
+  --bg-tertiary: #f1f3f4;
+  --text-primary: #0f1419;
+  --text-secondary: #536471;
+  --text-muted: #657786;
+  --border: #e1e8ed;
+  --accent: #1d9bf0;
+  --accent-hover: #1a8cd8;
+  --glass-bg: rgba(255, 255, 255, 0.18);
+  --glass-border: rgba(15, 20, 25, 0.15);
+  --glass-blur: blur(12px);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.dark {
+  --bg-primary: #000000;
+  --bg-secondary: #16181c;
+  --bg-tertiary: #1c1f23;
+  --text-primary: #ffffff;
+  --text-secondary: #e7e9ea;
+  --text-muted: #71767b;
+  --border: #2f3336;
+  --accent: #1d9bf0;
+  --accent-hover: #1a8cd8;
+  --glass-bg: rgba(22, 24, 28, 0.2);
+  --glass-border: rgba(255, 255, 255, 0.15);
+  --glass-blur: blur(12px);
+  --glass-shadow: 0 8px 32px rgba(29, 155, 240, 0.15);
 }
 
 .react-beautiful-dnd-dragging {
@@ -32,4 +98,41 @@
 
 .react-beautiful-dnd-drag-handle {
   cursor: grab;
+}
+
+.glassmorphism {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+.glassmorphism-light {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+@media (max-width: 768px) {
+  .glassmorphism,
+  .glassmorphism-light {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glassmorphism,
+  .glassmorphism-light {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: var(--bg-secondary);
+  }
 }

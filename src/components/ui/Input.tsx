@@ -29,7 +29,7 @@ export const Input: React.FC<InputProps> = ({
   max,
   step
 }) => {
-  const baseClasses = 'w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-gray-900 dark:text-white placeholder-gray-600 dark:placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-violet-500/50 focus:border-violet-400/50 transition-all duration-200';
+  const baseClasses = 'w-full px-3 py-2 theme-bg-secondary theme-border rounded-lg theme-text-primary placeholder-theme-text-secondary focus:outline-none focus:ring-2 focus:ring-theme-accent/50 focus:theme-border-accent transition-all duration-200';
   
   const classes = `${baseClasses} ${className}`.trim();
 
