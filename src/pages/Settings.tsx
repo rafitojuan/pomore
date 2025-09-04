@@ -11,6 +11,7 @@ import {
   RotateCcw,
   User,
 } from "lucide-react";
+import { useTheme } from "../hooks/useTheme";
 import {
   Card,
   CardContent,
@@ -27,6 +28,7 @@ import {
 } from "../utils";
 
 export const Settings: React.FC = () => {
+  const { theme, setTheme } = useTheme();
   const [preferences, setPreferences] = useState<UserPreferences>({
     timer: {
       workDuration: 25,
@@ -42,7 +44,7 @@ export const Settings: React.FC = () => {
 
       volume: 0.7,
     },
-    theme: "dark",
+    theme: "default",
     autoPlay: false,
   });
 
@@ -51,6 +53,13 @@ export const Settings: React.FC = () => {
   useEffect(() => {
     loadSettings();
   }, []);
+
+  useEffect(() => {
+    setPreferences((prev) => ({
+      ...prev,
+      theme: theme,
+    }));
+  }, [theme]);
 
   const loadSettings = () => {
     const defaultPrefs: UserPreferences = {
@@ -66,7 +75,7 @@ export const Settings: React.FC = () => {
         sound: true,
         volume: 0.7,
       },
-      theme: "dark" as const,
+      theme: theme,
       autoPlay: false,
     };
     const savedPreferences = loadFromLocalStorage(
@@ -78,6 +87,7 @@ export const Settings: React.FC = () => {
     if (savedPreferences) {
       const prefsWithTimerSync = {
         ...savedPreferences,
+        theme: theme,
         timer: {
           ...savedPreferences.timer,
           workDuration: Math.round(timerSettings.workDuration / 60),
@@ -86,11 +96,19 @@ export const Settings: React.FC = () => {
         },
       };
       setPreferences(prefsWithTimerSync);
+
+      if (savedPreferences.theme && savedPreferences.theme !== theme) {
+        setTheme(savedPreferences.theme);
+      }
     }
   };
 
   const handleSave = () => {
-    saveToLocalStorage("userPreferences", preferences);
+    const preferencesToSave = {
+      ...preferences,
+      theme: theme,
+    };
+    saveToLocalStorage("userPreferences", preferencesToSave);
     const timerSettingsInSeconds = {
       ...preferences.timer,
       workDuration: preferences.timer.workDuration * 60,
@@ -116,10 +134,11 @@ export const Settings: React.FC = () => {
         sound: true,
         volume: 0.7,
       },
-      theme: "dark",
+      theme: "default",
       autoPlay: false,
     };
 
+    setTheme("default");
     setPreferences(defaultPreferences);
     setHasChanges(true);
   };
@@ -482,7 +501,7 @@ export const Settings: React.FC = () => {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="space-y-6"
         >
-          {/* <Card>
+          <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
                 <Palette className="w-5 h-5 mr-2" />
@@ -494,22 +513,55 @@ export const Settings: React.FC = () => {
                 <label className="block text-sm font-medium text-white/80 mb-2">
                   Theme
                 </label>
-                <select
-                  value={preferences.theme}
-                  onChange={(e) => {
-                    setPreferences(prev => ({ ...prev, theme: e.target.value as 'light' | 'dark' }));
-                    setHasChanges(true);
-                  }}
-                  className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
-                >
-                  <option value="dark" className="bg-gray-800 text-white">Dark</option>
-                  <option value="light" className="bg-white text-gray-900">Light</option>
-                </select>
-              </div>
-              
+                <div className="grid grid-cols-3 gap-3">
+                  <button
+                    onClick={() => {
+                      setTheme("default");
+                      setHasChanges(true);
+                    }}
+                    className={`p-3 rounded-lg border-2 transition-all ${
+                      theme === "default"
+                        ? "border-violet-500 bg-violet-500/20"
+                        : "border-white/20 bg-white/10 hover:bg-white/20"
+                    }`}
+                  >
+                    <div className="w-full h-8 rounded bg-gradient-to-r from-violet-500 to-purple-600 mb-2"></div>
+                    <span className="text-sm text-white/80">Default</span>
+                  </button>
 
+                  <button
+                    onClick={() => {
+                      setTheme("light");
+                      setHasChanges(true);
+                    }}
+                    className={`p-3 rounded-lg border-2 transition-all ${
+                      theme === "light"
+                        ? "border-blue-500 bg-blue-500/20"
+                        : "border-white/20 bg-white/10 hover:bg-white/20"
+                    }`}
+                  >
+                    <div className="w-full h-8 rounded bg-gradient-to-r from-white to-gray-100 mb-2 border border-gray-200"></div>
+                    <span className="text-sm text-white/80">Light</span>
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      setTheme("dark");
+                      setHasChanges(true);
+                    }}
+                    className={`p-3 rounded-lg border-2 transition-all ${
+                      theme === "dark"
+                        ? "border-blue-500 bg-blue-500/20"
+                        : "border-white/20 bg-white/10 hover:bg-white/20"
+                    }`}
+                  >
+                    <div className="w-full h-8 rounded bg-gradient-to-r from-black to-gray-800 mb-2"></div>
+                    <span className="text-sm text-white/80">Dark</span>
+                  </button>
+                </div>
+              </div>
             </CardContent>
-          </Card> */}
+          </Card>
 
           <Card>
             <CardHeader>
@@ -571,7 +623,10 @@ export const Settings: React.FC = () => {
                   <strong className="text-white">Pomore</strong>
                 </p>
                 <p>Version 1.0.0</p>
-                <p>A productivity app built with React and TypeScript by rafitojuan💓</p>
+                <p>
+                  A productivity app built with React and TypeScript by
+                  rafitojuan💓
+                </p>
                 <p className="pt-2">
                   <strong className="text-white">Features:</strong>
                 </p>

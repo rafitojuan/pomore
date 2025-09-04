@@ -19,9 +19,9 @@ export const Card: React.FC<CardProps> = ({
   const baseClasses = 'relative overflow-hidden rounded-2xl border transition-all duration-300';
   
   const variantClasses = {
-    default: 'bg-white/10 border-white/20 shadow-lg shadow-black/10',
-    elevated: 'bg-white/15 border-white/25 shadow-xl shadow-black/20',
-    outlined: 'bg-white/5 border-white/30 shadow-md shadow-black/5'
+    default: 'theme-bg-secondary theme-border shadow-lg',
+    elevated: 'theme-bg-tertiary theme-border shadow-xl',
+    outlined: 'theme-bg-secondary theme-border shadow-md'
   };
   
   const paddingClasses = {
@@ -30,7 +30,7 @@ export const Card: React.FC<CardProps> = ({
     lg: 'p-8'
   };
   
-  const hoverClasses = hover ? 'hover:bg-white/20 hover:border-white/30 hover:shadow-xl hover:shadow-black/20 cursor-pointer' : '';
+  const hoverClasses = hover ? 'hover:theme-bg-tertiary hover:theme-border-accent hover:shadow-xl cursor-pointer' : '';
   
   const classes = `
     ${baseClasses}
@@ -54,7 +54,7 @@ export const Card: React.FC<CardProps> = ({
       <div className="relative z-10">
         {children}
       </div>
-      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-br from-theme-accent/5 to-transparent pointer-events-none" />
     </CardComponent>
   );
 };
@@ -79,7 +79,7 @@ interface CardTitleProps {
 
 export const CardTitle: React.FC<CardTitleProps> = ({ children, className = '' }) => {
   return (
-    <h3 className={`text-xl font-semibold text-white ${className}`}>
+    <h3 className={`text-xl font-semibold theme-text-primary ${className}`}>
       {children}
     </h3>
   );
@@ -92,7 +92,7 @@ interface CardContentProps {
 
 export const CardContent: React.FC<CardContentProps> = ({ children, className = '' }) => {
   return (
-    <div className={`text-white/80 ${className}`}>
+    <div className={`theme-text-secondary ${className}`}>
       {children}
     </div>
   );
@@ -105,7 +105,7 @@ interface CardFooterProps {
 
 export const CardFooter: React.FC<CardFooterProps> = ({ children, className = '' }) => {
   return (
-    <div className={`mt-4 pt-4 border-t border-white/10 ${className}`}>
+    <div className={`mt-4 pt-4 border-t theme-border ${className}`}>
       {children}
     </div>
   );

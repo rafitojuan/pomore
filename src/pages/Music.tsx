@@ -134,10 +134,9 @@ const Music: React.FC = () => {
   };
 
   return (
-    <div className="h-screen">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-slate-900/40 to-slate-900"></div>
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+    <div className="h-screen theme-bg-primary">
+      <div className="absolute top-0 left-1/4 w-96 h-96 theme-accent/10 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 theme-accent/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
 
       <div className="relative z-10 h-full w-full px-4 py-4 overflow-auto custom-scrollbar">
         <motion.div
@@ -149,16 +148,16 @@ const Music: React.FC = () => {
           <div className="flex items-center gap-4 mb-6">
             <motion.div
               whileHover={{ scale: 1.05, rotate: 5 }}
-              className="p-4 bg-gradient-to-br from-purple-500/20 to-blue-500/20 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl"
+              className="p-4 theme-accent/20 backdrop-blur-xl rounded-2xl theme-border shadow-2xl"
             >
-              <MusicIcon className="h-10 w-10 text-white" />
+              <MusicIcon className="h-10 w-10 theme-text-primary" />
             </motion.div>
             <div>
               <motion.h1
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-5xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent leading-tight"
+                className="text-5xl font-bold theme-text-primary leading-tight"
               >
                 Music Library
               </motion.h1>
@@ -166,7 +165,7 @@ const Music: React.FC = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="text-white/70 mt-2 text-lg font-light tracking-wide"
+                className="theme-text-secondary mt-2 text-lg font-light tracking-wide"
               >
                 Discover and play music from your own sanctum
               </motion.p>
@@ -193,23 +192,23 @@ const Music: React.FC = () => {
                         searchVideos(searchQuery);
                       }
                     }}
-                    className="pr-12 h-14 bg-white/10 backdrop-blur-xl border border-white/20 hover:border-white/30 focus:border-purple-400/50 rounded-2xl text-white placeholder-white/60 text-lg font-light transition-all duration-300 shadow-2xl"
+                    className="pr-12 h-14 theme-bg-secondary backdrop-blur-xl theme-border hover:theme-border-accent focus:theme-border-accent rounded-2xl theme-text-primary placeholder-theme-text-secondary text-lg font-light transition-all duration-300 shadow-2xl"
                     onFocus={() => setShowSuggestions(true)}
                     onBlur={() =>
                       setTimeout(() => setShowSuggestions(false), 200)
                     }
                   />
-                  <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-white/60" />
+                  <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 h-5 w-5 theme-text-secondary" />
                 </motion.div>
                 {showSuggestions && suggestions.length > 0 && (
-                  <div className="absolute top-full left-0 right-0 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl mt-2 z-10 max-h-48 overflow-y-auto custom-scrollbar shadow-2xl">
+                  <div className="absolute top-full left-0 right-0 theme-bg-secondary backdrop-blur-xl theme-border rounded-2xl mt-2 z-10 max-h-48 overflow-y-auto custom-scrollbar shadow-2xl">
                     {suggestions.map((suggestion, index) => (
                       <div
                         key={index}
-                        className="px-4 py-2 hover:bg-white/10 cursor-pointer text-white text-sm transition-all duration-200"
+                        className="px-4 py-2 hover:theme-bg-tertiary cursor-pointer theme-text-primary text-sm transition-all duration-200"
                         onClick={() => handleSuggestionClick(suggestion)}
                       >
-                        <Search className="w-4 h-4 inline mr-2 text-white/60" />
+                        <Search className="w-4 h-4 inline mr-2 theme-text-secondary" />
                         {suggestion}
                       </div>
                     ))}
@@ -245,7 +244,7 @@ const Music: React.FC = () => {
                     searchVideos(searchQuery);
                   }}
                   disabled={isSearching || !searchQuery.trim()}
-                  className="h-14 px-8 bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500 hover:to-blue-500 backdrop-blur-xl border border-white/20 hover:border-white/30 text-white font-medium rounded-2xl shadow-2xl transition-all duration-300"
+                  className="h-14 px-8 theme-accent/80 hover:theme-accent backdrop-blur-xl theme-border hover:theme-border-accent theme-text-primary font-medium rounded-2xl shadow-2xl transition-all duration-300"
                 >
                   {isSearching ? "Searching..." : "Search"}
                 </Button>
@@ -259,7 +258,7 @@ const Music: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="mb-6"
           >
-            <div className="flex space-x-2 bg-white/5 backdrop-blur-xl rounded-2xl p-2 border border-white/10 shadow-2xl">
+            <div className="flex space-x-2 theme-bg-secondary backdrop-blur-xl rounded-2xl p-2 theme-border shadow-2xl">
               {["trending", "search", "categories", "playlists"].map(
                 (tab, index) => (
                   <motion.button
@@ -272,8 +271,8 @@ const Music: React.FC = () => {
                     transition={{ duration: 0.4, delay: 0.6 + index * 0.1 }}
                     className={`flex-1 px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 relative overflow-hidden ${
                       activeTab === tab
-                        ? "bg-gradient-to-r from-purple-500/80 to-blue-500/80 text-white shadow-xl border border-white/20"
-                        : "text-white/70 hover:text-white hover:bg-white/10 border border-transparent hover:border-white/20"
+                        ? "theme-accent/80 theme-text-primary shadow-xl theme-border"
+                        : "theme-text-secondary hover:theme-text-primary hover:theme-bg-tertiary border border-transparent hover:theme-border"
                     }`}
                   >
                     <div className="flex items-center justify-center relative z-10">
@@ -290,7 +289,7 @@ const Music: React.FC = () => {
                     {activeTab === tab && (
                       <motion.div
                         layoutId="activeTab"
-                        className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 backdrop-blur-sm rounded-xl"
+                        className="absolute inset-0 theme-accent/20 backdrop-blur-sm rounded-xl"
                         transition={{
                           type: "spring",
                           bounce: 0.2,
