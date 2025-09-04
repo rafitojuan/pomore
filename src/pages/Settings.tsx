@@ -641,7 +641,7 @@ export const Settings: React.FC = () => {
                 <p>
                   <strong className="theme-text-primary">Pomore</strong>
                 </p>
-                <p>Version 1.0.0</p>
+                <p>Version 1.1.0</p>
                 <p>
                   A productivity app built with React and TypeScript by
                   rafitojuan💓

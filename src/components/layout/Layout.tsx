@@ -53,7 +53,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           </div>
         )}
 
-        <footer className="border-t theme-border backdrop-blur-md theme-bg-secondary py-6">
+        <footer className="glassmorphism border-t py-6">
           <div className="container mx-auto px-4 text-center theme-text-secondary">
             <p>
               &copy; 2025 Pomore - Pomodoro Timer with Music. Made by rafitojuan

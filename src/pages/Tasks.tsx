@@ -452,7 +452,7 @@ export const Tasks: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9998] p-4"
+            className="fixed inset-0 bg-black/50 glassmorphism flex items-center justify-center z-[9998] p-4"
             onClick={() => setShowAddForm(false)}
           >
             <motion.div
@@ -544,7 +544,7 @@ export const Tasks: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[9998] p-4"
+            className="fixed inset-0 bg-black/50 glassmorphism flex items-center justify-center z-[9998] p-4"
             onClick={() => setEditingTask(null)}
           >
             <motion.div

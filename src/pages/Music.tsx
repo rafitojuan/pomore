@@ -148,7 +148,7 @@ const Music: React.FC = () => {
           <div className="flex items-center gap-4 mb-6">
             <motion.div
               whileHover={{ scale: 1.05, rotate: 5 }}
-              className="p-4 theme-accent/20 backdrop-blur-xl rounded-2xl theme-border shadow-2xl"
+              className="p-4 glassmorphism rounded-2xl"
             >
               <MusicIcon className="h-10 w-10 theme-text-primary" />
             </motion.div>
@@ -192,7 +192,7 @@ const Music: React.FC = () => {
                         searchVideos(searchQuery);
                       }
                     }}
-                    className="pr-12 h-14 theme-bg-secondary backdrop-blur-xl theme-border hover:theme-border-accent focus:theme-border-accent rounded-2xl theme-text-primary placeholder-theme-text-secondary text-lg font-light transition-all duration-300 shadow-2xl"
+                    className="pr-12 h-14 glassmorphism hover:border-theme-accent focus:border-theme-accent rounded-2xl theme-text-primary placeholder-theme-text-secondary text-lg font-light transition-all duration-300"
                     onFocus={() => setShowSuggestions(true)}
                     onBlur={() =>
                       setTimeout(() => setShowSuggestions(false), 200)
@@ -201,7 +201,7 @@ const Music: React.FC = () => {
                   <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 h-5 w-5 theme-text-secondary" />
                 </motion.div>
                 {showSuggestions && suggestions.length > 0 && (
-                  <div className="absolute top-full left-0 right-0 theme-bg-secondary backdrop-blur-xl theme-border rounded-2xl mt-2 z-10 max-h-48 overflow-y-auto custom-scrollbar shadow-2xl">
+                  <div className="absolute top-full left-0 right-0 glassmorphism rounded-2xl mt-2 z-10 max-h-48 overflow-y-auto custom-scrollbar">
                     {suggestions.map((suggestion, index) => (
                       <div
                         key={index}
@@ -217,7 +217,7 @@ const Music: React.FC = () => {
                 {!searchQuery &&
                   searchHistory.length > 0 &&
                   showSuggestions && (
-                    <div className="absolute top-full left-0 right-0 theme-bg-secondary backdrop-blur-xl border theme-border rounded-2xl mt-2 z-10 max-h-48 overflow-y-auto custom-scrollbar shadow-2xl">
+                    <div className="absolute top-full left-0 right-0 glassmorphism rounded-2xl mt-2 z-10 max-h-48 overflow-y-auto custom-scrollbar">
                       <div className="px-4 py-2 text-xs theme-text-muted border-b theme-border">
                         Recent searches
                       </div>
@@ -244,7 +244,7 @@ const Music: React.FC = () => {
                     searchVideos(searchQuery);
                   }}
                   disabled={isSearching || !searchQuery.trim()}
-                  className="h-14 px-8 theme-accent/80 hover:theme-accent backdrop-blur-xl theme-border hover:theme-border-accent theme-text-primary font-medium rounded-2xl shadow-2xl transition-all duration-300"
+                  className="h-14 px-8 theme-accent/80 hover:theme-accent glassmorphism hover:border-theme-accent theme-text-primary font-medium rounded-2xl transition-all duration-300"
                 >
                   {isSearching ? "Searching..." : "Search"}
                 </Button>
@@ -258,7 +258,7 @@ const Music: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="mb-6"
           >
-            <div className="flex space-x-2 theme-bg-secondary backdrop-blur-xl rounded-2xl p-2 theme-border shadow-2xl">
+            <div className="flex space-x-2 glassmorphism rounded-2xl p-2">
               {["trending", "search", "categories", "playlists"].map(
                 (tab, index) => (
                   <motion.button
@@ -289,7 +289,7 @@ const Music: React.FC = () => {
                     {activeTab === tab && (
                       <motion.div
                         layoutId="activeTab"
-                        className="absolute inset-0 theme-accent/20 backdrop-blur-sm rounded-xl"
+                        className="absolute inset-0 glassmorphism-light rounded-xl"
                         transition={{
                           type: "spring",
                           bounce: 0.2,
@@ -320,7 +320,7 @@ const Music: React.FC = () => {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="flex items-center gap-3 mb-6"
               >
-                <div className="p-2 bg-gradient-to-br theme-accent/20 backdrop-blur-xl rounded-xl border theme-border">
+                <div className="p-2 bg-gradient-to-br glassmorphism rounded-xl">
                   <TrendingUp className="h-6 w-6 theme-text-primary" />
                 </div>
                 <h2 className="text-2xl font-bold theme-text-primary">
@@ -336,7 +336,7 @@ const Music: React.FC = () => {
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.4, delay: i * 0.1 }}
-                      className="theme-bg-secondary backdrop-blur-xl rounded-2xl p-6 animate-pulse border theme-border shadow-2xl"
+                      className="glassmorphism rounded-2xl p-6 animate-pulse"
                     >
                       <div className="bg-white/20 h-40 rounded-xl mb-4"></div>
                       <div className="bg-white/20 h-4 rounded-lg mb-3"></div>
@@ -380,7 +380,7 @@ const Music: React.FC = () => {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="flex items-center gap-3 mb-6"
               >
-                <div className="p-2 bg-gradient-to-br theme-accent/20 backdrop-blur-xl rounded-xl border theme-border">
+                <div className="p-2 bg-gradient-to-br glassmorphism rounded-xl">
                   <MusicIcon className="h-6 w-6 theme-text-primary" />
                 </div>
                 <h2 className="text-2xl font-bold theme-text-primary">
@@ -398,7 +398,7 @@ const Music: React.FC = () => {
                     transition={{ duration: 0.4, delay: index * 0.1 }}
                     whileHover={{ scale: 1.05, y: -5 }}
                     whileTap={{ scale: 0.95 }}
-                    className={`group p-6 backdrop-blur-xl rounded-2xl border transition-all duration-300 text-left shadow-2xl ${
+                    className={`group p-6 glassmorphism rounded-2xl transition-all duration-300 text-left ${
                       selectedCategory === category.id
                         ? "bg-gradient-to-r theme-accent/80 theme-border-accent theme-text-primary shadow-theme-accent/20"
                   : "theme-bg-secondary theme-border hover:theme-border-accent theme-text-primary hover:shadow-theme-accent/20"
@@ -425,7 +425,7 @@ const Music: React.FC = () => {
                   className="mt-12"
                 >
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2 bg-gradient-to-br theme-accent/20 backdrop-blur-xl rounded-xl border theme-border">
+                    <div className="p-2 bg-gradient-to-br glassmorphism rounded-xl">
                       <MusicIcon className="h-5 w-5 theme-text-primary" />
                     </div>
                     <h3 className="text-xl font-bold theme-text-primary">
@@ -474,7 +474,7 @@ const Music: React.FC = () => {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="flex items-center gap-3 mb-6"
               >
-                <div className="p-2 bg-gradient-to-br theme-accent/20 backdrop-blur-xl rounded-xl border theme-border">
+                <div className="p-2 bg-gradient-to-br glassmorphism rounded-xl">
                   <Search className="h-6 w-6 theme-text-primary" />
               </div>
               <h2 className="text-2xl font-bold theme-text-primary">
@@ -530,7 +530,7 @@ const Music: React.FC = () => {
                   transition={{ duration: 0.5, delay: 0.2 }}
                   className="flex items-center gap-3"
                 >
-                  <div className="p-2 bg-gradient-to-br theme-accent/20 backdrop-blur-xl rounded-xl border theme-border">
+                  <div className="p-2 bg-gradient-to-br glassmorphism rounded-xl">
                     <List className="h-6 w-6 theme-text-primary" />
                   </div>
                   <h2 className="text-2xl font-bold theme-text-primary">
@@ -547,7 +547,7 @@ const Music: React.FC = () => {
                 >
                   <Button
                     onClick={() => setShowAddPlaylist(true)}
-                    className="bg-gradient-to-r theme-accent/80 hover:theme-accent backdrop-blur-xl border theme-border hover:theme-border-accent theme-text-primary font-medium rounded-2xl px-6 py-3 shadow-2xl transition-all duration-300"
+                    className="bg-gradient-to-r theme-accent/80 hover:theme-accent glassmorphism hover:border-theme-accent theme-text-primary font-medium rounded-2xl px-6 py-3 transition-all duration-300"
                   >
                     <Plus className="h-5 w-5 mr-2" />
                     New Playlist
@@ -561,7 +561,7 @@ const Music: React.FC = () => {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: 0.4 }}
-                    className="theme-bg-tertiary backdrop-blur-xl rounded-3xl p-4 border theme-border shadow-2xl"
+                    className="glassmorphism rounded-3xl p-4"
                   >
                     <h3 className="text-xl font-bold theme-text-primary mb-6 flex items-center gap-3">
                       <div className="w-2 h-2 bg-gradient-to-r theme-accent rounded-full"></div>

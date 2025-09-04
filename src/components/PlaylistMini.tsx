@@ -19,7 +19,7 @@ export const PlaylistMini: React.FC<PlaylistMiniProps> = ({
 }) => {
   if (tracks.length === 0) {
     return (
-      <div className={`theme-accent/20 backdrop-blur-sm border theme-border rounded-xl p-4 ${className}`}>
+      <div className={`glassmorphism rounded-xl p-4 ${className}`}>
         <div className="text-center theme-text-muted">
           <div className="text-sm">No tracks in playlist</div>
           <div className="text-xs mt-1">Add some music to get started</div>
@@ -32,7 +32,7 @@ export const PlaylistMini: React.FC<PlaylistMiniProps> = ({
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`theme-accent/20 backdrop-blur-sm border theme-border rounded-xl ${className}`}
+      className={`glassmorphism rounded-xl ${className}`}
     >
       <div className="p-4 border-b theme-border">
         <h3 className="theme-text-primary font-medium text-sm">Now Playing Queue</h3>

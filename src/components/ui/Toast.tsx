@@ -66,7 +66,7 @@ export const Toast: React.FC<ToastProps> = ({
       animate={{ opacity: 1, x: 0, scale: 1 }}
       exit={{ opacity: 0, x: 300, scale: 0.8 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
-      className={`relative overflow-hidden rounded-xl border backdrop-blur-md bg-gradient-to-r ${toastColors[type]} shadow-lg max-w-sm w-full`}
+      className={`relative overflow-hidden rounded-xl glassmorphism bg-gradient-to-r ${toastColors[type]} max-w-sm w-full`}
     >
       <div className="p-4">
         <div className="flex items-start space-x-3">

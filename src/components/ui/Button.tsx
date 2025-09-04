@@ -20,11 +20,11 @@ export const Button: React.FC<ButtonProps> = ({
   className = '',
   type = 'button'
 }) => {
-  const baseClasses = 'relative overflow-hidden rounded-xl font-medium transition-all duration-200 backdrop-blur-md border';
+  const baseClasses = 'relative overflow-hidden rounded-xl font-medium transition-all duration-200 glassmorphism';
   
   const variantClasses = {
     primary: 'theme-accent/20 theme-border-accent theme-text-primary hover:theme-accent/30 hover:theme-border-accent shadow-lg',
-    secondary: 'theme-bg-secondary theme-border theme-text-primary hover:theme-bg-tertiary hover:theme-border shadow-lg',
+    secondary: 'bg-glass border-glass theme-text-primary hover:bg-glass/80 hover:border-glass shadow-glass',
     ghost: 'bg-transparent border-transparent theme-text-secondary hover:theme-bg-tertiary hover:theme-text-primary',
     danger: 'bg-red-600/20 border-red-500/30 theme-text-primary hover:bg-red-600/30 hover:border-red-400/50 shadow-lg shadow-red-500/20',
     outline: 'bg-transparent theme-border theme-text-primary hover:theme-bg-tertiary',

@@ -51,7 +51,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
       whileHover={{ scale: 1.03, y: -5 }}
       whileTap={{ scale: 0.98 }}
       transition={{ duration: 0.3 }}
-      className="theme-bg-tertiary backdrop-blur-xl rounded-3xl overflow-hidden border theme-border hover:theme-border-accent shadow-2xl hover:shadow-theme-accent/10 transition-all duration-300 group"
+      className="glassmorphism rounded-3xl overflow-hidden hover:border-theme-accent hover:shadow-theme-accent/10 transition-all duration-300 group"
     >
       <div className="relative overflow-hidden">
         <motion.img
@@ -64,7 +64,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
         <motion.div 
           initial={{ opacity: 0 }}
           whileHover={{ opacity: 1 }}
-          className="absolute inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center transition-all duration-300"
+          className="absolute inset-0 bg-black/40 glassmorphism-light flex items-center justify-center transition-all duration-300"
         >
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
@@ -75,7 +75,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
             <Button
               onClick={() => onPlay(video)}
               size="sm"
-              className="theme-bg-secondary hover:theme-bg-primary backdrop-blur-xl border theme-border-accent rounded-2xl px-6 py-3 theme-text-primary font-medium shadow-2xl transition-all duration-300 flex items-center justify-center"
+              className="glassmorphism hover:bg-glass/80 border-theme-accent rounded-2xl px-6 py-3 theme-text-primary font-medium transition-all duration-300 flex items-center justify-center"
             >
               <Play className="h-5 w-5 mr-2" />
               Play Now
@@ -83,7 +83,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
           </motion.div>
         </motion.div>
         {video.duration && video.duration.trim() !== '' && (
-          <div className="absolute bottom-3 right-3 bg-black/70 backdrop-blur-sm theme-text-primary text-xs px-3 py-1.5 rounded-xl border theme-border">
+          <div className="absolute bottom-3 right-3 glassmorphism-light theme-text-primary text-xs px-3 py-1.5 rounded-xl">
             {formatDuration(parseDuration(video.duration))}
           </div>
         )}
@@ -120,7 +120,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
             <Button
               onClick={() => onPlay(video)}
               size="sm"
-              className="w-full bg-gradient-to-r theme-accent/80 hover:theme-accent backdrop-blur-xl border theme-border hover:theme-border-accent theme-text-primary font-medium rounded-2xl py-3 shadow-xl transition-all duration-300 flex items-center justify-center"
+              className="w-full bg-gradient-to-r theme-accent/80 hover:theme-accent glassmorphism hover:border-theme-accent theme-text-primary font-medium rounded-2xl py-3 transition-all duration-300 flex items-center justify-center"
             >
               <Play className="h-4 w-4 mr-2" />
               Play
@@ -146,7 +146,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -10, scale: 0.95 }}
                 transition={{ duration: 0.2 }}
-                className="absolute bottom-full right-0 mb-3 theme-bg-secondary backdrop-blur-xl border theme-border rounded-2xl shadow-2xl z-20 min-w-52 overflow-hidden"
+                className="absolute bottom-full right-0 mb-3 glassmorphism rounded-2xl z-20 min-w-52 overflow-hidden"
               >
                 <div className="p-4">
                   <div className="text-sm font-medium theme-text-primary mb-3 pb-2 border-b theme-border">

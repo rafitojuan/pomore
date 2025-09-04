@@ -43,7 +43,7 @@ export const MiniPlayer: React.FC<MiniPlayerProps> = ({ className }) => {
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className={`relative theme-bg-tertiary backdrop-blur-xl border theme-border rounded-3xl p-9 shadow-2xl ${
+      className={`relative glassmorphism rounded-3xl p-9 ${
         className || ""
       }`}
     >
@@ -51,7 +51,7 @@ export const MiniPlayer: React.FC<MiniPlayerProps> = ({ className }) => {
         onClick={stopMusic}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        className="absolute top-4 right-4 p-2 theme-bg-secondary hover:theme-bg-primary theme-text-primary rounded-full transition-all duration-300 backdrop-blur-xl border theme-border hover:theme-border-accent"
+        className="absolute top-4 right-4 p-2 glassmorphism hover:bg-glass/80 theme-text-primary rounded-full transition-all duration-300 hover:border-theme-accent"
       >
         <X className="h-4 w-4" />
       </motion.button>
@@ -81,7 +81,7 @@ export const MiniPlayer: React.FC<MiniPlayerProps> = ({ className }) => {
           onClick={isPlaying ? pauseMusic : resumeMusic}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
-          className="p-3 bg-gradient-to-r theme-accent/80 hover:theme-accent theme-text-primary rounded-2xl transition-all duration-300 shadow-xl backdrop-blur-xl border theme-border"
+          className="p-3 bg-gradient-to-r theme-accent/80 hover:theme-accent theme-text-primary rounded-2xl transition-all duration-300 glassmorphism"
         >
           {isPlaying ? (
             <Pause className="h-5 w-5" />

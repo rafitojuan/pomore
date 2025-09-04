@@ -20,6 +20,18 @@ export default {
           'accent': 'var(--accent)',
           'accent-hover': 'var(--accent-hover)',
         }
+      },
+      backgroundColor: {
+        'glass': 'var(--glass-bg)',
+      },
+      borderColor: {
+        'glass': 'var(--glass-border)',
+      },
+      boxShadow: {
+        'glass': 'var(--glass-shadow)',
+      },
+      backdropBlur: {
+        'glass': '12px',
       }
     },
   },

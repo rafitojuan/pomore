@@ -20,7 +20,7 @@ export const Navigation: React.FC = () => {
   };
 
   return (
-    <nav className="relative z-20 border-b theme-border backdrop-blur-md theme-bg-secondary">
+    <nav className="relative z-20 glassmorphism border-b">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center space-x-2 group">
