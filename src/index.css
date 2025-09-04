@@ -42,7 +42,7 @@ body {
   --accent: #8b5cf6;
   --accent-hover: #7c3aed;
   --glass-bg: rgba(139, 92, 246, 0.15);
-  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-border: rgba(255, 255, 255, 0.15);
   --glass-blur: blur(12px);
   --glass-shadow: 0 8px 32px rgba(139, 92, 246, 0.2);
 }
@@ -58,7 +58,7 @@ body {
   --accent: #1d9bf0;
   --accent-hover: #1a8cd8;
   --glass-bg: rgba(255, 255, 255, 0.18);
-  --glass-border: rgba(15, 20, 25, 0.3);
+  --glass-border: rgba(15, 20, 25, 0.15);
   --glass-blur: blur(12px);
   --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
 }
@@ -74,7 +74,7 @@ body {
   --accent: #1d9bf0;
   --accent-hover: #1a8cd8;
   --glass-bg: rgba(22, 24, 28, 0.2);
-  --glass-border: rgba(255, 255, 255, 0.3);
+  --glass-border: rgba(255, 255, 255, 0.15);
   --glass-blur: blur(12px);
   --glass-shadow: 0 8px 32px rgba(29, 155, 240, 0.15);
 }

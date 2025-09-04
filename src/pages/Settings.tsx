@@ -288,7 +288,7 @@ export const Settings: React.FC = () => {
                         parseInt(e.target.value)
                       )
                     }
-                    className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                    className="w-full px-3 py-2 bg-white/10 border border-[var(--glass-border)] rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                   />
                 </div>
 
@@ -307,7 +307,7 @@ export const Settings: React.FC = () => {
                         parseInt(e.target.value)
                       )
                     }
-                    className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                    className="w-full px-3 py-2 bg-white/10 border border-[var(--glass-border)] rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                   />
                 </div>
 
@@ -326,7 +326,7 @@ export const Settings: React.FC = () => {
                         parseInt(e.target.value)
                       )
                     }
-                    className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                    className="w-full px-3 py-2 bg-white/10 border border-[var(--glass-border)] rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                   />
                 </div>
 
@@ -345,7 +345,7 @@ export const Settings: React.FC = () => {
                         parseInt(e.target.value) || 4
                       )
                     }
-                    className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                    className="w-full px-3 py-2 bg-white/10 border border-[var(--glass-border)] rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -501,7 +501,7 @@ export const Settings: React.FC = () => {
                     handleNotificationSettingChange("sound", e.target.checked)
                   }
                   disabled={!preferences.notifications.enabled}
-                  className="w-4 h-4 text-violet-500 bg-white/10 border-white/20 rounded focus:ring-violet-500 focus:ring-2 disabled:opacity-50"
+                  className="w-4 h-4 text-violet-500 bg-white/10 border-[var(--glass-border)] rounded focus:ring-violet-500 focus:ring-2 disabled:opacity-50"
                 />
                 <span className="theme-text-secondary">
                   Sound notifications

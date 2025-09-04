@@ -148,7 +148,7 @@ export const Timer: React.FC = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
-          <Card className="text-center" padding="lg">
+          <Card className="text-center" padding="lg" variant="thick-border">
             <motion.div
               className="flex flex-col items-center space-y-6"
               initial={{ scale: 0.9, opacity: 0 }}
@@ -234,7 +234,7 @@ export const Timer: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <Card>
+            <Card variant="thick-border">
               <h3 className="text-lg font-semibold theme-text-primary mb-4">
                 Session Type
               </h3>
@@ -267,7 +267,7 @@ export const Timer: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
           >
-            <Card>
+            <Card variant="thick-border">
               <h3 className="text-lg font-semibold theme-text-primary mb-4">
                 Statistics
               </h3>
@@ -299,7 +299,7 @@ export const Timer: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.8 }}
           >
-            <Card>
+            <Card variant="thick-border">
               <h3 className="text-lg font-semibold theme-text-primary mb-4">
                 Quick Tips
               </h3>

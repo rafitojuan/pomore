@@ -6,7 +6,7 @@ interface CardProps {
   className?: string;
   hover?: boolean;
   padding?: 'sm' | 'md' | 'lg';
-  variant?: 'default' | 'elevated' | 'outlined';
+  variant?: 'default' | 'elevated' | 'outlined' | 'thick-border';
 }
 
 export const Card: React.FC<CardProps> = ({
@@ -21,7 +21,8 @@ export const Card: React.FC<CardProps> = ({
   const variantClasses = {
     default: 'theme-bg-secondary theme-border shadow-lg',
     elevated: 'theme-bg-tertiary theme-border shadow-xl',
-    outlined: 'theme-bg-secondary theme-border shadow-md'
+    outlined: 'theme-bg-secondary theme-border shadow-md',
+    'thick-border': 'theme-bg-secondary border-2 border-white/40 shadow-xl'
   };
   
   const paddingClasses = {
