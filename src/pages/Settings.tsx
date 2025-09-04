@@ -117,12 +117,12 @@ export const Settings: React.FC = () => {
     };
     timerService.updateSettings(timerSettingsInSeconds);
     setHasChanges(false);
-    
-    document.documentElement.setAttribute('data-theme', theme);
-    
+
+    document.documentElement.setAttribute("data-theme", theme);
+
     setTimeout(() => {
-      const themeChangeEvent = new CustomEvent('themeChanged', {
-        detail: { theme }
+      const themeChangeEvent = new CustomEvent("themeChanged", {
+        detail: { theme },
       });
       window.dispatchEvent(themeChangeEvent);
     }, 50);
@@ -234,7 +234,9 @@ export const Settings: React.FC = () => {
           <h1 className="text-3xl md:text-4xl font-bold theme-text-primary mb-2">
             Settings
           </h1>
-          <p className="theme-text-secondary">Customize your Pomodoro experience</p>
+          <p className="theme-text-secondary">
+            Customize your Pomodoro experience
+          </p>
         </div>
 
         <div className="flex items-center space-x-3 mt-4 md:mt-0">
@@ -361,7 +363,9 @@ export const Settings: React.FC = () => {
                     }
                     className="w-4 h-4 text-theme-accent theme-bg-secondary theme-border rounded focus:ring-theme-accent focus:ring-2"
                   />
-                  <span className="theme-text-secondary">Auto-start breaks</span>
+                  <span className="theme-text-secondary">
+                    Auto-start breaks
+                  </span>
                 </label>
 
                 <label className="flex items-center space-x-3 cursor-pointer">
@@ -376,7 +380,9 @@ export const Settings: React.FC = () => {
                     }
                     className="w-4 h-4 text-theme-accent theme-bg-secondary theme-border rounded focus:ring-theme-accent focus:ring-2"
                   />
-                  <span className="theme-text-secondary">Auto-start pomodoros</span>
+                  <span className="theme-text-secondary">
+                    Auto-start pomodoros
+                  </span>
                 </label>
               </div>
             </CardContent>
@@ -416,14 +422,24 @@ export const Settings: React.FC = () => {
               )}
 
               {Notification.permission === "granted" && (
-                <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-4 mb-4">
+                <div className={`rounded-lg p-4 mb-4 theme-transition ${
+                  theme === 'light' 
+                    ? 'bg-green-100 border border-green-300' 
+                    : 'bg-green-500/20 border border-green-500/30'
+                }`}>
                   <div className="flex items-start space-x-3">
-                    <Bell className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                    <Bell className={`w-5 h-5 mt-0.5 flex-shrink-0 ${
+                      theme === 'light' ? 'text-green-600' : 'text-green-400'
+                    }`} />
                     <div className="flex-1">
-                      <h4 className="text-green-200 font-medium mb-2">
+                      <h4 className={`font-medium mb-2 ${
+                        theme === 'light' ? 'text-green-800' : 'text-green-200'
+                      }`}>
                         Notifikasi Diizinkan
                       </h4>
-                      <p className="text-green-100/80 text-sm">
+                      <p className={`text-sm ${
+                        theme === 'light' ? 'text-green-700' : 'text-green-100/80'
+                      }`}>
                         Notifikasi browser telah diaktifkan! Anda akan menerima
                         pemberitahuan ketika sesi Pomodoro selesai.
                       </p>
@@ -487,7 +503,9 @@ export const Settings: React.FC = () => {
                   disabled={!preferences.notifications.enabled}
                   className="w-4 h-4 text-violet-500 bg-white/10 border-white/20 rounded focus:ring-violet-500 focus:ring-2 disabled:opacity-50"
                 />
-                <span className="theme-text-secondary">Sound notifications</span>
+                <span className="theme-text-secondary">
+                  Sound notifications
+                </span>
               </label>
 
               <div>
@@ -554,7 +572,9 @@ export const Settings: React.FC = () => {
                     }`}
                   >
                     <div className="w-full h-8 rounded bg-gradient-to-r from-violet-500 to-purple-600 mb-2"></div>
-                    <span className="text-sm theme-text-secondary">Default</span>
+                    <span className="text-sm theme-text-secondary">
+                      Default
+                    </span>
                   </button>
 
                   <button
