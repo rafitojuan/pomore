@@ -54,6 +54,7 @@ export interface TimerSettings {
   longBreakDuration: number;
   autoStartBreaks: boolean;
   autoStartPomodoros: boolean;
+  sessionsUntilLongBreak: number;
 }
 
 export interface NotificationSettings {
