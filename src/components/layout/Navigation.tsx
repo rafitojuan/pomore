@@ -29,7 +29,7 @@ export const Navigation: React.FC = () => {
               whileHover={{ scale: 1.1, rotate: 5 }}
               transition={{ duration: 0.2 }}
             >
-              <Timer className="w-5 h-5 text-white" />
+              <Timer className="w-5 h-5 theme-text-primary" />
             </motion.div>
             <span className="text-xl font-bold theme-text-primary group-hover:theme-accent transition-colors">
               Pomore

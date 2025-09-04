@@ -222,10 +222,10 @@ export const Settings: React.FC = () => {
         className="flex flex-col md:flex-row md:items-center justify-between"
       >
         <div>
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+          <h1 className="text-3xl md:text-4xl font-bold theme-text-primary mb-2">
             Settings
           </h1>
-          <p className="text-white/70">Customize your Pomodoro experience</p>
+          <p className="theme-text-secondary">Customize your Pomodoro experience</p>
         </div>
 
         <div className="flex items-center space-x-3 mt-4 md:mt-0">
@@ -263,7 +263,7 @@ export const Settings: React.FC = () => {
             <CardContent className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-white/80 mb-2">
+                  <label className="block text-sm font-medium theme-text-secondary mb-2">
                     Work Duration (minutes)
                   </label>
                   <input
@@ -277,12 +277,12 @@ export const Settings: React.FC = () => {
                         parseInt(e.target.value)
                       )
                     }
-                    className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                    className="w-full px-3 py-2 theme-bg-secondary border theme-border rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-transparent"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white/80 mb-2">
+                  <label className="block text-sm font-medium theme-text-secondary mb-2">
                     Short Break (minutes)
                   </label>
                   <input
@@ -296,12 +296,12 @@ export const Settings: React.FC = () => {
                         parseInt(e.target.value)
                       )
                     }
-                    className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                    className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white/80 mb-2">
+                  <label className="block text-sm font-medium theme-text-secondary mb-2">
                     Long Break (minutes)
                   </label>
                   <input
@@ -315,7 +315,26 @@ export const Settings: React.FC = () => {
                         parseInt(e.target.value)
                       )
                     }
-                    className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                    className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium theme-text-secondary mb-2">
+                    Sessions until long break
+                  </label>
+                  <input
+                    type="number"
+                    min="2"
+                    max="10"
+                    value={preferences.timer.sessionsUntilLongBreak || 4}
+                    onChange={(e) =>
+                      handleTimerSettingChange(
+                        "sessionsUntilLongBreak",
+                        parseInt(e.target.value) || 4
+                      )
+                    }
+                    className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -331,9 +350,9 @@ export const Settings: React.FC = () => {
                         e.target.checked
                       )
                     }
-                    className="w-4 h-4 text-violet-500 bg-white/10 border-white/20 rounded focus:ring-violet-500 focus:ring-2"
+                    className="w-4 h-4 text-theme-accent theme-bg-secondary theme-border rounded focus:ring-theme-accent focus:ring-2"
                   />
-                  <span className="text-white/80">Auto-start breaks</span>
+                  <span className="theme-text-secondary">Auto-start breaks</span>
                 </label>
 
                 <label className="flex items-center space-x-3 cursor-pointer">
@@ -348,7 +367,7 @@ export const Settings: React.FC = () => {
                     }
                     className="w-4 h-4 text-violet-500 bg-white/10 border-white/20 rounded focus:ring-violet-500 focus:ring-2"
                   />
-                  <span className="text-white/80">Auto-start pomodoros</span>
+                  <span className="theme-text-secondary">Auto-start pomodoros</span>
                 </label>
               </div>
             </CardContent>
@@ -378,7 +397,7 @@ export const Settings: React.FC = () => {
                       </p>
                       <Button
                         onClick={handleRequestNotificationPermission}
-                        className="bg-amber-500 hover:bg-amber-600 text-white text-sm px-4 py-2"
+                        className="bg-amber-500 hover:bg-amber-600 theme-text-primary text-sm px-4 py-2"
                       >
                         Minta Izin Notifikasi
                       </Button>
@@ -433,16 +452,16 @@ export const Settings: React.FC = () => {
                     handleNotificationSettingChange("enabled", e.target.checked)
                   }
                   disabled={Notification.permission !== "granted"}
-                  className="w-4 h-4 text-violet-500 bg-white/10 border-white/20 rounded focus:ring-violet-500 focus:ring-2 disabled:opacity-50"
+                  className="w-4 h-4 text-theme-accent theme-bg-secondary theme-border rounded focus:ring-theme-accent focus:ring-2 disabled:opacity-50"
                 />
                 <span
-                  className={`text-white/80 ${
+                  className={`theme-text-secondary ${
                     Notification.permission !== "granted" ? "opacity-50" : ""
                   }`}
                 >
                   Enable notifications
                   {Notification.permission !== "granted" && (
-                    <span className="text-xs text-white/60 block">
+                    <span className="text-xs theme-text-muted block">
                       Izin notifikasi browser diperlukan
                     </span>
                   )}
@@ -459,15 +478,15 @@ export const Settings: React.FC = () => {
                   disabled={!preferences.notifications.enabled}
                   className="w-4 h-4 text-violet-500 bg-white/10 border-white/20 rounded focus:ring-violet-500 focus:ring-2 disabled:opacity-50"
                 />
-                <span className="text-white/80">Sound notifications</span>
+                <span className="theme-text-secondary">Sound notifications</span>
               </label>
 
               <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
+                <label className="block text-sm font-medium theme-text-secondary mb-2">
                   Notification Volume
                 </label>
                 <div className="flex items-center space-x-3">
-                  <Volume2 className="w-4 h-4 text-white/60" />
+                  <Volume2 className="w-4 h-4 theme-text-muted" />
                   <input
                     type="range"
                     min="0"
@@ -484,9 +503,9 @@ export const Settings: React.FC = () => {
                       !preferences.notifications.enabled ||
                       !preferences.notifications.sound
                     }
-                    className="flex-1 h-2 bg-white/20 rounded-lg appearance-none cursor-pointer disabled:opacity-50"
+                    className="flex-1 h-2 theme-bg-secondary rounded-lg appearance-none cursor-pointer disabled:opacity-50"
                   />
-                  <span className="text-sm text-white/60 w-8">
+                  <span className="text-sm theme-text-muted w-8">
                     {Math.round(preferences.notifications.volume * 100)}%
                   </span>
                 </div>
@@ -510,7 +529,7 @@ export const Settings: React.FC = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-white/80 mb-2">
+                <label className="block text-sm font-medium theme-text-secondary mb-2">
                   Theme
                 </label>
                 <div className="grid grid-cols-3 gap-3">
@@ -521,12 +540,12 @@ export const Settings: React.FC = () => {
                     }}
                     className={`p-3 rounded-lg border-2 transition-all ${
                       theme === "default"
-                        ? "border-violet-500 bg-violet-500/20"
-                        : "border-white/20 bg-white/10 hover:bg-white/20"
+                        ? "border-theme-accent theme-accent/20"
+                        : "theme-border theme-bg-secondary hover:theme-bg-primary"
                     }`}
                   >
                     <div className="w-full h-8 rounded bg-gradient-to-r from-violet-500 to-purple-600 mb-2"></div>
-                    <span className="text-sm text-white/80">Default</span>
+                    <span className="text-sm theme-text-secondary">Default</span>
                   </button>
 
                   <button
@@ -536,12 +555,12 @@ export const Settings: React.FC = () => {
                     }}
                     className={`p-3 rounded-lg border-2 transition-all ${
                       theme === "light"
-                        ? "border-blue-500 bg-blue-500/20"
-                        : "border-white/20 bg-white/10 hover:bg-white/20"
+                        ? "border-theme-accent theme-accent/20"
+                        : "theme-border theme-bg-secondary hover:theme-bg-primary"
                     }`}
                   >
                     <div className="w-full h-8 rounded bg-gradient-to-r from-white to-gray-100 mb-2 border border-gray-200"></div>
-                    <span className="text-sm text-white/80">Light</span>
+                    <span className="text-sm theme-text-secondary">Light</span>
                   </button>
 
                   <button
@@ -551,12 +570,12 @@ export const Settings: React.FC = () => {
                     }}
                     className={`p-3 rounded-lg border-2 transition-all ${
                       theme === "dark"
-                        ? "border-blue-500 bg-blue-500/20"
-                        : "border-white/20 bg-white/10 hover:bg-white/20"
+                        ? "border-theme-accent theme-accent/20"
+                        : "theme-border theme-bg-secondary hover:theme-bg-primary"
                     }`}
                   >
                     <div className="w-full h-8 rounded bg-gradient-to-r from-black to-gray-800 mb-2"></div>
-                    <span className="text-sm text-white/80">Dark</span>
+                    <span className="text-sm theme-text-secondary">Dark</span>
                   </button>
                 </div>
               </div>
@@ -618,9 +637,9 @@ export const Settings: React.FC = () => {
               <CardTitle>About</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-2 text-sm text-white/70">
+              <div className="space-y-2 text-sm theme-text-secondary">
                 <p>
-                  <strong className="text-white">Pomore</strong>
+                  <strong className="theme-text-primary">Pomore</strong>
                 </p>
                 <p>Version 1.0.0</p>
                 <p>
@@ -628,7 +647,7 @@ export const Settings: React.FC = () => {
                   rafitojuan💓
                 </p>
                 <p className="pt-2">
-                  <strong className="text-white">Features:</strong>
+                  <strong className="theme-text-primary">Features:</strong>
                 </p>
                 <ul className="list-disc list-inside space-y-1 ml-2">
                   <li>Customizable timer sessions</li>

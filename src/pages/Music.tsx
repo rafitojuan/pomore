@@ -217,17 +217,17 @@ const Music: React.FC = () => {
                 {!searchQuery &&
                   searchHistory.length > 0 &&
                   showSuggestions && (
-                    <div className="absolute top-full left-0 right-0 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl mt-2 z-10 max-h-48 overflow-y-auto custom-scrollbar shadow-2xl">
-                      <div className="px-4 py-2 text-xs text-white/60 border-b border-white/20">
+                    <div className="absolute top-full left-0 right-0 theme-bg-secondary backdrop-blur-xl border theme-border rounded-2xl mt-2 z-10 max-h-48 overflow-y-auto custom-scrollbar shadow-2xl">
+                      <div className="px-4 py-2 text-xs theme-text-muted border-b theme-border">
                         Recent searches
                       </div>
                       {searchHistory.map((query, index) => (
                         <div
                           key={index}
-                          className="px-4 py-2 hover:bg-white/10 cursor-pointer text-white text-sm transition-all duration-200"
+                          className="px-4 py-2 hover:bg-white/10 cursor-pointer theme-text-primary text-sm transition-all duration-200"
                           onClick={() => handleSuggestionClick(query)}
                         >
-                          <Search className="w-4 h-4 inline mr-2 text-white/60" />
+                          <Search className="w-4 h-4 inline mr-2 theme-text-muted" />
                           {query}
                         </div>
                       ))}
@@ -320,10 +320,10 @@ const Music: React.FC = () => {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="flex items-center gap-3 mb-6"
               >
-                <div className="p-2 bg-gradient-to-br from-purple-500/20 to-blue-500/20 backdrop-blur-xl rounded-xl border border-white/10">
-                  <TrendingUp className="h-6 w-6 text-white" />
+                <div className="p-2 bg-gradient-to-br theme-accent/20 backdrop-blur-xl rounded-xl border theme-border">
+                  <TrendingUp className="h-6 w-6 theme-text-primary" />
                 </div>
-                <h2 className="text-2xl font-bold text-white">
+                <h2 className="text-2xl font-bold theme-text-primary">
                   Trending Music
                 </h2>
                 <div className="flex-1 h-px bg-gradient-to-r from-white/20 to-transparent"></div>
@@ -336,7 +336,7 @@ const Music: React.FC = () => {
                       initial={{ opacity: 0, scale: 0.9 }}
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ duration: 0.4, delay: i * 0.1 }}
-                      className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 animate-pulse border border-white/10 shadow-2xl"
+                      className="theme-bg-secondary backdrop-blur-xl rounded-2xl p-6 animate-pulse border theme-border shadow-2xl"
                     >
                       <div className="bg-white/20 h-40 rounded-xl mb-4"></div>
                       <div className="bg-white/20 h-4 rounded-lg mb-3"></div>
@@ -380,10 +380,10 @@ const Music: React.FC = () => {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="flex items-center gap-3 mb-6"
               >
-                <div className="p-2 bg-gradient-to-br from-purple-500/20 to-blue-500/20 backdrop-blur-xl rounded-xl border border-white/10">
-                  <MusicIcon className="h-6 w-6 text-white" />
+                <div className="p-2 bg-gradient-to-br theme-accent/20 backdrop-blur-xl rounded-xl border theme-border">
+                  <MusicIcon className="h-6 w-6 theme-text-primary" />
                 </div>
-                <h2 className="text-2xl font-bold text-white">
+                <h2 className="text-2xl font-bold theme-text-primary">
                   Music Categories
                 </h2>
                 <div className="flex-1 h-px bg-gradient-to-r from-white/20 to-transparent"></div>
@@ -400,18 +400,18 @@ const Music: React.FC = () => {
                     whileTap={{ scale: 0.95 }}
                     className={`group p-6 backdrop-blur-xl rounded-2xl border transition-all duration-300 text-left shadow-2xl ${
                       selectedCategory === category.id
-                        ? "bg-gradient-to-r from-purple-500/80 to-blue-500/80 border-white/30 text-white shadow-purple-500/20"
-                        : "bg-white/10 border-white/10 hover:border-white/30 text-white hover:shadow-purple-500/20"
+                        ? "bg-gradient-to-r theme-accent/80 theme-border-accent theme-text-primary shadow-theme-accent/20"
+                  : "theme-bg-secondary theme-border hover:theme-border-accent theme-text-primary hover:shadow-theme-accent/20"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-3">
                       <Sparkles className="h-5 w-5 text-purple-400 group-hover:text-purple-300 transition-colors" />
-                      <div className="w-2 h-2 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full group-hover:scale-150 transition-transform"></div>
+                      <div className="w-2 h-2 bg-gradient-to-r theme-accent rounded-full group-hover:scale-150 transition-transform"></div>
                     </div>
-                    <div className="text-lg font-semibold text-white group-hover:text-purple-200 transition-colors leading-tight">
+                    <div className="text-lg font-semibold theme-text-primary group-hover:text-purple-200 transition-colors leading-tight">
                       {category.title}
                     </div>
-                    <div className="mt-2 text-xs text-white/60 group-hover:text-white/80 transition-colors">
+                    <div className="mt-2 text-xs theme-text-muted group-hover:theme-text-secondary transition-colors">
                       Explore category
                     </div>
                   </motion.button>
@@ -425,10 +425,10 @@ const Music: React.FC = () => {
                   className="mt-12"
                 >
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="p-2 bg-gradient-to-br from-blue-500/20 to-purple-500/20 backdrop-blur-xl rounded-xl border border-white/10">
-                      <MusicIcon className="h-5 w-5 text-white" />
+                    <div className="p-2 bg-gradient-to-br theme-accent/20 backdrop-blur-xl rounded-xl border theme-border">
+                      <MusicIcon className="h-5 w-5 theme-text-primary" />
                     </div>
-                    <h3 className="text-xl font-bold text-white">
+                    <h3 className="text-xl font-bold theme-text-primary">
                       {
                         categories.find((cat) => cat.id === selectedCategory)
                           ?.title
@@ -474,10 +474,10 @@ const Music: React.FC = () => {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="flex items-center gap-3 mb-6"
               >
-                <div className="p-2 bg-gradient-to-br from-purple-500/20 to-blue-500/20 backdrop-blur-xl rounded-xl border border-white/10">
-                  <Search className="h-6 w-6 text-white" />
-                </div>
-                <h2 className="text-2xl font-bold text-white">
+                <div className="p-2 bg-gradient-to-br theme-accent/20 backdrop-blur-xl rounded-xl border theme-border">
+                  <Search className="h-6 w-6 theme-text-primary" />
+              </div>
+              <h2 className="text-2xl font-bold theme-text-primary">
                   Search Results ({searchResults.length})
                 </h2>
                 <div className="flex-1 h-px bg-gradient-to-r from-white/20 to-transparent"></div>
@@ -530,12 +530,12 @@ const Music: React.FC = () => {
                   transition={{ duration: 0.5, delay: 0.2 }}
                   className="flex items-center gap-3"
                 >
-                  <div className="p-2 bg-gradient-to-br from-purple-500/20 to-blue-500/20 backdrop-blur-xl rounded-xl border border-white/10">
-                    <List className="h-6 w-6 text-white" />
+                  <div className="p-2 bg-gradient-to-br theme-accent/20 backdrop-blur-xl rounded-xl border theme-border">
+                    <List className="h-6 w-6 theme-text-primary" />
                   </div>
-                  <h2 className="text-2xl font-bold text-white">
-                    My Playlists
-                  </h2>
+                  <h2 className="text-2xl font-bold theme-text-primary">
+                  My Playlists
+                </h2>
                   <div className="flex-1 h-px bg-gradient-to-r from-white/20 to-transparent"></div>
                 </motion.div>
                 <motion.div
@@ -547,7 +547,7 @@ const Music: React.FC = () => {
                 >
                   <Button
                     onClick={() => setShowAddPlaylist(true)}
-                    className="bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500 hover:to-blue-500 backdrop-blur-xl border border-white/20 hover:border-white/30 text-white font-medium rounded-2xl px-6 py-3 shadow-2xl transition-all duration-300"
+                    className="bg-gradient-to-r theme-accent/80 hover:theme-accent backdrop-blur-xl border theme-border hover:theme-border-accent theme-text-primary font-medium rounded-2xl px-6 py-3 shadow-2xl transition-all duration-300"
                   >
                     <Plus className="h-5 w-5 mr-2" />
                     New Playlist
@@ -561,10 +561,10 @@ const Music: React.FC = () => {
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: 0.4 }}
-                    className="bg-white/5 backdrop-blur-xl rounded-3xl p-4 border border-white/10 shadow-2xl"
+                    className="theme-bg-tertiary backdrop-blur-xl rounded-3xl p-4 border theme-border shadow-2xl"
                   >
-                    <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
-                      <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"></div>
+                    <h3 className="text-xl font-bold theme-text-primary mb-6 flex items-center gap-3">
+                      <div className="w-2 h-2 bg-gradient-to-r theme-accent rounded-full"></div>
                       Playlists ({playlists.length})
                     </h3>
                     <div className="space-y-3">
@@ -574,16 +574,16 @@ const Music: React.FC = () => {
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.3, delay: index * 0.1 }}
-                          className="p-4 rounded-2xl cursor-pointer transition-all duration-300 group bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20"
+                          className="p-4 rounded-2xl cursor-pointer transition-all duration-300 group theme-bg-tertiary hover:theme-bg-secondary border theme-border hover:theme-border-accent"
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                         >
                           <div className="flex items-center justify-between">
                             <div className="flex-1">
-                              <h4 className="font-semibold text-white group-hover:text-purple-300 transition-colors">
+                              <h4 className="font-semibold theme-text-primary group-hover:text-purple-300 transition-colors">
                                 {playlist.name}
                               </h4>
-                              <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
+                              <p className="text-sm theme-text-secondary group-hover:theme-text-primary transition-colors">
                                 {playlist.tracks.length} tracks
                               </p>
                             </div>
@@ -598,7 +598,7 @@ const Music: React.FC = () => {
                                 }}
                                 className="h-8 w-8 p-0 hover:bg-white/20 rounded-xl"
                               >
-                                <Edit2 className="h-4 w-4 text-white" />
+                                <Edit2 className="h-4 w-4 theme-text-primary" />
                               </Button>
                               <Button
                                 size="sm"
@@ -616,7 +616,7 @@ const Music: React.FC = () => {
                         </motion.div>
                       ))}
                       {playlists.length === 0 && (
-                        <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                        <div className="text-center py-8 theme-text-secondary">
                           <MusicIcon className="h-12 w-12 mx-auto mb-4 opacity-50" />
                           <p>No playlists yet. Create your first playlist!</p>
                         </div>
@@ -629,20 +629,20 @@ const Music: React.FC = () => {
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5, delay: 0.5 }}
-                    className="bg-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10 shadow-2xl text-center"
+                    className="theme-bg-tertiary backdrop-blur-xl rounded-3xl p-8 border theme-border shadow-2xl text-center"
                   >
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: 0.7 }}
                     >
-                      <div className="p-6 bg-gradient-to-br from-purple-500/20 to-blue-500/20 backdrop-blur-xl rounded-3xl border border-white/10 w-fit mx-auto mb-6">
-                        <MusicIcon className="h-16 w-16 text-white" />
+                      <div className="p-6 bg-gradient-to-br theme-accent/20 backdrop-blur-xl rounded-3xl border theme-border w-fit mx-auto mb-6">
+                        <MusicIcon className="h-16 w-16 theme-text-primary" />
                       </div>
-                      <h3 className="text-2xl font-bold text-white mb-3">
+                      <h3 className="text-2xl font-bold theme-text-primary mb-3">
                         Select a Playlist
                       </h3>
-                      <p className="text-gray-400 text-lg">
+                      <p className="theme-text-secondary text-lg">
                         Choose a playlist from the left to view its contents
                       </p>
                     </motion.div>
@@ -671,17 +671,17 @@ const Music: React.FC = () => {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ duration: 0.3 }}
-              className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 w-full max-w-md border border-white/20 shadow-2xl"
+              className="theme-bg-secondary backdrop-blur-xl rounded-3xl p-8 w-full max-w-md border theme-border shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="text-center mb-6">
-                <div className="p-3 bg-gradient-to-br from-purple-500/20 to-blue-500/20 backdrop-blur-xl rounded-2xl border border-white/10 w-fit mx-auto mb-4">
-                  <List className="h-8 w-8 text-white" />
+                <div className="p-3 bg-gradient-to-br theme-accent/20 backdrop-blur-xl rounded-2xl border theme-border w-fit mx-auto mb-4">
+                  <List className="h-8 w-8 theme-text-primary" />
                 </div>
-                <h3 className="text-2xl font-bold text-white mb-2">
+                <h3 className="text-2xl font-bold theme-text-primary mb-2">
                   {editingPlaylist ? "Edit Playlist" : "Create New Playlist"}
                 </h3>
-                <p className="text-gray-400">
+                <p className="theme-text-secondary">
                   {editingPlaylist
                     ? "Update your playlist name"
                     : "Give your playlist a name"}
@@ -691,7 +691,7 @@ const Music: React.FC = () => {
                 <input
                   type="text"
                   placeholder="Enter playlist name..."
-                  className="w-full p-4 bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-400/50 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300"
+                  className="w-full p-4 theme-bg-secondary backdrop-blur-xl theme-border rounded-2xl theme-text-primary placeholder-theme-text-secondary focus:outline-none focus:theme-border-accent focus:ring-2 focus:ring-purple-500/20 transition-all duration-300"
                   autoFocus
                 />
               </div>
@@ -707,7 +707,7 @@ const Music: React.FC = () => {
                       setShowAddPlaylist(false);
                       setEditingPlaylist(null);
                     }}
-                    className="w-full bg-white/5 hover:bg-white/10 border-white/20 hover:border-white/30 text-white rounded-2xl py-3 transition-all duration-300"
+                    className="w-full theme-bg-tertiary hover:theme-bg-secondary theme-border hover:theme-border-accent theme-text-primary rounded-2xl py-3 transition-all duration-300"
                   >
                     Cancel
                   </Button>
@@ -719,7 +719,7 @@ const Music: React.FC = () => {
                 >
                   <Button
                     onClick={() => handleCreatePlaylist("")}
-                    className="w-full bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500 hover:to-blue-500 border border-white/20 text-white rounded-2xl py-3 shadow-xl transition-all duration-300"
+                    className="w-full bg-gradient-to-r theme-accent/80 hover:theme-accent border theme-border theme-text-primary rounded-2xl py-3 shadow-xl transition-all duration-300"
                   >
                     {editingPlaylist ? "Update" : "Create"}
                   </Button>

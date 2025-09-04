@@ -117,7 +117,7 @@ export const Timer: React.FC = () => {
               <Button
                 onClick={handleRequestNotificationPermission}
                 size="sm"
-                className="bg-amber-500 hover:bg-amber-600 text-white text-sm px-3 py-1"
+                className="bg-amber-500 hover:bg-amber-600 theme-text-primary text-sm px-3 py-1"
               >
                 Izinkan
               </Button>
@@ -138,10 +138,10 @@ export const Timer: React.FC = () => {
         transition={{ duration: 0.6 }}
         className="text-center"
       >
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+        <h1 className="text-4xl md:text-5xl font-bold theme-text-primary mb-4">
           Pomodoro Timer
         </h1>
-        <p className="text-white/70 text-lg">
+        <p className="theme-text-secondary text-lg">
           Stay focused and productive with the Pomodoro Technique
         </p>
       </motion.div>
@@ -157,10 +157,10 @@ export const Timer: React.FC = () => {
             >
               <div className="flex items-center space-x-3 mb-4">
                 <CurrentIcon
-                  className="w-6 h-6 text-white"
+                  className="w-6 h-6 theme-text-primary"
                   style={{ color: sessionColor }}
                 />
-                <h2 className="text-2xl font-semibold text-white">
+                <h2 className="text-2xl font-semibold theme-text-primary">
                   {sessionLabels[timerState.currentSession]}
                 </h2>
               </div>
@@ -178,11 +178,11 @@ export const Timer: React.FC = () => {
                     initial={{ scale: 1.1 }}
                     animate={{ scale: 1 }}
                     transition={{ duration: 0.3 }}
-                    className="text-5xl md:text-6xl font-bold text-white mb-2"
+                    className="text-5xl md:text-6xl font-bold theme-text-primary mb-2"
                   >
                     {formatTime(timerState.timeLeft)}
                   </motion.div>
-                  <div className="text-white/60 text-sm uppercase tracking-wider">
+                  <div className="theme-text-muted text-sm uppercase tracking-wider">
                     {timerState.isRunning
                       ? "Running"
                       : timerState.isPaused
@@ -235,7 +235,7 @@ export const Timer: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.4 }}
           >
             <Card>
-              <h3 className="text-lg font-semibold text-white mb-4">
+              <h3 className="text-lg font-semibold theme-text-primary mb-4">
                 Session Type
               </h3>
               <div className="space-y-2">
@@ -268,25 +268,25 @@ export const Timer: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.6 }}
           >
             <Card>
-              <h3 className="text-lg font-semibold text-white mb-4">
+              <h3 className="text-lg font-semibold theme-text-primary mb-4">
                 Statistics
               </h3>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-white/70">Sessions Completed</span>
-                  <span className="text-white font-semibold">
+                  <span className="theme-text-secondary">Sessions Completed</span>
+                  <span className="theme-text-primary font-semibold">
                     {timerState.sessionsCompleted}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-white/70">Current Session</span>
-                  <span className="text-white font-semibold capitalize">
+                  <span className="theme-text-secondary">Current Session</span>
+                  <span className="theme-text-primary font-semibold capitalize">
                     {timerState.currentSession.replace("-", " ")}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-white/70">Progress</span>
-                  <span className="text-white font-semibold">
+                  <span className="theme-text-secondary">Progress</span>
+                  <span className="theme-text-primary font-semibold">
                     {Math.round(progress)}%
                   </span>
                 </div>
@@ -300,10 +300,10 @@ export const Timer: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.8 }}
           >
             <Card>
-              <h3 className="text-lg font-semibold text-white mb-4">
+              <h3 className="text-lg font-semibold theme-text-primary mb-4">
                 Quick Tips
               </h3>
-              <div className="space-y-2 text-sm text-white/70">
+              <div className="space-y-2 text-sm theme-text-secondary">
                 <p>• Focus on one task during work sessions</p>
                 <p>• Take breaks to maintain productivity</p>
                 <p>• Use background music to stay focused</p>
