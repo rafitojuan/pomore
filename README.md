@@ -1,34 +1,34 @@
-# 🍅 Pomore - Pomodoro Timer App
+# Pomore - Pomodoro Timer App
 
 Aplikasi Pomodoro Timer yang elegan dan powerful untuk meningkatkan produktivitas Anda! Dibangun dengan React + TypeScript + Vite dengan antarmuka yang modern dan fitur-fitur canggih.
 
-## ✨ Fitur Utama
+## Fitur Utama
 
-### ⏰ Timer Pomodoro Cerdas
+### Timer Pomodoro Cerdas
 
 - Timer dengan sesi kerja dan istirahat yang dapat disesuaikan
 - Notifikasi browser otomatis ketika sesi selesai
 - Kontrol mudah dengan tombol play, pause, dan reset
 
-### 🎵 Pemutar Musik Terintegrasi
+### Pemutar Musik Terintegrasi
 
 - Streaming musik dari YouTube untuk menemani sesi kerja
 - Kontrol volume dan playlist yang mudah digunakan
 - Mini player yang tidak mengganggu fokus
 
-### 📋 Manajemen Tugas
+### Manajemen Tugas
 
 - Buat, edit, dan hapus tugas dengan mudah
 - Tandai tugas sebagai selesai
 - Ekspor data tugas ke berbagai format
 
-### ⚙️ Pengaturan Fleksibel
+### Pengaturan Fleksibel
 
 - Atur durasi sesi kerja dan istirahat sesuai kebutuhan
 - Pilihan tema dan personalisasi tampilan
 - Pengaturan notifikasi yang dapat dikustomisasi
 
-## 📱 Tampilan Aplikasi
+## Tampilan Aplikasi
 
 ### Dashboard Utama
 
@@ -60,7 +60,7 @@ _Kustomisasi aplikasi sesuai preferensi Anda_
 ![Notifications](<public/pomore%20(6).png>)
 _Sistem notifikasi yang membantu Anda tetap fokus_
 
-## 🚀 Teknologi yang Digunakan
+## Teknologi yang Digunakan
 
 - **React 18** + **TypeScript** - Framework modern untuk UI yang responsif
 - **Vite** - Build tool yang super cepat
@@ -68,7 +68,7 @@ _Sistem notifikasi yang membantu Anda tetap fokus_
 - **Framer Motion** - Animasi yang smooth dan menarik
 - **Web Notifications API** - Notifikasi browser yang terintegrasi
 
-## 🔔 Cara Mengaktifkan Notifikasi Browser
+## Cara Mengaktifkan Notifikasi Browser
 
 Untuk pengalaman terbaik, aktifkan notifikasi browser:
 
@@ -87,7 +87,7 @@ Untuk pengalaman terbaik, aktifkan notifikasi browser:
 1. Safari → Preferences → Websites → Notifications
 2. Ubah ke "Allow" untuk domain aplikasi
 
-## 🎯 Mengapa Pomore?
+## Mengapa Pomore?
 
 - **Sederhana namun Powerful** - Interface yang clean dengan fitur lengkap
 - **Produktivitas Maksimal** - Teknik Pomodoro yang terbukti efektif
@@ -95,7 +95,7 @@ Untuk pengalaman terbaik, aktifkan notifikasi browser:
 - **Manajemen Tugas** - Kelola to-do list dalam satu aplikasi
 - **Customizable** - Sesuaikan dengan gaya kerja Anda
 
-## 👨‍💻 Credit
+## Credit
 
 Dibuat dengan ❤️ oleh **rafitojuan**
 
