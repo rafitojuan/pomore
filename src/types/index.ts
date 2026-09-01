@@ -89,6 +89,12 @@ export interface MusicState {
   duration: number;
 }
 
+export interface YouTubeThumbnail {
+  url: string;
+  width?: number;
+  height?: number;
+}
+
 export interface YouTubeVideo {
   id: string;
   title: string;
@@ -96,9 +102,9 @@ export interface YouTubeVideo {
   channelId: string;
   description: string;
   thumbnails: {
-    default: { url: string; width: number; height: number };
-    medium: { url: string; width: number; height: number };
-    high: { url: string; width: number; height: number };
+    default?: YouTubeThumbnail;
+    medium?: YouTubeThumbnail;
+    high?: YouTubeThumbnail;
   };
   publishedAt: string;
   duration: string;

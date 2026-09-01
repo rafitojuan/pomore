@@ -233,7 +233,24 @@ const Music: React.FC = () => {
             ))}
           </div>
 
-          {/* Note: In full implementation, categoryVideos would be loaded here. Skipping for brevity. */}
+          {selectedCategory && (
+            <div className="space-y-3 pt-2">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-500">
+                Mix: {categories.find((c) => c.id === selectedCategory)?.title || "Category"} ({searchResults.length})
+              </h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5">
+                {searchResults.map((video) => (
+                  <VideoCard
+                    key={video.id}
+                    video={video}
+                    playlists={playlists}
+                    onPlay={playVideo}
+                    onAddToPlaylist={addToPlaylist}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
 
