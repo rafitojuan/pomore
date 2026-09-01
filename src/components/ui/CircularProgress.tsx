@@ -13,10 +13,10 @@ interface CircularProgressProps {
 
 export const CircularProgress: React.FC<CircularProgressProps> = ({
   progress,
-  size = 200,
-  strokeWidth = 8,
-  color = 'var(--accent)',
-  backgroundColor = 'var(--glass-border)',
+  size = 220,
+  strokeWidth = 6,
+  color = '#10b981',
+  backgroundColor = 'rgba(255, 255, 255, 0.08)',
   children,
   className = ''
 }) => {
@@ -26,7 +26,7 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
   const strokeDashoffset = circumference - (progress / 100) * circumference;
 
   return (
-    <div className={`relative inline-flex items-center justify-center theme-transition ${className}`}>
+    <div className={`relative inline-flex items-center justify-center ${className}`}>
       <svg
         width={size}
         height={size}
@@ -36,12 +36,12 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke={backgroundColor}
+          stroke="currentColor"
           strokeWidth={strokeWidth}
           fill="transparent"
-          className="opacity-40"
+          className="text-zinc-200 dark:text-zinc-800"
         />
-        
+
         <motion.circle
           cx={size / 2}
           cy={size / 2}
@@ -53,31 +53,10 @@ export const CircularProgress: React.FC<CircularProgressProps> = ({
           strokeDasharray={strokeDasharray}
           initial={{ strokeDashoffset: circumference }}
           animate={{ strokeDashoffset }}
-          transition={{ duration: 0.5, ease: 'easeInOut' }}
-          className="drop-shadow-lg theme-transition"
-          style={{
-            filter: `drop-shadow(0 0 8px var(--accent)40)`
-          }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
         />
-        
-        <circle
-          cx={size / 2}
-          cy={size / 2}
-          r={radius - strokeWidth / 2}
-          fill="transparent"
-          stroke="url(#gradient)"
-          strokeWidth="1"
-          className="opacity-20"
-        />
-        
-        <defs>
-          <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.3" />
-            <stop offset="100%" stopColor="var(--accent)" stopOpacity="0.1" />
-          </linearGradient>
-        </defs>
       </svg>
-      
+
       {children && (
         <div className="absolute inset-0 flex items-center justify-center">
           {children}
@@ -96,9 +75,9 @@ export const AnimatedCounter: React.FC<AnimatedCounterProps> = ({ value, classNa
   return (
     <motion.span
       key={value}
-      initial={{ scale: 1.2, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.3 }}
+      initial={{ y: -4, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.2 }}
       className={className}
     >
       {value}

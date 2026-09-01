@@ -29,8 +29,8 @@ export const Input: React.FC<InputProps> = ({
   max,
   step
 }) => {
-  const baseClasses = 'w-full px-3 py-2 theme-bg-secondary theme-border rounded-lg theme-text-primary placeholder-theme-text-secondary focus:outline-none focus:ring-2 focus:ring-theme-accent/50 focus:theme-border-accent transition-all duration-200';
-  
+  const baseClasses = 'w-full px-3 py-2 text-sm bg-zinc-900/50 dark:bg-zinc-900/50 bg-white border border-zinc-200 dark:border-zinc-800 rounded-lg text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 dark:placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-150 shadow-sm';
+
   const classes = `${baseClasses} ${className}`.trim();
 
   return (

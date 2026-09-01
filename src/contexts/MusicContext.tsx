@@ -384,7 +384,6 @@ export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   return (
     <MusicContext.Provider value={value}>
       {children}
-      <div id="youtube-player" style={{ display: 'none' }} />
     </MusicContext.Provider>
   );
 };

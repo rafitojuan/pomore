@@ -20,25 +20,25 @@ export const Button: React.FC<ButtonProps> = ({
   className = '',
   type = 'button'
 }) => {
-  const baseClasses = 'relative overflow-hidden rounded-xl font-medium transition-all duration-200 glassmorphism';
-  
+  const baseClasses = 'inline-flex items-center justify-center font-medium rounded-lg transition-all duration-150 select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/50';
+
   const variantClasses = {
-    primary: 'theme-accent/20 theme-border-accent theme-text-primary hover:theme-accent/30 hover:theme-border-accent shadow-lg',
-    secondary: 'bg-glass border-glass theme-text-primary hover:bg-glass/80 hover:border-glass shadow-glass',
-    ghost: 'bg-transparent border-transparent theme-text-secondary hover:theme-bg-tertiary hover:theme-text-primary',
-    danger: 'bg-red-600/20 border-red-500/30 theme-text-primary hover:bg-red-600/30 hover:border-red-400/50 shadow-lg shadow-red-500/20',
-    outline: 'bg-transparent theme-border theme-text-primary hover:theme-bg-tertiary',
-    default: 'theme-accent/20 theme-border-accent theme-text-primary hover:theme-accent/30 hover:theme-border-accent shadow-lg'
+    primary: 'bg-emerald-600 text-white hover:bg-emerald-500 active:bg-emerald-700 shadow-sm border border-emerald-500/30',
+    secondary: 'theme-bg-secondary theme-border border theme-text-primary hover:theme-bg-tertiary shadow-sm',
+    ghost: 'bg-transparent border border-transparent theme-text-secondary hover:theme-bg-tertiary hover:theme-text-primary',
+    danger: 'bg-rose-600/10 text-rose-500 border border-rose-500/20 hover:bg-rose-600/20 active:bg-rose-600/30',
+    outline: 'bg-transparent theme-border border theme-text-primary hover:theme-bg-tertiary',
+    default: 'bg-emerald-600 text-white hover:bg-emerald-500 active:bg-emerald-700 shadow-sm border border-emerald-500/30'
   };
-  
+
   const sizeClasses = {
-    sm: 'px-3 py-1.5 text-sm',
-    md: 'px-4 py-2 text-base',
-    lg: 'px-6 py-3 text-lg'
+    sm: 'px-2.5 py-1.5 text-xs gap-1.5',
+    md: 'px-3.5 py-2 text-sm gap-2',
+    lg: 'px-5 py-2.5 text-base gap-2.5'
   };
-  
-  const disabledClasses = 'opacity-50 cursor-not-allowed';
-  
+
+  const disabledClasses = 'opacity-50 cursor-not-allowed pointer-events-none';
+
   const classes = `
     ${baseClasses}
     ${variantClasses[variant]}
@@ -53,21 +53,13 @@ export const Button: React.FC<ButtonProps> = ({
       className={classes}
       onClick={disabled ? undefined : onClick}
       disabled={disabled}
-      whileHover={disabled ? {} : { scale: 1.02 }}
+      whileHover={disabled ? {} : { scale: 1.01 }}
       whileTap={disabled ? {} : { scale: 0.98 }}
       transition={{ duration: 0.1 }}
     >
-      <div className="relative z-10 flex items-center justify-center">
+      <div className="relative z-10 flex items-center justify-center gap-2">
         {children}
       </div>
-      {!disabled && (
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-theme-text-primary/10 to-transparent"
-          initial={{ x: '-100%' }}
-          whileHover={{ x: '100%' }}
-          transition={{ duration: 0.6 }}
-        />
-      )}
     </motion.button>
   );
 };

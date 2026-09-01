@@ -10,60 +10,37 @@ interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { theme } = useTheme();
-  const {
-    musicState,
-    pauseMusic,
-    resumeMusic,
-    nextTrack,
-    previousTrack,
-    seekTo,
-    setVolume,
-  } = useMusicContext();
+  const { musicState } = useMusicContext();
 
   return (
-    <div
-      className={`min-h-screen relative overflow-hidden theme-bg-primary ${theme}`}
-    >
-      <div
-        className="absolute inset-0 opacity-50"
-        style={{
-          backgroundImage:
-            "url('data:image/svg+xml,%3Csvg width=%2760%27 height=%2760%27 viewBox=%270 0 60 60%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cg fill=%27none%27 fill-rule=%27evenodd%27%3E%3Cg fill=%27%23ffffff%27 fill-opacity=%270.03%27%3E%3Ccircle cx=%2730%27 cy=%2730%27 r=%272%27/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')",
-        }}
-      />
+    <div className={`min-h-screen flex flex-col bg-zinc-50 dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 selection:bg-emerald-500 selection:text-white antialiased ${theme}`}>
+      <Navigation />
 
-      <div className="absolute top-0 left-0 w-96 h-96 theme-accent/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 theme-accent/20 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
-      <div className="absolute top-1/2 left-1/2 w-64 h-64 theme-accent/10 rounded-full blur-2xl -translate-x-1/2 -translate-y-1/2" />
+      <main
+        className={`flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 ${
+          musicState.currentTrack || musicState.currentVideo ? "pb-32" : "pb-12"
+        }`}
+      >
+        {children}
+      </main>
 
-      <div className="relative z-10 flex flex-col min-h-screen">
-        <Navigation />
-
-        <main
-          className={`flex-1 container mx-auto px-4 py-8 ${
-            musicState.currentTrack ? "pb-32" : ""
-          }`}
-        >
-          {children}
-        </main>
-
-        {(musicState.currentTrack || musicState.currentVideo) && (
-          <div className="fixed bottom-0 left-0 right-0 z-50 p-4">
+      {(musicState.currentTrack || musicState.currentVideo) && (
+        <div className="fixed bottom-4 left-0 right-0 z-40 px-4 pointer-events-none">
+          <div className="pointer-events-auto">
             <MiniPlayer />
           </div>
-        )}
+        </div>
+      )}
 
-        <footer className="glassmorphism border-t py-6">
-          <div className="container mx-auto px-4 text-center theme-text-secondary">
-            <p>
-              &copy; 2025 Pomore - Pomodoro Timer with Music. Made by rafitojuan
-              💓
-            </p>
-          </div>
-        </footer>
+      <footer className="border-t border-zinc-200 dark:border-zinc-800 py-6 text-center text-xs text-zinc-500 dark:text-zinc-500">
+        <p>&copy; {new Date().getFullYear()} Pomore — Focus & Sound. Crafted with care.</p>
+      </footer>
 
-        <div id="youtube-player" style={{ display: "none" }}></div>
-      </div>
+      <div
+        id="youtube-player"
+        className="pointer-events-none fixed -left-[9999px] -top-[9999px] h-px w-px opacity-0 overflow-hidden"
+        aria-hidden="true"
+      />
     </div>
   );
 };

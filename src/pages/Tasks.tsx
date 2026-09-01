@@ -3,12 +3,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Plus,
   Search,
-  Filter,
   Download,
   Trash2,
   Edit3,
   Clock,
-  AlertCircle,
+  Inbox,
+  CheckCircle2,
+  CircleDot,
+  ListTodo,
 } from "lucide-react";
 import {
   DragDropContext,
@@ -16,22 +18,16 @@ import {
   Draggable,
   DropResult,
 } from "@hello-pangea/dnd";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "../components/ui/Card";
+import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
 import { taskService } from "../services/taskService";
 import { exportService } from "../services/exportService";
 import { Task, TaskStatus, TaskPriority } from "../types";
-import { formatTime, generateId } from "../utils";
+import { generateId } from "../utils";
 
 export const Tasks: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filterStatus, setFilterStatus] = useState<TaskStatus | "all">("all");
   const [filterPriority, setFilterPriority] = useState<TaskPriority | "all">(
     "all"
   );
@@ -179,16 +175,8 @@ export const Tasks: React.FC = () => {
     }
   };
 
-  const handleUpdateTask = (taskId: string, updates: Partial<Task>) => {
-    taskService.updateTask(taskId, updates);
-  };
-
   const handleDeleteTask = (taskId: string) => {
     taskService.deleteTask(taskId);
-  };
-
-  const handleStatusChange = (taskId: string, status: TaskStatus) => {
-    handleUpdateTask(taskId, { status, updatedAt: new Date() });
   };
 
   const handleExportTasks = () => {
@@ -199,12 +187,10 @@ export const Tasks: React.FC = () => {
     const matchesSearch =
       task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       task.description?.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus =
-      filterStatus === "all" || task.status === filterStatus;
     const matchesPriority =
       filterPriority === "all" || task.priority === filterPriority;
 
-    return matchesSearch && matchesStatus && matchesPriority;
+    return matchesSearch && matchesPriority;
   });
 
   const tasksByStatus = {
@@ -219,27 +205,22 @@ export const Tasks: React.FC = () => {
       .sort((a, b) => (a.order || 0) - (b.order || 0)),
   };
 
-  const statusLabels = {
-    todo: "To Do",
-    "in-progress": "In Progress",
-    completed: "Completed",
+  const statusConfig = {
+    todo: { label: "To Do", icon: ListTodo, color: "text-zinc-500" },
+    "in-progress": { label: "In Progress", icon: CircleDot, color: "text-amber-500" },
+    completed: { label: "Done", icon: CheckCircle2, color: "text-emerald-500" },
   };
 
-  const priorityColors = {
-    low: "bg-green-500",
-    medium: "bg-yellow-500",
-    high: "bg-red-500",
+  const priorityBadges = {
+    low: "bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700",
+    medium: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20",
+    high: "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20",
   };
 
   const TaskCard: React.FC<{ task: Task; index: number }> = ({
     task,
     index,
   }) => {
-    const progress =
-      task.estimatedPomodoros > 0
-        ? (task.pomodorosCompleted / task.estimatedPomodoros) * 100
-        : 0;
-
     return (
       <Draggable draggableId={task.id} index={index}>
         {(provided, snapshot) => (
@@ -247,70 +228,63 @@ export const Tasks: React.FC = () => {
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
-            className="mb-3 select-none"
+            className="mb-2.5 select-none"
           >
-            <Card
-              className={`transition-shadow duration-200 ease-out relative ${
+            <div
+              className={`p-3 rounded-lg border bg-white dark:bg-zinc-900 transition-all duration-150 ${
                 snapshot.isDragging
-                  ? "shadow-2xl z-[9999]"
-                  : "hover:shadow-lg z-10"
+                  ? "border-emerald-500 shadow-lg ring-1 ring-emerald-500/20 z-50"
+                  : "border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 shadow-sm"
               }`}
             >
-              <CardContent className="p-4">
-                <div className="flex items-start justify-between mb-3">
-                  <div className="flex-1">
-                    <h4 className="font-semibold theme-text-primary mb-1">
-                      {task.title}
-                    </h4>
-                    {task.description && (
-                      <p className="text-sm theme-text-secondary mb-2">
-                        {task.description}
-                      </p>
-                    )}
-                  </div>
-                  <div className="flex items-center space-x-2 ml-2">
-                    <div
-                      className={`w-2 h-2 rounded-full ${
-                        priorityColors[task.priority]
-                      }`}
-                    />
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setEditingTask(task);
-                      }}
-                      className="p-1 h-auto hover:theme-bg-secondary z-[10000] relative"
-                    >
-                      <Edit3 className="w-3 h-3" />
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDeleteTask(task.id);
-                      }}
-                      className="p-1 h-auto text-red-400 hover:text-red-300 hover:bg-red-500/10 z-[10000] relative"
-                    >
-                      <Trash2 className="w-3 h-3" />
-                    </Button>
-                  </div>
+              <div className="flex items-start justify-between gap-2 mb-1.5">
+                <h4 className="font-medium text-xs sm:text-sm text-zinc-900 dark:text-zinc-100 leading-snug line-clamp-2">
+                  {task.title}
+                </h4>
+                <div className="flex items-center gap-1 opacity-80 hover:opacity-100">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setEditingTask(task);
+                    }}
+                    className="p-1 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 rounded transition-colors"
+                  >
+                    <Edit3 className="w-3 h-3" />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteTask(task.id);
+                    }}
+                    className="p-1 text-zinc-400 hover:text-rose-500 rounded transition-colors"
+                  >
+                    <Trash2 className="w-3 h-3" />
+                  </button>
                 </div>
+              </div>
 
-                <div className="flex items-center justify-between text-xs theme-text-muted">
-                  <div className="flex items-center space-x-2">
-                    <Clock className="w-3 h-3" />
-                    <span>
-                      {task.pomodorosCompleted}/{task.estimatedPomodoros}{" "}
-                      pomodoros
-                    </span>
-                  </div>
-                  <span className="capitalize">{task.priority} priority</span>
+              {task.description && (
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 mb-2">
+                  {task.description}
+                </p>
+              )}
+
+              <div className="flex items-center justify-between pt-1 border-t border-zinc-100 dark:border-zinc-800 text-[11px]">
+                <div className="flex items-center gap-1.5 text-zinc-500 dark:text-zinc-400">
+                  <Clock className="w-3 h-3" />
+                  <span>
+                    {task.pomodorosCompleted}/{task.estimatedPomodoros}
+                  </span>
                 </div>
-              </CardContent>
-            </Card>
+                <span
+                  className={`px-1.5 py-0.5 rounded text-[10px] uppercase font-medium border ${
+                    priorityBadges[task.priority]
+                  }`}
+                >
+                  {task.priority}
+                </span>
+              </div>
+            </div>
           </div>
         )}
       </Draggable>
@@ -318,318 +292,286 @@ export const Tasks: React.FC = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="flex flex-col md:flex-row md:items-center justify-between"
-      >
+    <div className="max-w-6xl mx-auto space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-zinc-200 dark:border-zinc-800">
         <div>
-          <h1 className="text-3xl md:text-4xl font-bold theme-text-primary mb-2">
-            Task Management
+          <h1 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+            Task Board
           </h1>
-          <p className="theme-text-secondary">
-            Organize and track your tasks with the Kanban board
+          <p className="text-xs text-zinc-500 dark:text-zinc-400">
+            Organize and break down your work into Pomodoro blocks
           </p>
         </div>
 
-        <div className="flex items-center space-x-3 mt-4 md:mt-0">
-          <Button onClick={() => setShowAddForm(true)}>
-            <Plus className="w-4 h-4 mr-2" />
-            Add Task
+        <div className="flex items-center gap-2">
+          <Button size="sm" onClick={() => setShowAddForm(true)}>
+            <Plus className="w-3.5 h-3.5 mr-1" />
+            New Task
           </Button>
-          <Button variant="ghost" onClick={handleExportTasks}>
-            <Download className="w-4 h-4 mr-2" />
-            Export
+          <Button variant="secondary" size="sm" onClick={handleExportTasks}>
+            <Download className="w-3.5 h-3.5 mr-1" />
+            Export TXT
           </Button>
         </div>
-      </motion.div>
+      </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"
-      >
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 theme-text-muted w-4 h-4" />
+      <div className="flex flex-col sm:flex-row gap-2.5">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-400 w-3.5 h-3.5" />
           <input
             type="text"
             placeholder="Search tasks..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 theme-bg-secondary border theme-border rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-transparent"
+            className="w-full pl-9 pr-3 py-1.5 text-xs bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-emerald-500"
           />
         </div>
-
-        <select
-          value={filterStatus}
-          onChange={(e) =>
-            setFilterStatus(e.target.value as TaskStatus | "all")
-          }
-          className="px-4 py-2 theme-bg-secondary border theme-border rounded-lg theme-text-primary focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-transparent"
-        >
-          <option value="all">All Status</option>
-          <option value="todo">To Do</option>
-          <option value="in-progress">In Progress</option>
-          <option value="completed">Completed</option>
-        </select>
 
         <select
           value={filterPriority}
           onChange={(e) =>
             setFilterPriority(e.target.value as TaskPriority | "all")
           }
-          className="px-4 py-2 theme-bg-secondary border theme-border rounded-lg theme-text-primary focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-transparent"
+          className="px-3 py-1.5 text-xs bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-1 focus:ring-emerald-500"
         >
-          <option value="all">All Priority</option>
+          <option value="all">All Priorities</option>
           <option value="low">Low Priority</option>
           <option value="medium">Medium Priority</option>
           <option value="high">High Priority</option>
         </select>
-      </motion.div>
+      </div>
 
       <DragDropContext onDragEnd={handleDragEnd}>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {(["todo", "in-progress", "completed"] as TaskStatus[]).map(
-            (status, index) => (
-              <motion.div
-                key={status}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 * index }}
-              >
-                <Card className="h-fit">
-                  <CardHeader>
-                    <CardTitle className="flex items-center justify-between">
-                      <span>{statusLabels[status]}</span>
-                      <span className="text-sm font-normal theme-text-muted">
-                        {tasksByStatus[status].length}
-                      </span>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="min-h-[400px]">
-                    <Droppable droppableId={status}>
-                      {(provided, snapshot) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.droppableProps}
-                          className={`min-h-[400px] p-4 rounded-lg transition-all duration-200 ease-out ${
-                            snapshot.isDraggingOver
-                              ? "border-2 border-theme-accent/60 theme-accent/5"
-                              : "border-2 border-transparent"
-                          }`}
-                        >
-                          {tasksByStatus[status].map((task, index) => (
-                            <div key={task.id} className="mb-3">
-                              <TaskCard task={task} index={index} />
-                            </div>
-                          ))}
-                          {provided.placeholder}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {(["todo", "in-progress", "completed"] as TaskStatus[]).map((status) => {
+            const conf = statusConfig[status];
+            const Icon = conf.icon;
+            const columnTasks = tasksByStatus[status];
 
-                          {tasksByStatus[status].length === 0 &&
-                            !snapshot.isDraggingOver && (
-                              <div className="text-center theme-text-muted py-8">
-                                <AlertCircle className="w-8 h-8 mx-auto mb-2" />
-                                <p>Drop tasks here</p>
-                              </div>
-                            )}
+            return (
+              <div
+                key={status}
+                className="flex flex-col rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/30 p-3 min-h-[450px]"
+              >
+                <div className="flex items-center justify-between pb-2.5 mb-2 border-b border-zinc-200 dark:border-zinc-800">
+                  <div className="flex items-center gap-2">
+                    <Icon className={`w-4 h-4 ${conf.color}`} />
+                    <span className="text-xs font-semibold uppercase tracking-wider text-zinc-700 dark:text-zinc-300">
+                      {conf.label}
+                    </span>
+                  </div>
+                  <span className="text-xs font-mono font-medium px-2 py-0.5 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">
+                    {columnTasks.length}
+                  </span>
+                </div>
+
+                <Droppable droppableId={status}>
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                      className={`flex-1 rounded-lg transition-colors duration-150 p-1 ${
+                        snapshot.isDraggingOver
+                          ? "bg-emerald-500/5 border border-dashed border-emerald-500/40"
+                          : ""
+                      }`}
+                    >
+                      {columnTasks.map((task, index) => (
+                        <TaskCard key={task.id} task={task} index={index} />
+                      ))}
+                      {provided.placeholder}
+
+                      {columnTasks.length === 0 && !snapshot.isDraggingOver && (
+                        <div className="flex flex-col items-center justify-center h-48 text-zinc-400 dark:text-zinc-600 text-xs">
+                          <Inbox className="w-6 h-6 mb-1.5 stroke-1" />
+                          <span>No tasks</span>
                         </div>
                       )}
-                    </Droppable>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            )
-          )}
+                    </div>
+                  )}
+                </Droppable>
+              </div>
+            );
+          })}
         </div>
       </DragDropContext>
 
+      {/* Add Task Modal */}
       <AnimatePresence>
         {showAddForm && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 glassmorphism flex items-center justify-center z-[9998] p-4"
+          <div
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
             onClick={() => setShowAddForm(false)}
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
+              exit={{ scale: 0.95, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-md"
+              className="w-full max-w-md bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-xl p-5"
             >
-              <Card>
-                <CardHeader>
-                  <CardTitle>Add New Task</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
+              <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 mb-4">
+                Add New Task
+              </h3>
+              <div className="space-y-3">
+                <input
+                  type="text"
+                  placeholder="Task title"
+                  value={newTask.title}
+                  onChange={(e) =>
+                    setNewTask({ ...newTask, title: e.target.value })
+                  }
+                  className="w-full px-3 py-2 text-xs bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 rounded-lg text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                />
+
+                <textarea
+                  placeholder="Description (optional)"
+                  value={newTask.description}
+                  onChange={(e) =>
+                    setNewTask({ ...newTask, description: e.target.value })
+                  }
+                  rows={3}
+                  className="w-full px-3 py-2 text-xs bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 rounded-lg text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-1 focus:ring-emerald-500 resize-none"
+                />
+
+                <div className="grid grid-cols-2 gap-3">
+                  <select
+                    value={newTask.priority}
+                    onChange={(e) =>
+                      setNewTask({
+                        ...newTask,
+                        priority: e.target.value as TaskPriority,
+                      })
+                    }
+                    className="px-3 py-2 text-xs bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 rounded-lg text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  >
+                    <option value="low">Low Priority</option>
+                    <option value="medium">Medium Priority</option>
+                    <option value="high">High Priority</option>
+                  </select>
+
                   <input
-                    type="text"
-                    placeholder="Task title"
-                    value={newTask.title}
+                    type="number"
+                    min="1"
+                    max="20"
+                    placeholder="Estimated Pomodoros"
+                    value={newTask.estimatedPomodoros}
                     onChange={(e) =>
-                      setNewTask({ ...newTask, title: e.target.value })
+                      setNewTask({
+                        ...newTask,
+                        estimatedPomodoros: parseInt(e.target.value) || 1,
+                      })
                     }
-                    className="w-full px-4 py-2 theme-bg-secondary border theme-border rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-transparent"
+                    className="px-3 py-2 text-xs bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 rounded-lg text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
+                </div>
 
-                  <textarea
-                    placeholder="Task description (optional)"
-                    value={newTask.description}
-                    onChange={(e) =>
-                      setNewTask({ ...newTask, description: e.target.value })
-                    }
-                    rows={3}
-                    className="w-full px-4 py-2 theme-bg-secondary border theme-border rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-transparent resize-none"
-                  />
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <select
-                      value={newTask.priority}
-                      onChange={(e) =>
-                        setNewTask({
-                          ...newTask,
-                          priority: e.target.value as TaskPriority,
-                        })
-                      }
-                      className="px-4 py-2 theme-bg-secondary border theme-border rounded-lg theme-text-primary focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-transparent"
-                    >
-                      <option value="low">Low Priority</option>
-                      <option value="medium">Medium Priority</option>
-                      <option value="high">High Priority</option>
-                    </select>
-
-                    <input
-                      type="number"
-                      min="1"
-                      max="20"
-                      placeholder="Pomodoros"
-                      value={newTask.estimatedPomodoros}
-                      onChange={(e) =>
-                        setNewTask({
-                          ...newTask,
-                          estimatedPomodoros: parseInt(e.target.value) || 1,
-                        })
-                      }
-                      className="px-4 py-2 theme-bg-secondary border theme-border rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-transparent"
-                    />
-                  </div>
-
-                  <div className="flex space-x-3 pt-4">
-                    <Button onClick={handleAddTask} className="flex-1">
-                      Add Task
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      onClick={() => setShowAddForm(false)}
-                      className="flex-1"
-                    >
-                      Cancel
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+                <div className="flex items-center gap-2 pt-2">
+                  <Button onClick={handleAddTask} className="flex-1 text-xs">
+                    Create Task
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={() => setShowAddForm(false)}
+                    className="flex-1 text-xs"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
             </motion.div>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
 
+      {/* Edit Task Modal */}
       <AnimatePresence>
         {editingTask && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 glassmorphism flex items-center justify-center z-[9998] p-4"
+          <div
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
             onClick={() => setEditingTask(null)}
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
+              exit={{ scale: 0.95, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-md"
+              className="w-full max-w-md bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl shadow-xl p-5"
             >
-              <Card>
-                <CardHeader>
-                  <CardTitle>Edit Task</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <input
-                    type="text"
-                    placeholder="Task title"
-                    value={editingTask.title}
-                    onChange={(e) =>
-                      setEditingTask({ ...editingTask, title: e.target.value })
-                    }
-                    className="w-full px-4 py-2 theme-bg-secondary border theme-border rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-transparent"
-                  />
+              <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 mb-4">
+                Edit Task
+              </h3>
+              <div className="space-y-3">
+                <input
+                  type="text"
+                  placeholder="Task title"
+                  value={editingTask.title}
+                  onChange={(e) =>
+                    setEditingTask({ ...editingTask, title: e.target.value })
+                  }
+                  className="w-full px-3 py-2 text-xs bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 rounded-lg text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                />
 
-                  <textarea
-                    placeholder="Task description (optional)"
-                    value={editingTask.description || ""}
+                <textarea
+                  placeholder="Description (optional)"
+                  value={editingTask.description || ""}
+                  onChange={(e) =>
+                    setEditingTask({
+                      ...editingTask,
+                      description: e.target.value,
+                    })
+                  }
+                  rows={3}
+                  className="w-full px-3 py-2 text-xs bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 rounded-lg text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-1 focus:ring-emerald-500 resize-none"
+                />
+
+                <div className="grid grid-cols-2 gap-3">
+                  <select
+                    value={editingTask.priority}
                     onChange={(e) =>
                       setEditingTask({
                         ...editingTask,
-                        description: e.target.value,
+                        priority: e.target.value as TaskPriority,
                       })
                     }
-                    rows={3}
-                    className="w-full px-4 py-2 theme-bg-secondary border theme-border rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-transparent resize-none"
+                    className="px-3 py-2 text-xs bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 rounded-lg text-zinc-900 dark:text-zinc-100 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                  >
+                    <option value="low">Low Priority</option>
+                    <option value="medium">Medium Priority</option>
+                    <option value="high">High Priority</option>
+                  </select>
+
+                  <input
+                    type="number"
+                    min="1"
+                    max="20"
+                    placeholder="Estimated Pomodoros"
+                    value={editingTask.estimatedPomodoros}
+                    onChange={(e) =>
+                      setEditingTask({
+                        ...editingTask,
+                        estimatedPomodoros: parseInt(e.target.value) || 1,
+                      })
+                    }
+                    className="px-3 py-2 text-xs bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 rounded-lg text-zinc-900 dark:text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-1 focus:ring-emerald-500"
                   />
+                </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <select
-                      value={editingTask.priority}
-                      onChange={(e) =>
-                        setEditingTask({
-                          ...editingTask,
-                          priority: e.target.value as TaskPriority,
-                        })
-                      }
-                      className="px-4 py-2 theme-bg-secondary border theme-border rounded-lg theme-text-primary focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-transparent"
-                    >
-                      <option value="low">Low Priority</option>
-                      <option value="medium">Medium Priority</option>
-                      <option value="high">High Priority</option>
-                    </select>
-
-                    <input
-                      type="number"
-                      min="1"
-                      max="20"
-                      placeholder="Pomodoros"
-                      value={editingTask.estimatedPomodoros}
-                      onChange={(e) =>
-                        setEditingTask({
-                          ...editingTask,
-                          estimatedPomodoros: parseInt(e.target.value) || 1,
-                        })
-                      }
-                      className="px-4 py-2 theme-bg-secondary border theme-border rounded-lg theme-text-primary placeholder:theme-text-muted focus:outline-none focus:ring-2 focus:ring-theme-accent focus:border-transparent"
-                    />
-                  </div>
-
-                  <div className="flex space-x-3 pt-4">
-                    <Button onClick={handleEditTask} className="flex-1">
-                      Save Changes
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      onClick={() => setEditingTask(null)}
-                      className="flex-1"
-                    >
-                      Cancel
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+                <div className="flex items-center gap-2 pt-2">
+                  <Button onClick={handleEditTask} className="flex-1 text-xs">
+                    Save Changes
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={() => setEditingTask(null)}
+                    className="flex-1 text-xs"
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
             </motion.div>
-          </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </div>

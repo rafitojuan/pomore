@@ -1,0 +1,19 @@
+services:
+  web:
+    build: .
+    container_name: pomore-web
+    restart: unless-stopped
+    volumes:
+      - .:/app
+      - /app/node_modules
+    expose:
+      - "5173"
+    environment:
+      - VIRTUAL_HOST=pomore.local
+      - VIRTUAL_PORT=5173
+    networks:
+      - proxy-net
+
+networks:
+  proxy-net:
+    external: true

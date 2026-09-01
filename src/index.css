@@ -32,51 +32,122 @@ body {
 }
 
 .default {
-  --bg-primary: linear-gradient(135deg, #581c87 0%, #7c3aed 50%, #4338ca 100%);
-  --bg-secondary: rgba(139, 92, 246, 0.1);
-  --bg-tertiary: rgba(139, 92, 246, 0.05);
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.8);
-  --text-muted: rgba(255, 255, 255, 0.6);
-  --border: rgba(255, 255, 255, 0.2);
-  --accent: #8b5cf6;
-  --accent-hover: #7c3aed;
-  --glass-bg: rgba(139, 92, 246, 0.15);
-  --glass-border: rgba(255, 255, 255, 0.15);
+  --bg-primary: #09090b;
+  --bg-secondary: #18181b;
+  --bg-tertiary: #27272a;
+  --text-primary: #f4f4f5;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --border: #27272a;
+  --accent: #10b981;
+  --accent-hover: #059669;
+  --glass-bg: rgba(24, 24, 27, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.08);
   --glass-blur: blur(12px);
-  --glass-shadow: 0 8px 32px rgba(139, 92, 246, 0.2);
+  --glass-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .light {
-  --bg-primary: #ffffff;
-  --bg-secondary: #f7f9fa;
-  --bg-tertiary: #f1f3f4;
-  --text-primary: #0f1419;
-  --text-secondary: #536471;
-  --text-muted: #657786;
-  --border: #e1e8ed;
-  --accent: #1d9bf0;
-  --accent-hover: #1a8cd8;
-  --glass-bg: rgba(255, 255, 255, 0.18);
-  --glass-border: rgba(15, 20, 25, 0.15);
+  --bg-primary: #f4f4f0;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #eae9e3;
+  --text-primary: #1c1917;
+  --text-secondary: #57534e;
+  --text-muted: #8c857b;
+  --border: #e2e0d8;
+  --accent: #059669;
+  --accent-hover: #047857;
+  --glass-bg: rgba(255, 255, 255, 0.88);
+  --glass-border: rgba(28, 25, 23, 0.08);
   --glass-blur: blur(12px);
-  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --glass-shadow: 0 4px 20px rgba(28, 25, 23, 0.04);
+}
+
+/* Light Theme (Warm Sand / Paper Canvas) Overrides */
+html[data-theme="light"],
+html[data-theme="light"] body {
+  background-color: #f4f4f0 !important;
+  color: #1c1917 !important;
+}
+
+html[data-theme="light"] .bg-zinc-50 {
+  background-color: #f4f4f0 !important;
+}
+
+html[data-theme="light"] .bg-white {
+  background-color: #ffffff !important;
+}
+
+html[data-theme="light"] .bg-zinc-100 {
+  background-color: #eae9e3 !important;
+}
+
+html[data-theme="light"] .bg-zinc-50\/50 {
+  background-color: #eae9e3 !important;
+}
+
+html[data-theme="light"] .border-zinc-200,
+html[data-theme="light"] .border-zinc-200\/80 {
+  border-color: #e2e0d8 !important;
+}
+
+html[data-theme="light"] .border-zinc-100 {
+  border-color: #eceae3 !important;
+}
+
+html[data-theme="light"] .text-zinc-900 {
+  color: #1c1917 !important;
+}
+
+html[data-theme="light"] .text-zinc-500,
+html[data-theme="light"] .text-zinc-600 {
+  color: #57534e !important;
+}
+
+html[data-theme="light"] .text-zinc-400 {
+  color: #8c857b !important;
 }
 
 .dark {
   --bg-primary: #000000;
-  --bg-secondary: #16181c;
-  --bg-tertiary: #1c1f23;
+  --bg-secondary: #09090b;
+  --bg-tertiary: #18181b;
   --text-primary: #ffffff;
-  --text-secondary: #e7e9ea;
-  --text-muted: #71767b;
-  --border: #2f3336;
-  --accent: #1d9bf0;
-  --accent-hover: #1a8cd8;
-  --glass-bg: rgba(22, 24, 28, 0.2);
-  --glass-border: rgba(255, 255, 255, 0.15);
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --border: #18181b;
+  --accent: #10b981;
+  --accent-hover: #059669;
+  --glass-bg: rgba(9, 9, 11, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.05);
   --glass-blur: blur(12px);
-  --glass-shadow: 0 8px 32px rgba(29, 155, 240, 0.15);
+  --glass-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* OLED Black (#000000) pure pitch-black overrides */
+html[data-theme="dark"],
+html[data-theme="dark"] body {
+  background-color: #000000 !important;
+}
+
+html[data-theme="dark"] .dark\:bg-zinc-950,
+html[data-theme="dark"] .dark\:bg-zinc-900,
+html[data-theme="dark"] .dark\:bg-zinc-900\/95,
+html[data-theme="dark"] .dark\:bg-zinc-950\/80 {
+  background-color: #000000 !important;
+}
+
+html[data-theme="dark"] .dark\:bg-zinc-800,
+html[data-theme="dark"] .dark\:bg-zinc-800\/60,
+html[data-theme="dark"] .dark\:bg-zinc-800\/50,
+html[data-theme="dark"] .dark\:bg-zinc-900\/50,
+html[data-theme="dark"] .dark\:bg-zinc-900\/30 {
+  background-color: #09090b !important;
+}
+
+html[data-theme="dark"] .dark\:border-zinc-800,
+html[data-theme="dark"] .dark\:border-zinc-700 {
+  border-color: #18181b !important;
 }
 
 .react-beautiful-dnd-dragging {

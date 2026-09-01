@@ -20,50 +20,51 @@ export const Navigation: React.FC = () => {
   };
 
   return (
-    <nav className="relative z-20 glassmorphism border-b">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center space-x-2 group">
-            <motion.div
-              className="w-8 h-8 bg-gradient-to-br from-violet-400 to-purple-600 rounded-lg flex items-center justify-center"
-              whileHover={{ scale: 1.1, rotate: 5 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Timer className="w-5 h-5 theme-text-primary" />
-            </motion.div>
-            <span className="text-xl font-bold theme-text-primary group-hover:theme-accent transition-colors">
-              Pomore
+    <nav className="sticky top-0 z-30 w-full border-b border-zinc-200/80 dark:border-zinc-800/80 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="flex items-center justify-between h-14">
+          <Link to="/" className="flex items-center gap-2.5 group">
+            <div className="w-7 h-7 rounded-lg bg-zinc-900 dark:bg-zinc-100 flex items-center justify-center text-white dark:text-zinc-950 transition-transform duration-200 group-hover:scale-105">
+              {/* Bespoke Pomore mark: 25-min dial arc + focus aperture core */}
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="w-4 h-4"
+              >
+                <circle cx="12" cy="12" r="9" className="opacity-20" />
+                <path d="M12 3a9 9 0 0 1 9 9" className="text-emerald-500 stroke-emerald-500" strokeWidth="2.5" />
+                <circle cx="12" cy="12" r="2.5" fill="currentColor" />
+                <path d="M12 7v2" />
+              </svg>
+            </div>
+            <span className="text-sm font-bold tracking-tight text-zinc-900 dark:text-zinc-100 group-hover:text-emerald-500 transition-colors">
+              Pomore<span className="text-emerald-500">.</span>
             </span>
           </Link>
 
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden md:flex items-center gap-1">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
-              
+
               return (
                 <Link key={item.path} to={item.path}>
-                  <motion.div
+                  <div
                     className={`
-                      relative px-4 py-2 rounded-lg transition-all duration-200 flex items-center space-x-2
-                      ${isActive 
-                        ? 'theme-bg-tertiary theme-text-primary border theme-border-accent' 
-                        : 'theme-text-secondary hover:theme-text-primary hover:theme-bg-tertiary'
+                      relative px-3 py-1.5 rounded-md text-xs font-medium transition-all duration-150 flex items-center gap-2
+                      ${isActive
+                        ? 'text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-900'
+                        : 'text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100 hover:bg-zinc-50 dark:hover:bg-zinc-900/50'
                       }
                     `}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
                   >
-                    <Icon className="w-4 h-4" />
-                    <span className="font-medium">{item.label}</span>
-                    {isActive && (
-                      <motion.div
-                        className="absolute inset-0 theme-accent/20 rounded-lg"
-                        layoutId="activeTab"
-                        transition={{ duration: 0.3 }}
-                      />
-                    )}
-                  </motion.div>
+                    <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-emerald-500' : ''}`} />
+                    <span>{item.label}</span>
+                  </div>
                 </Link>
               );
             })}
@@ -74,12 +75,12 @@ export const Navigation: React.FC = () => {
               variant="ghost"
               size="sm"
               onClick={toggleMobileMenu}
-              className="p-2"
+              className="p-1.5"
             >
               {isMobileMenuOpen ? (
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               ) : (
-                <Menu className="w-5 h-5" />
+                <Menu className="w-4 h-4" />
               )}
             </Button>
           </div>
@@ -87,41 +88,37 @@ export const Navigation: React.FC = () => {
 
         {isMobileMenuOpen && (
           <motion.div
-            className="md:hidden py-4 border-t theme-border"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
+            className="md:hidden py-3 border-t border-zinc-200 dark:border-zinc-800 space-y-1"
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.15 }}
           >
-            <div className="space-y-2">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = location.pathname === item.path;
-                
-                return (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    onClick={() => setIsMobileMenuOpen(false)}
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = location.pathname === item.path;
+
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <div
+                    className={`
+                      flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-medium transition-all duration-150
+                      ${isActive
+                        ? 'text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-900'
+                        : 'text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100'
+                      }
+                    `}
                   >
-                    <motion.div
-                      className={`
-                        flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200
-                        ${isActive 
-                          ? 'theme-bg-tertiary theme-text-primary border theme-border-accent' 
-                          : 'theme-text-secondary hover:theme-text-primary hover:theme-bg-tertiary'
-                        }
-                      `}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <Icon className="w-5 h-5" />
-                      <span className="font-medium">{item.label}</span>
-                    </motion.div>
-                  </Link>
-                );
-              })}
-            </div>
+                    <Icon className={`w-4 h-4 ${isActive ? 'text-emerald-500' : ''}`} />
+                    <span>{item.label}</span>
+                  </div>
+                </Link>
+              );
+            })}
           </motion.div>
         )}
       </div>

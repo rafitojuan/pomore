@@ -5,7 +5,7 @@ interface CardProps {
   children: React.ReactNode;
   className?: string;
   hover?: boolean;
-  padding?: 'sm' | 'md' | 'lg';
+  padding?: 'none' | 'sm' | 'md' | 'lg';
   variant?: 'default' | 'elevated' | 'outlined' | 'thick-border';
 }
 
@@ -16,23 +16,24 @@ export const Card: React.FC<CardProps> = ({
   padding = 'md',
   variant = 'default'
 }) => {
-  const baseClasses = 'relative overflow-hidden rounded-2xl border transition-all duration-300';
-  
+  const baseClasses = 'relative rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 transition-all duration-200';
+
   const variantClasses = {
-    default: 'theme-bg-secondary theme-border shadow-lg',
-    elevated: 'theme-bg-tertiary theme-border shadow-xl',
-    outlined: 'theme-bg-secondary theme-border shadow-md',
-    'thick-border': 'theme-bg-secondary border-2 border-white/40 shadow-xl'
+    default: 'shadow-sm',
+    elevated: 'shadow-md dark:bg-zinc-900/80',
+    outlined: 'border-zinc-200 dark:border-zinc-800',
+    'thick-border': 'border-2 border-emerald-500/40 shadow-sm'
   };
-  
+
   const paddingClasses = {
-    sm: 'p-4',
-    md: 'p-6',
-    lg: 'p-8'
+    none: 'p-0',
+    sm: 'p-3',
+    md: 'p-5',
+    lg: 'p-6'
   };
-  
-  const hoverClasses = hover ? 'hover:theme-bg-tertiary hover:theme-border-accent hover:shadow-xl cursor-pointer' : '';
-  
+
+  const hoverClasses = hover ? 'hover:border-zinc-300 dark:hover:border-zinc-700 hover:shadow-md cursor-pointer' : '';
+
   const classes = `
     ${baseClasses}
     ${variantClasses[variant]}
@@ -43,8 +44,8 @@ export const Card: React.FC<CardProps> = ({
 
   const CardComponent = hover ? motion.div : 'div';
   const motionProps = hover ? {
-    whileHover: { scale: 1.02, y: -2 },
-    transition: { duration: 0.2 }
+    whileHover: { y: -1 },
+    transition: { duration: 0.15 }
   } : {};
 
   return (
@@ -55,7 +56,6 @@ export const Card: React.FC<CardProps> = ({
       <div className="relative z-10">
         {children}
       </div>
-      <div className="absolute inset-0 bg-gradient-to-br from-theme-accent/5 to-transparent pointer-events-none" />
     </CardComponent>
   );
 };
@@ -67,7 +67,7 @@ interface CardHeaderProps {
 
 export const CardHeader: React.FC<CardHeaderProps> = ({ children, className = '' }) => {
   return (
-    <div className={`mb-4 ${className}`}>
+    <div className={`mb-3 flex items-center justify-between ${className}`}>
       {children}
     </div>
   );
@@ -80,7 +80,7 @@ interface CardTitleProps {
 
 export const CardTitle: React.FC<CardTitleProps> = ({ children, className = '' }) => {
   return (
-    <h3 className={`text-xl font-semibold theme-text-primary ${className}`}>
+    <h3 className={`text-sm font-semibold tracking-tight text-zinc-900 dark:text-zinc-100 ${className}`}>
       {children}
     </h3>
   );
@@ -93,7 +93,7 @@ interface CardContentProps {
 
 export const CardContent: React.FC<CardContentProps> = ({ children, className = '' }) => {
   return (
-    <div className={`theme-text-secondary ${className}`}>
+    <div className={`text-zinc-600 dark:text-zinc-400 text-sm ${className}`}>
       {children}
     </div>
   );
@@ -106,7 +106,7 @@ interface CardFooterProps {
 
 export const CardFooter: React.FC<CardFooterProps> = ({ children, className = '' }) => {
   return (
-    <div className={`mt-4 pt-4 border-t theme-border ${className}`}>
+    <div className={`mt-4 pt-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between ${className}`}>
       {children}
     </div>
   );

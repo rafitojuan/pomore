@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Play, Pause, RotateCcw, Coffee, Clock, Bell, X } from "lucide-react";
-import { Card, CardContent } from "../components/ui/Card";
+import { Play, Pause, RotateCcw, Coffee, Clock, Bell, X, CheckCircle2, Flame } from "lucide-react";
+import { Card } from "../components/ui/Card";
 import { Button } from "../components/ui/Button";
 import { CircularProgress } from "../components/ui/CircularProgress";
 import { timerService } from "../services/timerService";
@@ -9,7 +9,6 @@ import { TimerState, SessionType } from "../types";
 import {
   formatTime,
   calculateProgress,
-  getSessionColor,
   showNotification,
   playNotificationSound,
   requestNotificationPermission,
@@ -19,7 +18,6 @@ export const Timer: React.FC = () => {
   const [timerState, setTimerState] = useState<TimerState>(
     timerService.getState()
   );
-  const [selectedTask, setSelectedTask] = useState<string | null>(null);
   const [showNotificationBanner, setShowNotificationBanner] = useState(
     typeof window !== 'undefined' && Notification.permission === 'default'
   );
@@ -43,274 +41,201 @@ export const Timer: React.FC = () => {
         playNotificationSound();
       },
     });
-
-    return () => {
-      // timerService.destroy();
-    };
   }, []);
 
-  const handleStart = () => {
-    timerService.start();
-  };
-
-  const handlePause = () => {
-    timerService.pause();
-  };
-
-  const handleReset = () => {
-    timerService.reset();
-  };
-
-  const handleSessionSwitch = (sessionType: SessionType) => {
-    timerService.switchSession(sessionType);
-  };
+  const handleStart = () => timerService.start();
+  const handlePause = () => timerService.pause();
+  const handleReset = () => timerService.reset();
+  const handleSessionSwitch = (sessionType: SessionType) => timerService.switchSession(sessionType);
 
   const handleRequestNotificationPermission = async () => {
-    const granted = await requestNotificationPermission();
-    setShowNotificationBanner(false);
-  };
-
-  const handleCloseBanner = () => {
+    await requestNotificationPermission();
     setShowNotificationBanner(false);
   };
 
   const progress = calculateProgress(timerState.timeLeft, timerState.totalTime);
-  const sessionColor = getSessionColor(timerState.currentSession);
 
-  const sessionLabels = {
-    work: "Work Session",
-    "short-break": "Short Break",
-    "long-break": "Long Break",
+  const sessionConfig = {
+    work: { label: "Focus Work", color: "#10b981", icon: Clock },
+    "short-break": { label: "Short Break", color: "#06b6d4", icon: Coffee },
+    "long-break": { label: "Long Break", color: "#8b5cf6", icon: Coffee },
   };
 
-  const sessionIcons = {
-    work: Clock,
-    "short-break": Coffee,
-    "long-break": Coffee,
-  };
-
-  const CurrentIcon = sessionIcons[timerState.currentSession];
+  const current = sessionConfig[timerState.currentSession];
+  const CurrentIcon = current.icon;
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
+    <div className="max-w-4xl mx-auto space-y-6">
       {showNotificationBanner && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.3 }}
-          className="bg-amber-500/20 border border-amber-500/30 rounded-lg p-4"
-        >
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <Bell className="w-5 h-5 text-amber-400 flex-shrink-0" />
-              <div>
-                <p className="text-amber-200 font-medium">
-                  Aktifkan Notifikasi untuk Pengalaman Terbaik
-                </p>
-                <p className="text-amber-100/80 text-sm">
-                  Dapatkan pemberitahuan ketika sesi Pomodoro selesai
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Button
-                onClick={handleRequestNotificationPermission}
-                size="sm"
-                className="bg-amber-500 hover:bg-amber-600 theme-text-primary text-sm px-3 py-1"
-              >
-                Izinkan
-              </Button>
-              <button
-                onClick={handleCloseBanner}
-                className="text-amber-300 hover:text-amber-100 p-1"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
+        <div className="flex items-center justify-between p-3 rounded-lg border border-amber-500/20 bg-amber-500/10 text-xs">
+          <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400">
+            <Bell className="w-4 h-4 flex-shrink-0" />
+            <span>Aktifkan notifikasi browser agar tidak melewatkan akhir sesi.</span>
           </div>
-        </motion.div>
-      )}
-      
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="text-center"
-      >
-        <h1 className="text-4xl md:text-5xl font-bold theme-text-primary mb-4">
-          Pomodoro Timer
-        </h1>
-        <p className="theme-text-secondary text-lg">
-          Stay focused and productive with the Pomodoro Technique
-        </p>
-      </motion.div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
-          <Card className="text-center" padding="lg" variant="thick-border">
-            <motion.div
-              className="flex flex-col items-center space-y-6"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+          <div className="flex items-center gap-2">
+            <Button
+              onClick={handleRequestNotificationPermission}
+              size="sm"
+              className="bg-amber-600 hover:bg-amber-500 text-white text-xs px-2.5 py-1"
             >
-              <div className="flex items-center space-x-3 mb-4">
-                <CurrentIcon
-                  className="w-6 h-6 theme-text-primary"
-                  style={{ color: sessionColor }}
-                />
-                <h2 className="text-2xl font-semibold theme-text-primary">
-                  {sessionLabels[timerState.currentSession]}
-                </h2>
-              </div>
-
-              <CircularProgress
-                progress={progress}
-                size={280}
-                strokeWidth={12}
-                color={sessionColor}
-                className="mb-6"
-              >
-                <div className="text-center">
-                  <motion.div
-                    key={timerState.timeLeft}
-                    initial={{ scale: 1.1 }}
-                    animate={{ scale: 1 }}
-                    transition={{ duration: 0.3 }}
-                    className="text-5xl md:text-6xl font-bold theme-text-primary mb-2"
-                  >
-                    {formatTime(timerState.timeLeft)}
-                  </motion.div>
-                  <div className="theme-text-muted text-sm uppercase tracking-wider">
-                    {timerState.isRunning
-                      ? "Running"
-                      : timerState.isPaused
-                      ? "Paused"
-                      : "Ready"}
-                  </div>
-                </div>
-              </CircularProgress>
-
-              <div className="flex items-center space-x-4">
-                {!timerState.isRunning ? (
-                  <Button
-                    onClick={handleStart}
-                    size="lg"
-                    className="px-8 py-4 text-lg"
-                  >
-                    <Play className="w-5 h-5 mr-2" />
-                    {timerState.isPaused ? "Resume" : "Start"}
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={handlePause}
-                    variant="secondary"
-                    size="lg"
-                    className="px-8 py-4 text-lg"
-                  >
-                    <Pause className="w-5 h-5 mr-2" />
-                    Pause
-                  </Button>
-                )}
-
-                <Button
-                  onClick={handleReset}
-                  variant="ghost"
-                  size="lg"
-                  className="px-6 py-4"
-                >
-                  <RotateCcw className="w-5 h-5 mr-2" />
-                  Reset
-                </Button>
-              </div>
-            </motion.div>
-          </Card>
+              Izinkan
+            </Button>
+            <button
+              onClick={() => setShowNotificationBanner(false)}
+              className="text-zinc-400 hover:text-zinc-600 p-1"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
+      )}
 
-        <div className="space-y-6">
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            <Card variant="thick-border">
-              <h3 className="text-lg font-semibold theme-text-primary mb-4">
-                Session Type
-              </h3>
-              <div className="space-y-2">
-                {(["work", "short-break", "long-break"] as SessionType[]).map(
-                  (session) => {
-                    const Icon = sessionIcons[session];
-                    const isActive = timerState.currentSession === session;
-
-                    return (
-                      <Button
-                        key={session}
-                        onClick={() => handleSessionSwitch(session)}
-                        variant={isActive ? "primary" : "ghost"}
-                        className="w-full justify-start"
-                        disabled={timerState.isRunning}
-                      >
-                        <Icon className="w-4 h-4 mr-3" />
-                        {sessionLabels[session]}
-                      </Button>
-                    );
+      {/* Session Switcher Pills */}
+      <div className="flex justify-center">
+        <div className="inline-flex p-1 rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
+          {(["work", "short-break", "long-break"] as SessionType[]).map((session) => {
+            const isActive = timerState.currentSession === session;
+            const Icon = sessionConfig[session].icon;
+            return (
+              <button
+                key={session}
+                onClick={() => handleSessionSwitch(session)}
+                disabled={timerState.isRunning}
+                className={`
+                  flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all duration-150
+                  ${isActive
+                    ? 'bg-white dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 shadow-sm'
+                    : 'text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100'
                   }
-                )}
-              </div>
-            </Card>
-          </motion.div>
+                  ${timerState.isRunning ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}
+                `}
+              >
+                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-emerald-500' : ''}`} />
+                <span>{sessionConfig[session].label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-          >
-            <Card variant="thick-border">
-              <h3 className="text-lg font-semibold theme-text-primary mb-4">
-                Statistics
-              </h3>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="theme-text-secondary">Sessions Completed</span>
-                  <span className="theme-text-primary font-semibold">
-                    {timerState.sessionsCompleted}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="theme-text-secondary">Current Session</span>
-                  <span className="theme-text-primary font-semibold capitalize">
-                    {timerState.currentSession.replace("-", " ")}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="theme-text-secondary">Progress</span>
-                  <span className="theme-text-primary font-semibold">
-                    {Math.round(progress)}%
-                  </span>
-                </div>
-              </div>
-            </Card>
-          </motion.div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Main Timer Dial */}
+        <Card className="md:col-span-2 flex flex-col items-center justify-center p-8">
+          <div className="flex items-center gap-2 mb-6">
+            <span
+              className="w-2 h-2 rounded-full"
+              style={{ backgroundColor: current.color }}
+            />
+            <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
+              {current.label}
+            </span>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
+          <CircularProgress
+            progress={progress}
+            size={260}
+            strokeWidth={8}
+            color={current.color}
+            className="mb-8"
           >
-            <Card variant="thick-border">
-              <h3 className="text-lg font-semibold theme-text-primary mb-4">
-                Quick Tips
-              </h3>
-              <div className="space-y-2 text-sm theme-text-secondary">
-                <p>• Focus on one task during work sessions</p>
-                <p>• Take breaks to maintain productivity</p>
-                <p>• Use background music to stay focused</p>
-                <p>• Track your tasks in the Tasks section</p>
+            <div className="text-center">
+              <motion.div
+                key={timerState.timeLeft}
+                initial={{ opacity: 0.8 }}
+                animate={{ opacity: 1 }}
+                className="text-6xl font-mono font-bold tracking-tighter text-zinc-900 dark:text-zinc-100 mb-1"
+              >
+                {formatTime(timerState.timeLeft)}
+              </motion.div>
+              <div className="text-[11px] font-medium uppercase tracking-widest text-zinc-400">
+                {timerState.isRunning
+                  ? "Focusing"
+                  : timerState.isPaused
+                  ? "Paused"
+                  : "Ready"}
               </div>
-            </Card>
-          </motion.div>
+            </div>
+          </CircularProgress>
+
+          <div className="flex items-center gap-3">
+            {!timerState.isRunning ? (
+              <Button
+                onClick={handleStart}
+                size="lg"
+                className="px-6 py-2.5 text-sm"
+              >
+                <Play className="w-4 h-4 mr-1.5" />
+                {timerState.isPaused ? "Resume" : "Start Session"}
+              </Button>
+            ) : (
+              <Button
+                onClick={handlePause}
+                variant="secondary"
+                size="lg"
+                className="px-6 py-2.5 text-sm"
+              >
+                <Pause className="w-4 h-4 mr-1.5" />
+                Pause
+              </Button>
+            )}
+
+            <Button
+              onClick={handleReset}
+              variant="ghost"
+              size="lg"
+              className="px-4 py-2.5 text-sm"
+            >
+              <RotateCcw className="w-4 h-4 mr-1.5" />
+              Reset
+            </Button>
+          </div>
+        </Card>
+
+        {/* Side Panel: Metrics & Stats */}
+        <div className="space-y-4">
+          <Card padding="md">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-4">
+              Session Progress
+            </h3>
+            <div className="space-y-3 text-sm">
+              <div className="flex items-center justify-between pb-2 border-b border-zinc-100 dark:border-zinc-800">
+                <span className="text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
+                  <Flame className="w-4 h-4 text-amber-500" />
+                  Completed
+                </span>
+                <span className="font-mono font-semibold text-zinc-900 dark:text-zinc-100">
+                  {timerState.sessionsCompleted}
+                </span>
+              </div>
+              <div className="flex items-center justify-between pb-2 border-b border-zinc-100 dark:border-zinc-800">
+                <span className="text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-emerald-500" />
+                  Round Progress
+                </span>
+                <span className="font-mono font-semibold text-zinc-900 dark:text-zinc-100">
+                  {Math.round(progress)}%
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-zinc-500 dark:text-zinc-400 flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-indigo-500" />
+                  Session Mode
+                </span>
+                <span className="capitalize text-zinc-900 dark:text-zinc-100 font-medium">
+                  {timerState.currentSession.replace("-", " ")}
+                </span>
+              </div>
+            </div>
+          </Card>
+
+          <Card padding="md" className="bg-zinc-50/50 dark:bg-zinc-900/30">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-2">
+              Focus Tip
+            </h3>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+              Work on one single task with zero distractions. Pair with instrumental lo-fi in the Music tab to sustain flow state.
+            </p>
+          </Card>
         </div>
       </div>
     </div>

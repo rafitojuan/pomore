@@ -1,5 +1,5 @@
 import React from "react";
-import { Play, Pause, SkipForward, SkipBack, Volume2, X } from "lucide-react";
+import { Play, Pause, Volume2, X } from "lucide-react";
 import { motion } from "framer-motion";
 import { useMusicContext } from "../contexts/MusicContext";
 import "./MiniPlayer.css";
@@ -11,7 +11,6 @@ interface MiniPlayerProps {
 export const MiniPlayer: React.FC<MiniPlayerProps> = ({ className }) => {
   const {
     musicState,
-    playTrack,
     pauseMusic,
     resumeMusic,
     setVolume,
@@ -23,14 +22,6 @@ export const MiniPlayer: React.FC<MiniPlayerProps> = ({ className }) => {
 
   const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0;
 
-  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    const percentage = clickX / rect.width;
-    const newTime = percentage * duration;
-    seekTo(newTime);
-  };
-
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVolume = parseInt(e.target.value) / 100;
     setVolume(newVolume);
@@ -40,102 +31,87 @@ export const MiniPlayer: React.FC<MiniPlayerProps> = ({ className }) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 50 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className={`relative glassmorphism rounded-3xl p-9 ${
+      exit={{ opacity: 0, y: 20 }}
+      transition={{ duration: 0.2 }}
+      className={`max-w-4xl mx-auto rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-md shadow-lg p-3.5 ${
         className || ""
       }`}
     >
-      <motion.button
-        onClick={stopMusic}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        className="absolute top-4 right-4 p-2 glassmorphism hover:bg-glass/80 theme-text-primary rounded-full transition-all duration-300 hover:border-theme-accent"
-      >
-        <X className="h-4 w-4" />
-      </motion.button>
-      <div className="flex items-center space-x-4">
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          className="relative overflow-hidden rounded-2xl"
-        >
+      <div className="flex items-center gap-3">
+        <div className="relative w-11 h-11 flex-shrink-0 overflow-hidden rounded-lg border border-zinc-200 dark:border-zinc-800">
           <img
-            src={currentVideo.thumbnails.medium.url}
+            src={currentVideo.thumbnails.medium?.url || currentVideo.thumbnails.default?.url}
             alt={currentVideo.title}
-            className="w-16 h-16 object-cover"
+            className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-        </motion.div>
+        </div>
 
         <div className="flex-1 min-w-0">
-          <h4 className="font-semibold theme-text-primary truncate text-base mb-1">
+          <h4 className="font-medium text-zinc-900 dark:text-zinc-100 truncate text-xs sm:text-sm">
             {currentVideo.title}
           </h4>
-          <p className="text-sm theme-text-secondary truncate">
+          <p className="text-xs text-zinc-500 dark:text-zinc-400 truncate">
             {currentVideo.channelTitle}
           </p>
         </div>
 
-        <motion.button
-          onClick={isPlaying ? pauseMusic : resumeMusic}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          className="p-3 bg-gradient-to-r theme-accent/80 hover:theme-accent theme-text-primary rounded-2xl transition-all duration-300 glassmorphism"
-        >
-          {isPlaying ? (
-            <Pause className="h-5 w-5" />
-          ) : (
-            <Play className="h-5 w-5" />
-          )}
-        </motion.button>
+        <div className="flex items-center gap-2">
+          <motion.button
+            onClick={isPlaying ? pauseMusic : resumeMusic}
+            whileTap={{ scale: 0.95 }}
+            className="w-9 h-9 flex items-center justify-center rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition-colors shadow-sm"
+          >
+            {isPlaying ? (
+              <Pause className="h-4 w-4" />
+            ) : (
+              <Play className="h-4 w-4 ml-0.5" />
+            )}
+          </motion.button>
 
-        <div className="flex items-center gap-3">
-          <Volume2 className="h-5 w-5 theme-text-secondary" />
-          <div className="relative w-24">
-            <input
-              type="range"
-              min="0"
-              max="100"
-              value={volume * 100}
-              onChange={handleVolumeChange}
-              className="w-full h-2 bg-white/10 rounded-full appearance-none cursor-pointer slider-thumb"
-              style={{
-                background: `linear-gradient(to right, rgb(168 85 247 / 0.8) 0%, rgb(59 130 246 / 0.8) ${
-                  volume * 100
-                }%, rgb(255 255 255 / 0.1) ${
-                  volume * 100
-                }%, rgb(255 255 255 / 0.1) 100%)`,
-              }}
-            />
+          <div className="hidden sm:flex items-center gap-2 px-2">
+            <Volume2 className="h-4 w-4 text-zinc-400" />
+            <div className="relative w-20">
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={volume * 100}
+                onChange={handleVolumeChange}
+                className="w-full h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full appearance-none cursor-pointer slider-thumb"
+              />
+            </div>
           </div>
+
+          <button
+            onClick={stopMusic}
+            className="p-1.5 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 rounded-md transition-colors"
+          >
+            <X className="h-4 w-4" />
+          </button>
         </div>
       </div>
 
-      <div className="mt-4">
-        <div className="relative">
+      <div className="mt-2.5 flex items-center gap-2">
+        <span className="text-[10px] font-mono text-zinc-400 w-8 text-right">
+          {Math.floor(currentTime / 60)}:
+          {String(Math.floor(currentTime % 60)).padStart(2, "0")}
+        </span>
+        <div className="relative flex-1">
           <input
             type="range"
             min="0"
             max={duration || 0}
             value={currentTime}
             onChange={(e) => seekTo(parseInt(e.target.value))}
-            className="w-full h-2 bg-white/10 rounded-full appearance-none cursor-pointer slider-thumb"
-            style={{
-              background: `linear-gradient(to right, rgb(168 85 247 / 0.8) 0%, rgb(59 130 246 / 0.8) ${progressPercentage}%, rgb(255 255 255 / 0.1) ${progressPercentage}%, rgb(255 255 255 / 0.1) 100%)`,
-            }}
+            className="w-full h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full appearance-none cursor-pointer slider-thumb"
           />
         </div>
-        <div className="flex justify-between text-xs theme-text-secondary mt-2">
-          <span>
-            {Math.floor(currentTime / 60)}:
-            {String(Math.floor(currentTime % 60)).padStart(2, "0")}
-          </span>
-          <span>
-            {Math.floor(duration / 60)}:
-            {String(Math.floor(duration % 60)).padStart(2, "0")}
-          </span>
-        </div>
+        <span className="text-[10px] font-mono text-zinc-400 w-8">
+          {Math.floor(duration / 60)}:
+          {String(Math.floor(duration % 60)).padStart(2, "0")}
+        </span>
       </div>
     </motion.div>
   );
