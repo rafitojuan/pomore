@@ -5,12 +5,23 @@
     <link rel="icon" type="image/svg+xml" href="/rafitojuan.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pomore</title>
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#09090b" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <script type="module">
       if (import.meta.hot?.on) {
         import.meta.hot.on('vite:error', (error) => {
           if (error.err) {
             console.error([error.err.message, error.err.frame].filter(Boolean).join('\n'));
           }
+        });
+      }
+    </script>
+    <script>
+      if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost' || window.location.hostname === 'pomore.local')) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch((err) => console.error('SW register failed:', err));
         });
       }
     </script>

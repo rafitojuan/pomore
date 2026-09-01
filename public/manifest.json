@@ -1,0 +1,18 @@
+{
+  "name": "Pomore — Focus & Sound",
+  "short_name": "Pomore",
+  "description": "Minimalist Pomodoro timer & focus sound player",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#09090b",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/rafitojuan.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

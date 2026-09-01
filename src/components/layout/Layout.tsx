@@ -1,6 +1,7 @@
 import React from "react";
 import { Navigation } from "./Navigation";
 import { MiniPlayer } from "../MiniPlayer";
+import { PwaPrompt } from "../PwaPrompt";
 import { useMusicContext } from "../../contexts/MusicContext";
 import { useTheme } from "../../hooks/useTheme";
 
@@ -23,6 +24,8 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       >
         {children}
       </main>
+
+      <PwaPrompt />
 
       {(musicState.currentTrack || musicState.currentVideo) && (
         <div className="fixed bottom-4 left-0 right-0 z-40 px-4 pointer-events-none">
